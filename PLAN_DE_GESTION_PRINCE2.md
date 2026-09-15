@@ -14,16 +14,16 @@
 A continuación se relacionan los accesos directos al ecosistema técnico del proyecto:
 
 - **Repositorio Oficial en GitHub:**
-  https://github.com/bitcoinkio/nuevamente
+  https://github.com/mmorfe-engineer/nuevamente
 - **Carpeta de Trabajo Compartida en Google Drive:**
   Carpeta remota: `NuevaMente_Hackathon_ONE_G10`
   (Incluye briefing original en PDF, documentación metodológica y código fuente)
 - **Despliegue Local / Aplicación Web:**
   Acceso en servidor local: `http://localhost:8501` (Ejecutable mediante `./run_app.sh`)
 - **Documentación de Requerimientos Oficiales ONE G10:**
-  https://github.com/bitcoinkio/nuevamente/blob/main/docs/HACKATHON_ONE_G10_INDICACIONES.md
+  https://github.com/mmorfe-engineer/nuevamente/blob/main/docs/HACKATHON_ONE_G10_INDICACIONES.md
 - **Estructura Desglosada de Trabajo (EDT en 5 Sprints):**
-  https://github.com/bitcoinkio/nuevamente/blob/main/docs/EDT_PLAN_DE_TRABAJO_5_SPRINTS.md
+  https://github.com/mmorfe-engineer/nuevamente/blob/main/docs/EDT_PLAN_DE_TRABAJO_5_SPRINTS.md
 
 ---
 

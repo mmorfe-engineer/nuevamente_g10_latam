@@ -103,7 +103,7 @@ El pipeline garantiza el tipado estricto mediante Pydantic y retorna el esquema 
 
 ### 1. Clonar el Repositorio
 ```bash
-git clone https://github.com/bitcoinkio/nuevamente.git
+git clone https://github.com/mmorfe-engineer/nuevamente.git
 cd nuevamente
 ```
 
