@@ -35,6 +35,7 @@ from src.utils.schemas import (
     FlashcardUpdateMastery
 )
 from src.utils.spaced_repetition import calculate_sm2
+from src.utils.exporters import export_to_anki_csv, export_to_markdown_guide
 from src.ingestion.loaders import doc_loader
 from src.services.adaptation_service import adaptation_service
 
@@ -231,7 +232,17 @@ with tab_contenido:
 
         # --- FORMATO: FLASHCARDS INTERACTIVAS 3D CON SUPERMEMO SM-2 ---
         if req.formato_salida == FormatoSalida.FLASHCARDS:
-            st.markdown("### 🗂️ Tarjetas de Memorización Activa con Giro 3D y Algoritmo SM-2")
+            col_fc_title, col_fc_anki = st.columns([3, 1])
+            with col_fc_title:
+                st.markdown("### 🗂️ Tarjetas con Giro 3D y Repetición Espaciada SM-2")
+            with col_fc_anki:
+                st.download_button(
+                    "🗃️ Exportar a Anki (.csv)",
+                    data=export_to_anki_csv(items),
+                    file_name=f"anki_{resp.almacenamiento_oci.objeto_id.replace('.json', '.csv')}",
+                    mime="text/csv",
+                    use_container_width=True
+                )
             st.caption("Pasa el cursor sobre la tarjeta para girarla 180° y califica tu nivel de asimilación para calcular el intervalo de repaso espaciado.")
 
             # Recuperar IDs de tarjetas de la DB si existen
@@ -427,12 +438,23 @@ with tab_oci:
         json_str = json.dumps(json_output, indent=2, ensure_ascii=False)
         st.code(json_str, language="json")
 
-        st.download_button(
-            label="⬇️ Descargar JSON Oficial (ONE G10)",
-            data=json_str,
-            file_name=resp.almacenamiento_oci.objeto_id,
-            mime="application/json"
-        )
+        col_down1, col_down2 = st.columns(2)
+        with col_down1:
+            st.download_button(
+                label="⬇️ Descargar JSON Oficial (ONE G10)",
+                data=json_str,
+                file_name=resp.almacenamiento_oci.objeto_id,
+                mime="application/json",
+                use_container_width=True
+            )
+        with col_down2:
+            st.download_button(
+                label="📝 Descargar Guía Didáctica (.md)",
+                data=export_to_markdown_guide(resp),
+                file_name=resp.almacenamiento_oci.objeto_id.replace(".json", ".md"),
+                mime="text/markdown",
+                use_container_width=True
+            )
     else:
         st.markdown("""
         <div class="cyber-card">
