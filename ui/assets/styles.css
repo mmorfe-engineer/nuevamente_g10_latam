@@ -1,49 +1,288 @@
-/* Estilos personalizados para NuevaMente */
+/* ==============================================================================
+   NUEVAMENTE — DISEÑO "DEEP DEV / CYBER-MODERN"
+   Paleta: #0A0D14 (Obsidian), #161B26 (Surface Card), #6366F1 (Neon Indigo)
+   Acentos: #38BDF8 (Cyan Tech), #10B981 (Emerald Grounding), #F43F5E (Alert Rose)
+   ============================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* Reset base y fuentes */
+html, body, [class*="css"] {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #E2E8F0;
+}
+
+code, pre, .stCodeBlock {
+    font-family: 'Fira Code', monospace !important;
+}
+
+/* Fondo global obsidian */
+.stApp {
+    background: radial-gradient(circle at 10% 20%, #0F1420 0%, #0A0D14 90%) !important;
+}
+
+/* Encabezado Cyber-Modern */
 .main-header {
-    background: linear-gradient(135deg, #1E1E2F 0%, #2A2A44 100%);
-    padding: 1.5rem;
-    border-radius: 12px;
-    color: #FFFFFF;
-    margin-bottom: 1.5rem;
-    border-left: 6px solid #F80000;
+    background: linear-gradient(135deg, rgba(22, 27, 38, 0.95) 0%, rgba(10, 13, 20, 0.98) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.35);
+    box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    padding: 1.75rem 2rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.flashcard {
-    background-color: #F8F9FA;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    border-left: 4px solid #3B82F6;
+.main-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #6366F1 0%, #38BDF8 100%);
+    box-shadow: 0 0 12px #6366F1;
 }
 
-.flashcard-front {
-    font-size: 1.15rem;
+.brand-badge {
+    display: inline-block;
+    background: rgba(99, 102, 241, 0.15);
+    border: 1px solid rgba(99, 102, 241, 0.4);
+    color: #818CF8;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
     font-weight: 600;
-    color: #1E293B;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     margin-bottom: 0.5rem;
 }
 
+/* Tarjetas Glassmorphism */
+.cyber-card {
+    background: rgba(22, 27, 38, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
+}
+
+.cyber-card:hover {
+    border-color: rgba(99, 102, 241, 0.4);
+    box-shadow: 0 12px 32px -8px rgba(99, 102, 241, 0.25);
+}
+
+/* Métricas Estilizadas */
+[data-testid="stMetric"] {
+    background: rgba(22, 27, 38, 0.8) !important;
+    border: 1px solid rgba(255, 255, 255, 0.07) !important;
+    border-radius: 12px !important;
+    padding: 1rem 1.25rem !important;
+    box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.3) !important;
+    transition: transform 0.2s ease, border-color 0.2s ease !important;
+}
+
+[data-testid="stMetric"]:hover {
+    transform: translateY(-2px);
+    border-color: rgba(56, 189, 248, 0.4) !important;
+}
+
+[data-testid="stMetricLabel"] {
+    color: #94A3B8 !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+[data-testid="stMetricValue"] {
+    color: #F8FAFC !important;
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+}
+
+/* ==============================================================================
+   FLASHCARDS CON GIRO 3D (3D FLIP EFFECT)
+   ============================================================================== */
+.flashcard-3d-scene {
+    perspective: 1200px;
+    margin-bottom: 1.75rem;
+    min-height: 260px;
+}
+
+.flashcard-3d-card {
+    position: relative;
+    width: 100%;
+    min-height: 260px;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+.flashcard-3d-scene:hover .flashcard-3d-card,
+.flashcard-3d-card.flipped {
+    transform: rotateY(180deg);
+}
+
+.flashcard-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.6);
+}
+
+/* Cara Frontal */
+.flashcard-front {
+    background: linear-gradient(145deg, #161B26 0%, #111520 100%);
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    color: #F1F5F9;
+}
+
+.flashcard-front::after {
+    content: '🔄 Voltear para ver explicación';
+    font-size: 0.75rem;
+    color: #818CF8;
+    align-self: flex-end;
+    opacity: 0.8;
+}
+
+/* Cara Dorsal */
 .flashcard-back {
-    color: #334155;
-    font-size: 1rem;
+    background: linear-gradient(145deg, #182032 0%, #0F1626 100%);
+    border: 1px solid rgba(56, 189, 248, 0.4);
+    color: #E2E8F0;
+    transform: rotateY(180deg);
+}
+
+.card-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6366F1;
     margin-bottom: 0.5rem;
 }
 
-.didactic-hint {
-    background-color: #EFF6FF;
-    border-radius: 6px;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.9rem;
-    color: #1D4ED8;
-    font-style: italic;
+.card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #FFFFFF;
+    line-height: 1.4;
 }
 
-.metric-card {
-    background: white;
-    padding: 1rem;
+.card-body {
+    font-size: 1rem;
+    color: #CBD5E1;
+    line-height: 1.6;
+    margin-top: 0.5rem;
+}
+
+.didactic-hint-pill {
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px dashed rgba(56, 189, 248, 0.35);
+    color: #7DD3FC;
+    padding: 0.6rem 0.9rem;
     border-radius: 8px;
-    border: 1px solid #E2E8F0;
-    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 1rem;
+}
+
+/* ==============================================================================
+   VISOR DE QUIZZES CON FEEDBACK VISUAL INMEDIATO
+   ============================================================================== */
+.quiz-box {
+    background: rgba(22, 27, 38, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.4);
+}
+
+.quiz-badge-bloom {
+    display: inline-block;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #C084FC;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.quiz-feedback-success {
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid #10B981;
+    box-shadow: 0 0 16px rgba(16, 185, 129, 0.25);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+    color: #D1FAE5;
+}
+
+.quiz-feedback-error {
+    background: rgba(244, 63, 94, 0.12);
+    border: 1px solid #F43F5E;
+    box-shadow: 0 0 16px rgba(244, 63, 94, 0.25);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-top: 1rem;
+    color: #FFE4E6;
+}
+
+/* Botones con brillo Neón */
+button[kind="primary"] {
+    background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
+    border: 1px solid #818CF8 !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4) !important;
+    color: #FFFFFF !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.02em !important;
+    border-radius: 10px !important;
+    transition: all 0.25s ease !important;
+}
+
+button[kind="primary"]:hover {
+    box-shadow: 0 6px 22px rgba(99, 102, 241, 0.6) !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Barra lateral */
+[data-testid="stSidebar"] {
+    background: #0E121B !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Tabs estilizadas */
+.stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+    background: rgba(16, 20, 29, 0.6);
+    padding: 6px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: 8px !important;
+    color: #94A3B8 !important;
+    font-weight: 600 !important;
+    padding: 8px 16px !important;
+}
+
+.stTabs [aria-selected="true"] {
+    background: rgba(99, 102, 241, 0.2) !important;
+    color: #FFFFFF !important;
+    border: 1px solid rgba(99, 102, 241, 0.4) !important;
 }
