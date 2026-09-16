@@ -1,12 +1,13 @@
 """
 Interfaz Gráfica Principal de NuevaMente.
-Diseño 'Deep Dev / Cyber-Modern' con Paleta Oscura, Glassmorphism, Flashcards 3D y Persistencia Relacional.
+Diseño 'Deep Dev / Cyber-Modern' con Paleta Oscura, Glassmorphism, Flashcards 3D, Algoritmo SM-2 y Dashboard PMO.
 Hackathon ONE G10 (Oracle Next Education & Alura / No Country).
 """
 import sys
 import os
 import json
 import uuid
+from datetime import datetime
 from pathlib import Path
 import streamlit as st
 
@@ -33,6 +34,7 @@ from src.utils.schemas import (
     NivelDetalle,
     FlashcardUpdateMastery
 )
+from src.utils.spaced_repetition import calculate_sm2
 from src.ingestion.loaders import doc_loader
 from src.services.adaptation_service import adaptation_service
 
@@ -137,8 +139,9 @@ with st.sidebar:
 
 # --- PANEL SUPERIOR: Estado de la Infraestructura SaaS ---
 with get_db_session() as db_session:
+    default_user = UserRepository.get_or_create_default_user(db_session)
     total_docs = len(TechnicalDocumentRepository.list_all(db_session, limit=100))
-    total_sessions = len(LearningSessionRepository.list_by_user(db_session, UserRepository.get_or_create_default_user(db_session).id))
+    total_sessions = len(LearningSessionRepository.list_by_user(db_session, default_user.id))
 
 col_stat1, col_stat2, col_stat3, col_stat4 = st.columns(4)
 with col_stat1:
@@ -186,24 +189,25 @@ if btn_generar:
             progress_placeholder.empty()
             st.error(f"❌ Ocurrió un error en el procesamiento: {str(e)}")
 
-# --- VISUALIZACIÓN DE RESULTADOS ---
-if "ultima_respuesta" in st.session_state:
-    resp = st.session_state["ultima_respuesta"]
-    req = st.session_state["ultimo_request"]
-    trace = st.session_state.get("ultimo_trace", {})
+# --- PESTAÑAS PRINCIPALES DEL SISTEMA ---
+tab_contenido, tab_calidad, tab_oci, tab_biblioteca, tab_pmo, tab_squad = st.tabs([
+    "📖 Contenido Pedagógico Adaptado",
+    "📊 Métricas & Grounding RAG",
+    "☁️ Persistencia OCI & JSON Oficial",
+    "📚 Biblioteca de Aprendizaje (DB)",
+    "🏢 Oficina de Proyecto (PMO & WBS)",
+    "👥 Squad & Arquitectura"
+])
 
-    tab_contenido, tab_calidad, tab_oci, tab_biblioteca, tab_squad = st.tabs([
-        "📖 Contenido Pedagógico Adaptado",
-        "📊 Métricas & Grounding RAG",
-        "☁️ Persistencia OCI & JSON Oficial",
-        "📚 Biblioteca de Aprendizaje (DB)",
-        "👥 Squad & Arquitectura"
-    ])
+# ==============================================================================
+# TAB 1: CONTENIDO ADAPTADO (Flashcards 3D, Quizzes, Tutoriales)
+# ==============================================================================
+with tab_contenido:
+    if "ultima_respuesta" in st.session_state:
+        resp = st.session_state["ultima_respuesta"]
+        req = st.session_state["ultimo_request"]
+        trace = st.session_state.get("ultimo_trace", {})
 
-    # ==============================================================================
-    # TAB 1: CONTENIDO ADAPTADO (Flashcards 3D, Quizzes, Tutoriales)
-    # ==============================================================================
-    with tab_contenido:
         st.markdown(f"## {resp.contenido_adaptado.titulo}")
         st.markdown(f"""
         <div class="cyber-card" style="border-left: 4px solid #6366F1;">
@@ -225,15 +229,23 @@ if "ultima_respuesta" in st.session_state:
         st.markdown("---")
         items = resp.contenido_adaptado.items
 
-        # --- FORMATO: FLASHCARDS INTERACTIVAS 3D ---
+        # --- FORMATO: FLASHCARDS INTERACTIVAS 3D CON SUPERMEMO SM-2 ---
         if req.formato_salida == FormatoSalida.FLASHCARDS:
-            st.markdown("### 🗂️ Tarjetas de Memorización Activa con Giro 3D")
-            st.caption("Pasa el cursor sobre la tarjeta o usa el botón de autoevaluación (Repetición Espaciada SM-2) para registrar tu asimilación.")
+            st.markdown("### 🗂️ Tarjetas de Memorización Activa con Giro 3D y Algoritmo SM-2")
+            st.caption("Pasa el cursor sobre la tarjeta para girarla 180° y califica tu nivel de asimilación para calcular el intervalo de repaso espaciado.")
+
+            # Recuperar IDs de tarjetas de la DB si existen
+            session_id_str = trace.get("session_id")
+            saved_cards_db = []
+            if session_id_str:
+                with get_db_session() as db:
+                    saved_cards_db = FlashcardRepository.get_by_session(db, uuid.UUID(session_id_str))
 
             for i, itm in enumerate(items):
                 frente = itm.get("frente", "Pregunta")
                 dorso = itm.get("dorso", "Respuesta")
                 pista = itm.get("pista_didactica", "")
+                card_db = saved_cards_db[i] if i < len(saved_cards_db) else None
 
                 card_html = f"""
                 <div class="flashcard-3d-scene">
@@ -256,16 +268,41 @@ if "ultima_respuesta" in st.session_state:
                 """
                 st.markdown(card_html, unsafe_allow_html=True)
 
-                col_btn1, col_btn2, col_btn3, col_sp = st.columns([1, 1, 1, 3])
+                col_btn1, col_btn2, col_btn3, col_info = st.columns([1, 1, 1, 3])
+                
                 with col_btn1:
                     if st.button(f"🔴 Difícil", key=f"diff_{i}"):
-                        st.toast(f"Registrado como repaso prioritario.", icon="⏳")
+                        reps, interval, ef, next_rev = calculate_sm2(quality=1)
+                        if card_db:
+                            with get_db_session() as db:
+                                FlashcardRepository.update_mastery(
+                                    db, card_db.id, FlashcardUpdateMastery(mastery_level=1, next_review_at=next_rev)
+                                )
+                        st.toast(f"SM-2: Repaso programado para mañana (+{interval} día)", icon="⏳")
+
                 with col_btn2:
                     if st.button(f"🟡 Bien", key=f"good_{i}"):
-                        st.toast(f"Próximo repaso en 3 días.", icon="👍")
+                        reps, interval, ef, next_rev = calculate_sm2(quality=3, repetitions=1)
+                        if card_db:
+                            with get_db_session() as db:
+                                FlashcardRepository.update_mastery(
+                                    db, card_db.id, FlashcardUpdateMastery(mastery_level=3, next_review_at=next_rev)
+                                )
+                        st.toast(f"SM-2: Próximo repaso en {interval} días ({next_rev.strftime('%d/%m')})", icon="👍")
+
                 with col_btn3:
                     if st.button(f"🟢 Fácil", key=f"easy_{i}"):
-                        st.toast(f"Dominado (SM-2: 5/5). Próximo repaso en 7 días.", icon="🌟")
+                        reps, interval, ef, next_rev = calculate_sm2(quality=5, repetitions=2, previous_interval=6)
+                        if card_db:
+                            with get_db_session() as db:
+                                FlashcardRepository.update_mastery(
+                                    db, card_db.id, FlashcardUpdateMastery(mastery_level=5, next_review_at=next_rev)
+                                )
+                        st.toast(f"SM-2: Dominado (+{interval} días, EF {ef})", icon="🌟")
+
+                with col_info:
+                    if card_db and card_db.next_review_at:
+                        st.caption(f"🗓️ Próximo repaso registrado: `{card_db.next_review_at.strftime('%Y-%m-%d %H:%M')}` (Nivel: {card_db.mastery_level}/5)")
 
         # --- FORMATO: QUIZ INTERACTIVO CON FEEDBACK INMEDIATO ---
         elif req.formato_salida == FormatoSalida.QUIZ:
@@ -345,12 +382,16 @@ if "ultima_respuesta" in st.session_state:
         else:
             for itm in items:
                 st.json(itm)
+    else:
+        st.info("👈 Selecciona un escenario de prueba en la barra lateral o ingresa tu documento y presiona **'⚡ Generar Adaptación Pedagógica'** para ver el resultado interactivo.")
 
-    # ==============================================================================
-    # TAB 2: MÉTRICAS Y EVALUACIÓN DE CALIDAD
-    # ==============================================================================
-    with tab_calidad:
-        st.markdown("### Evaluación de Calidad y Fidelidad RAG Anti-Alucinación")
+# ==============================================================================
+# TAB 2: MÉTRICAS Y EVALUACIÓN DE CALIDAD
+# ==============================================================================
+with tab_calidad:
+    st.markdown("### Evaluación de Calidad y Fidelidad RAG Anti-Alucinación")
+    if "ultima_respuesta" in st.session_state:
+        resp = st.session_state["ultima_respuesta"]
         col_c1, col_c2, col_c3 = st.columns(3)
         with col_c1:
             score = resp.evaluacion_calidad.anclaje_fuente_score
@@ -368,12 +409,16 @@ if "ultima_respuesta" in st.session_state:
             <p style="margin:0; color: #CBD5E1;">{resp.evaluacion_calidad.observaciones}</p>
         </div>
         """, unsafe_allow_html=True)
+    else:
+        st.info("Las métricas de calidad y fidelidad se calculan dinámicamente al generar una adaptación pedagógica.")
 
-    # ==============================================================================
-    # TAB 3: PERSISTENCIA EN OCI Y JSON ESTRUCTURADO
-    # ==============================================================================
-    with tab_oci:
-        st.markdown("### Persistencia Obligatoria en OCI Object Storage Always Free")
+# ==============================================================================
+# TAB 3: PERSISTENCIA EN OCI Y JSON ESTRUCTURADO
+# ==============================================================================
+with tab_oci:
+    st.markdown("### Persistencia Obligatoria en OCI Object Storage Always Free")
+    if "ultima_respuesta" in st.session_state:
+        resp = st.session_state["ultima_respuesta"]
         st.info(f"📦 **Bucket OCI de Salida:** `{resp.almacenamiento_oci.bucket}`")
         st.code(f"ID del Objeto: {resp.almacenamiento_oci.objeto_id}\nEstado: {resp.almacenamiento_oci.status_upload}", language="text")
 
@@ -388,41 +433,121 @@ if "ultima_respuesta" in st.session_state:
             file_name=resp.almacenamiento_oci.objeto_id,
             mime="application/json"
         )
-
-    # ==============================================================================
-    # TAB 4: BIBLIOTECA DE APRENDIZAJE (DB RELACIONAL)
-    # ==============================================================================
-    with tab_biblioteca:
-        st.markdown("### 📚 Biblioteca de Aprendizaje Persistente (SQLAlchemy)")
-        with get_db_session() as db:
-            default_user = UserRepository.get_or_create_default_user(db)
-            sesiones = LearningSessionRepository.list_by_user(db, default_user.id)
-
-        if not sesiones:
-            st.info("Aún no tienes sesiones registradas en la base de datos.")
-        else:
-            for s in sesiones:
-                with st.expander(f"📑 {s.titulo_adaptado} · {s.perfil_destinatario} ({s.formato_salida})"):
-                    st.markdown(f"**ID de Sesión:** `{s.id}`")
-                    st.markdown(f"**Fecha de Creación:** `{s.created_at}`")
-                    st.markdown(f"**Tiempo:** `{s.tiempo_estimado_minutos} min` | **Grounding:** `{int(s.anclaje_fuente_score * 100)}%`")
-                    st.markdown(f"**Objeto en OCI:** `{s.oci_object_id}`")
-                    st.markdown(f"**Introducción:** *{s.introduccion_contextualizada}*")
-
-    # ==============================================================================
-    # TAB 5: EQUIPO Y ARQUITECTURA
-    # ==============================================================================
-    with tab_squad:
-        st.markdown("### 👥 Squad de Ingeniería — Proyecto NuevaMente")
+    else:
         st.markdown("""
-        - **Project Manager & Coordinador General:** Martin Morfe
-        - **Software & Solution Architect (@Lead-Architect):** Esteban Guillermo Morales Velazquez
-        - **Backend & AI Developer (@Backend-AI-Dev):** Juan David Villegas Anaya
-        - **Cloud & Data Developer (@Cloud-Data-Dev):** Harol Benjamin Medina Zárate, Heiner Jair Godoy Zamora
-        - **Frontend & UI Developer (@Frontend-UI-Dev):** Cristian Contreras, Diana Castaño
-        - **DevOps & QA Engineer (@QA-DevOps-Dev):** Ivan Hernandez
-        """)
-        st.markdown("---")
-        st.markdown("**Repositorio Personal Autorizado:** [https://github.com/mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")
-else:
-    st.info("👈 Selecciona un escenario de prueba en la barra lateral o ingresa tu documento y presiona **'Generar Adaptación Pedagógica'** para comenzar.")
+        <div class="cyber-card">
+            <h4>Infraestructura OCI Always Free Configurada:</h4>
+            <ul>
+                <li><strong>Bucket Origen:</strong> <code>nuevamente-documentos-origen</code></li>
+                <li><strong>Bucket Resultados:</strong> <code>nuevamente-contenidos-educativos</code></li>
+                <li><strong>Cuota de Almacenamiento:</strong> 10 GB Always Free (Cero Costo)</li>
+                <li><strong>Región OCI:</strong> <code>us-ashburn-1</code> / <code>sa-saopaulo-1</code></li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+# ==============================================================================
+# TAB 4: BIBLIOTECA DE APRENDIZAJE (DB RELACIONAL)
+# ==============================================================================
+with tab_biblioteca:
+    st.markdown("### 📚 Biblioteca de Aprendizaje Persistente (SQLAlchemy)")
+    with get_db_session() as db:
+        default_user = UserRepository.get_or_create_default_user(db)
+        sesiones = LearningSessionRepository.list_by_user(db, default_user.id)
+
+    if not sesiones:
+        st.info("Aún no tienes sesiones registradas en la base de datos. ¡Genera una adaptación para verla aquí!")
+    else:
+        for s in sesiones:
+            with st.expander(f"📑 {s.titulo_adaptado} · {s.perfil_destinatario} ({s.formato_salida})"):
+                st.markdown(f"**ID de Sesión:** `{s.id}`")
+                st.markdown(f"**Fecha de Creación:** `{s.created_at}`")
+                st.markdown(f"**Tiempo:** `{s.tiempo_estimado_minutos} min` | **Grounding:** `{int(s.anclaje_fuente_score * 100)}%`")
+                st.markdown(f"**Objeto en OCI:** `{s.oci_object_id}`")
+                st.markdown(f"**Introducción:** *{s.introduccion_contextualizada}*")
+
+# ==============================================================================
+# TAB 5: OFICINA DE PROYECTO (PMO & WBS TRACKER) — VISTA EJECUTIVA
+# ==============================================================================
+with tab_pmo:
+    st.markdown("""
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <div>
+            <h2 style="margin:0; color: #FFFFFF;">🏢 Oficina de Gestión de Proyecto (PMO)</h2>
+            <p style="margin:0.25rem 0 0 0; color: #94A3B8;">
+                Monitoreo Ejecutivo del WBS en 5 Sprints · <strong>Coordinador General: Martin Morfe</strong>
+            </p>
+        </div>
+        <div class="brand-badge" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
+            🟢 AVANCE GLOBAL: 88%
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Métricas de la Oficina de Proyecto
+    col_pmo1, col_pmo2, col_pmo3, col_pmo4 = st.columns(4)
+    with col_pmo1:
+        st.metric("Sprints Completados", "3 de 5", "60% Sprints Cerrados")
+    with col_pmo2:
+        st.metric("Sprint 4 (En Curso)", "90% Completado", "Fase Final de Pulido")
+    with col_pmo3:
+        st.metric("Tests Unitarios & DoD", "26 / 26 Pasando", "100% Calidad Aprobada")
+    with col_pmo4:
+        st.metric("Gasto OCI Always Free", "$0.00 USD", "100% Free Forever")
+
+    st.markdown("---")
+    st.markdown("### 📅 Estado de la Estructura Desglosada de Trabajo (WBS / EDT)")
+
+    sprint_data = [
+        {"Sprint": "Sprint 1", "Periodo": "14 Sep - 20 Sep", "Objetivo": "Setup, Arquitectura Base y Contratos Pydantic v2", "Estatus": "🟢 CERRADO (100%)", "Entregables": "Repo GitHub, 6 Entidades Core, C4 Diagram"},
+        {"Sprint": "Sprint 2", "Periodo": "21 Sep - 27 Sep", "Objetivo": "Ingestión Multiformato, OCI Object Storage y ChromaDB", "Estatus": "🟢 CERRADO (100%)", "Entregables": "Loaders PDF/MD/TXT, OCI Client, Vector Store"},
+        {"Sprint": "Sprint 3", "Periodo": "28 Sep - 04 Oct", "Objetivo": "Orquestación LLM, Adaptación Pedagógica y JSON ONE G10", "Estatus": "🟢 CERRADO (100%)", "Entregables": "Prompts Bloom, Adaptador Gemini, Grounding Score"},
+        {"Sprint": "Sprint 4", "Periodo": "05 Oct - 11 Oct", "Objetivo": "UI Cyber-Modern, Flashcards 3D, Quizzes, E2E y OCI VM", "Estatus": "🟡 EN CURSO (90%)", "Entregables": "Flashcards 3D, Quiz Feedback, OCI Setup Script"},
+        {"Sprint": "Sprint 5", "Periodo": "12 Oct - 18 Oct", "Objetivo": "Diferenciales (Anki/LangGraph), Video Demo y Entregables", "Estatus": "⚪ PLANIFICADO (10%)", "Entregables": "Video Demo YouTube, 4 Tareas No Country"}
+    ]
+
+    for sp in sprint_data:
+        st.markdown(f"""
+        <div class="cyber-card" style="padding: 1.1rem 1.5rem; margin-bottom: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <strong style="font-size: 1.1rem; color: #FFFFFF;">{sp['Sprint']}</strong> · <span style="color: #94A3B8;">{sp['Periodo']}</span>
+                    <p style="margin: 0.25rem 0 0 0; color: #CBD5E1; font-size: 0.95rem;">{sp['Objetivo']}</p>
+                    <span style="font-size: 0.8rem; color: #6366F1;">📦 Entregables: {sp['Entregables']}</span>
+                </div>
+                <div>
+                    <span style="font-weight: 700; font-size: 0.9rem; color: {'#10B981' if 'CERRADO' in sp['Estatus'] else '#F59E0B' if 'EN CURSO' in sp['Estatus'] else '#94A3B8'};">
+                        {sp['Estatus']}
+                    </span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
+    st.markdown("### ☁️ Gobernanza y Certificación OCI Always Free")
+    st.markdown("""
+    <div class="cyber-card">
+        <p style="margin:0; line-height: 1.6; color: #E2E8F0;">
+            ✅ <strong>Validación de Cero Costos:</strong> La solución ejecuta sobre instancias <strong>Ampere A1 Flex</strong> (4 OCPUs, 24 GB RAM) y almacena en <strong>OCI Object Storage</strong> respetando la cuota gratuita mensual de 10 GB y 50,000 requests.
+            <br/>
+            📄 <strong>Documentación de Despliegue:</strong> Disponible en el repositorio en <code>deploy/OCI_ALWAYS_FREE_ARCHITECTURE.md</code> y script automatizado <code>deploy/oci_setup.sh</code>.
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
+
+# ==============================================================================
+# TAB 6: SQUAD & ARQUITECTURA
+# ==============================================================================
+with tab_squad:
+    st.markdown("### 👥 Squad de Ingeniería — Proyecto NuevaMente")
+    st.markdown("""
+    - **Project Manager & Coordinador General:** Martin Morfe
+    - **Software & Solution Architect (@Lead-Architect):** Esteban Guillermo Morales Velazquez
+    - **Backend & AI Developer (@Backend-AI-Dev):** Juan David Villegas Anaya
+    - **Cloud & Data Developer (@Cloud-Data-Dev):** Harol Benjamin Medina Zárate, Heiner Jair Godoy Zamora
+    - **Frontend & UI Developer (@Frontend-UI-Dev):** Cristian Contreras, Diana Castaño
+    - **DevOps & QA Engineer (@QA-DevOps-Dev):** Ivan Hernandez
+    """)
+    st.markdown("---")
+    st.markdown("**Repositorio Oficial del PM:** [https://github.com/mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")

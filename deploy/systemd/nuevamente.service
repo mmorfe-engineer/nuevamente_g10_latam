@@ -1,0 +1,17 @@
+[Unit]
+Description=NuevaMente EdTech RAG Platform - OCI Always Free
+After=network.target
+
+[Service]
+Type=simple
+User=opc
+WorkingDirectory=/home/opc/nuevamente
+ExecStart=/home/opc/nuevamente/venv/bin/streamlit run ui/app.py --server.port 8501 --server.address 0.0.0.0 --server.headless true
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
