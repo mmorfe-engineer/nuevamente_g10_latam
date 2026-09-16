@@ -52,4 +52,8 @@ class Settings(BaseSettings):
     SAMPLES_DIR: Path = BASE_DIR / "data" / "samples"
     LOCAL_STORAGE_DIR: Path = BASE_DIR / "data" / "oci_local_storage"
 
+    # Base de Datos (Relacional - Dual SQLite / PostgreSQL)
+    DATABASE_URL: str = Field(default=f"sqlite:///{BASE_DIR}/data/nuevamente.db", description="URL de conexión a la base de datos (SQLite o PostgreSQL)")
+    DB_ECHO: bool = Field(default=False, description="Activar log de queries SQL en consola")
+
 settings = Settings()

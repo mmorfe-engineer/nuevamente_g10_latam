@@ -57,3 +57,7 @@ Thumbs.db
 .coverage
 htmlcov/
 data/oci_local_storage/
+*.db
+*.db-*
+*.sqlite
+*.sqlite3

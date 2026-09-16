@@ -14,16 +14,16 @@
 A continuación se relacionan los accesos directos al ecosistema técnico del proyecto:
 
 - **Repositorio Oficial en GitHub:**
-  https://github.com/mmorfe-engineer/nuevamente_g10_latam
+  EN CONSTRUCCIÓN
 - **Carpeta de Trabajo Compartida en Google Drive:**
-  Carpeta remota: `NuevaMente_Hackathon_ONE_G10`
+  Carpeta remota: EN CONSTRUCCIÓN
   (Incluye briefing original en PDF, documentación metodológica y código fuente)
 - **Despliegue Local / Aplicación Web:**
-  Acceso en servidor local: `http://localhost:8501` (Ejecutable mediante `./run_app.sh`)
+  Acceso en servidor local: EN CONSTRUCCIÓN
 - **Documentación de Requerimientos Oficiales ONE G10:**
-  https://github.com/mmorfe-engineer/nuevamente_g10_latam/blob/main/docs/HACKATHON_ONE_G10_INDICACIONES.md
+ EN CONSTRUCCIÓN
 - **Estructura Desglosada de Trabajo (EDT en 5 Sprints):**
-  https://github.com/mmorfe-engineer/nuevamente_g10_latam/blob/main/docs/EDT_PLAN_DE_TRABAJO_5_SPRINTS.md
+  hEN CONSTRUCCIÓN
 
 ---
 
@@ -59,9 +59,9 @@ En la industria tecnológica y educativa (EdTech), la documentación técnica, m
 - Restricción de Calidad: Métrica de anclaje a fuentes técnicas superior o igual al 85%.
 
 ### 2.6 Supuestos (Assumptions)
-- Los integrantes del equipo cuentan con conectividad a Internet y estaciones de trabajo con Linux o compatibles.
+- Los integrantes del equipo cuentan con conectividad a Internet y estaciones de trabajo con Linux, Windows, Mac o compatibles.
 - Se dispone de una cuenta de OCI activa para el aprovisionamiento de Object Storage en la región asignada.
-- Se cuenta con acceso a las cuotas gratuitas de Google AI Studio (Gemini 1.5 Flash) o OpenAI API.
+- Se cuenta con acceso a las cuotas gratuitas de Google AI Studio (Gemini 1.5 Flash) o NVIDIA  API, MISTRAL API
 
 ---
 
