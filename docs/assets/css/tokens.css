@@ -1,0 +1,92 @@
+/* NuevaMente — tokens.css (generado desde tokens.json) */
+
+:root, [data-theme="dark"] {
+  --bg-900: #070b14;
+  --bg-800: #0d1322;
+  --bg-700: #151d31;
+  --line: #56648a;
+  --glass: rgba(13, 19, 34, 0.62);
+  --glass-line: rgba(147, 160, 186, 0.22);
+  --ink: #e8eef9;
+  --ink-muted: #98a5bf;
+  --on-accent: #070b14;
+  --quantum: #7456f7;
+  --quantum-soft: #b3a4ff;
+  --quantum-glow: rgba(116, 86, 247, 0.35);
+  --cyber: #22e4f2;
+  --cyber-glow: rgba(34, 228, 242, 0.30);
+  --oracle: #c74634;
+  --oracle-text: #ee7a66;
+  --amber: #f5a524;
+  --success: #10d98a;
+  --success-bg: rgba(16, 217, 138, 0.12);
+  --danger: #ff5c7a;
+  --danger-bg: rgba(255, 92, 122, 0.12);
+  --track-ops: var(--cyber);
+  --track-dev: var(--quantum-soft);
+  --track-arch: var(--amber);
+  --track-audit: var(--oracle-text);
+  --glow-cyber: 0 0 0 1px rgba(34, 228, 242, 0.55), 0 0 24px rgba(34, 228, 242, 0.25);
+  --glow-quantum: 0 0 0 1px rgba(116, 86, 247, 0.6), 0 0 28px rgba(116, 86, 247, 0.3);
+  --elev-3d: 0 24px 48px -16px rgba(0, 0, 0, 0.7), 0 8px 16px -8px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] {
+  --bg-900: #f4f6fb;
+  --bg-800: #ffffff;
+  --bg-700: #edf1f8;
+  --line: #848fa6;
+  --glass: rgba(255, 255, 255, 0.72);
+  --glass-line: rgba(11, 18, 32, 0.12);
+  --ink: #0b1220;
+  --ink-muted: #4a5670;
+  --on-accent: #ffffff;
+  --quantum: #5b3df0;
+  --quantum-soft: #4b2fd9;
+  --quantum-glow: rgba(91, 61, 240, 0.18);
+  --cyber: #067786;
+  --cyber-glow: rgba(6, 119, 134, 0.16);
+  --oracle: #c74634;
+  --oracle-text: #b23c2b;
+  --amber: #a14a07;
+  --success: #047857;
+  --success-bg: rgba(4, 120, 87, 0.08);
+  --danger: #c8103a;
+  --danger-bg: rgba(200, 16, 58, 0.07);
+  --track-ops: var(--cyber);
+  --track-dev: var(--quantum-soft);
+  --track-arch: var(--amber);
+  --track-audit: var(--oracle-text);
+  --glow-cyber: 0 0 0 1px rgba(6, 119, 134, 0.6), 0 0 16px rgba(6, 119, 134, 0.14);
+  --glow-quantum: 0 0 0 1px rgba(91, 61, 240, 0.55), 0 0 18px rgba(91, 61, 240, 0.14);
+  --elev-3d: 0 24px 48px -20px rgba(11, 18, 32, 0.25), 0 8px 16px -10px rgba(11, 18, 32, 0.15);
+}
+
+:root {
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --blur-glass: 16px;
+  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-sans: Inter, "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+.display-xl { font-family: var(--font-display); font-size: 56px; line-height: 60px; font-weight: 700; letter-spacing: -0.02em; }
+.h1 { font-family: var(--font-display); font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -0.015em; }
+.h2 { font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 600; }
+.h3 { font-family: var(--font-display); font-size: 20px; line-height: 28px; font-weight: 600; }
+.body-lg { font-family: var(--font-sans); font-size: 17px; line-height: 28px; font-weight: 400; }
+.body { font-family: var(--font-sans); font-size: 15px; line-height: 24px; font-weight: 400; }
+.caption { font-family: var(--font-sans); font-size: 13px; line-height: 18px; font-weight: 500; }
+.overline { font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.code { font-family: var(--font-mono); font-size: 14px; line-height: 22px; font-weight: 500; }
+.kpi { font-family: var(--font-mono); font-size: 32px; line-height: 36px; font-weight: 600; letter-spacing: -0.01em; }
