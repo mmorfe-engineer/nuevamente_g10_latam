@@ -4,7 +4,7 @@
 **Oficina de Gestión de Proyecto (PMO):** Martin Morfe (Project Manager & Coordinador General)  
 **Fecha de Inicio:** 14 de Septiembre de 2026  
 **Fecha de Finalización (Demo Day):** 18 de Octubre de 2026  
-**Estatus Global de Ejecución:** 🟢 **88% COMPLETADO (Sprints 1, 2, 3 al 100%, Sprint 4 al 90%)**  
+**Estatus Global de Ejecución:** 🟢 **94% COMPLETADO (Sprints 1, 2, 3 al 100%, Sprint 4 al 95%, Sprint 5 al 75% técnico)**  
 
 ---
 
@@ -15,8 +15,8 @@
 | **SPRINT 1** | 14 Sep - 20 Sep | Setup, Arquitectura Base y Contratos de Datos Pydantic | 🟢 **CERRADO** | 100% |
 | **SPRINT 2** | 21 Sep - 27 Sep | Ingestión Multiformato, Persistencia OCI y ChromaDB | 🟢 **CERRADO** | 100% |
 | **SPRINT 3** | 28 Sep - 04 Oct | Orquestación LLM, Adaptación Pedagógica y Pydantic JSON | 🟢 **CERRADO** | 100% |
-| **SPRINT 4** | 05 Oct - 11 Oct | UI Cyber-Modern, Flashcards 3D, Quizzes, E2E y OCI VM | 🟡 **EN CURSO** | 90% |
-| **SPRINT 5** | 12 Oct - 18 Oct | Diferenciales (Anki/LangGraph), Video Demo y Entregables | ⚪ **PLANIFICADO** | 10% |
+| **SPRINT 4** | 05 Oct - 11 Oct | UI Cyber-Modern, Flashcards 3D, Quizzes, E2E y OCI VM | 🟢 **CERRADO** | 95% |
+| **SPRINT 5** | 12 Oct - 18 Oct | Diferenciales (Anki/LangGraph), Video Demo y Entregables | 🟡 **EN CURSO** | 75% |
 
 ---
 
@@ -171,14 +171,14 @@
 - [x] **EDT-4.5.4** Inyección de estilos CSS profesionales (*Deep Dev / Cyber-Modern*) acorde a la paleta oficial de NuevaMente.
 
 #### 6. DevOps, Calidad & Testing
-- [x] **EDT-4.6.1** Ejecución de la suite completa de pruebas unitarias e integración de extremo a extremo (`pytest -v`) con 26/26 tests pasando.
+- [x] **EDT-4.6.1** Ejecución de la suite completa de pruebas unitarias e integración de extremo a extremo (`pytest -v`) con 29/29 tests pasando.
 - [ ] **EDT-4.6.2** Despliegue final en la instancia Compute de OCI Always Free.
 
 ---
 
 ### SPRINT 5: Diferenciales, Video Demo y Entregables Finales
 **Periodo:** 12 de Octubre al 18 de Octubre de 2026  
-**Estatus:** ⚪ **PLANIFICADO (10% de avance preparatorio)**  
+**Estatus:** 🟡 **75% TÉCNICO COMPLETADO (En Curso - Preparación de Entrega)**  
 **Meta del Sprint:** Congelar código (Code Freeze), producir el video demo de alta calidad, completar los 4 entregables en la plataforma y presentar en el Demo Day.
 
 #### 1. Gestión de Proyecto & Producto
@@ -194,7 +194,7 @@
 
 #### 3. IA Generativa & Recursos Opcionales (Diferenciales)
 - [x] **EDT-5.3.1** Diferencial 1: Algoritmo de repetición espaciada **SuperMemo SM-2** implementado y activo en el motor de Flashcards.
-- [ ] **EDT-5.3.2** Diferencial 2: Orquestación multi-agente con LangGraph o exportación Anki .csv.
+- [x] **EDT-5.3.2** Diferencial 2: Orquestación multi-agente con LangGraph (Investigador, Redactor Pedagógico y Crítico/Revisor con traza visual) y exportador Anki .csv / Guías Markdown.
 
 #### 4. Frontend & UI
 - [x] **EDT-5.4.1** Interfaz Cyber-Modern terminada con panel de control PMO en tiempo real.

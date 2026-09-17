@@ -523,7 +523,7 @@ with tab_pmo:
             </p>
         </div>
         <div class="brand-badge" style="font-size: 0.85rem; padding: 0.4rem 1rem;">
-            🟢 AVANCE GLOBAL: 88%
+            🟢 AVANCE GLOBAL: 94%
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -531,11 +531,11 @@ with tab_pmo:
     # Métricas de la Oficina de Proyecto
     col_pmo1, col_pmo2, col_pmo3, col_pmo4 = st.columns(4)
     with col_pmo1:
-        st.metric("Sprints Completados", "3 de 5", "60% Sprints Cerrados")
+        st.metric("Sprints Completados", "4 de 5", "80% Sprints Cerrados")
     with col_pmo2:
-        st.metric("Sprint 4 (En Curso)", "90% Completado", "Fase Final de Pulido")
+        st.metric("Sprint 5 (En Curso)", "75% Técnico", "LangGraph, Anki & Entregables")
     with col_pmo3:
-        st.metric("Tests Unitarios & DoD", "26 / 26 Pasando", "100% Calidad Aprobada")
+        st.metric("Tests Unitarios & DoD", "29 / 29 Pasando", "100% Calidad Aprobada")
     with col_pmo4:
         st.metric("Gasto OCI Always Free", "$0.00 USD", "100% Free Forever")
 
@@ -546,8 +546,8 @@ with tab_pmo:
         {"Sprint": "Sprint 1", "Periodo": "14 Sep - 20 Sep", "Objetivo": "Setup, Arquitectura Base y Contratos Pydantic v2", "Estatus": "🟢 CERRADO (100%)", "Entregables": "Repo GitHub, 6 Entidades Core, C4 Diagram"},
         {"Sprint": "Sprint 2", "Periodo": "21 Sep - 27 Sep", "Objetivo": "Ingestión Multiformato, OCI Object Storage y ChromaDB", "Estatus": "🟢 CERRADO (100%)", "Entregables": "Loaders PDF/MD/TXT, OCI Client, Vector Store"},
         {"Sprint": "Sprint 3", "Periodo": "28 Sep - 04 Oct", "Objetivo": "Orquestación LLM, Adaptación Pedagógica y JSON ONE G10", "Estatus": "🟢 CERRADO (100%)", "Entregables": "Prompts Bloom, Adaptador Gemini, Grounding Score"},
-        {"Sprint": "Sprint 4", "Periodo": "05 Oct - 11 Oct", "Objetivo": "UI Cyber-Modern, Flashcards 3D, Quizzes, E2E y OCI VM", "Estatus": "🟡 EN CURSO (90%)", "Entregables": "Flashcards 3D, Quiz Feedback, OCI Setup Script"},
-        {"Sprint": "Sprint 5", "Periodo": "12 Oct - 18 Oct", "Objetivo": "Diferenciales (Anki/LangGraph), Video Demo y Entregables", "Estatus": "⚪ PLANIFICADO (10%)", "Entregables": "Video Demo YouTube, 4 Tareas No Country"}
+        {"Sprint": "Sprint 4", "Periodo": "05 Oct - 11 Oct", "Objetivo": "UI Cyber-Modern, Flashcards 3D, Quizzes, E2E y OCI VM", "Estatus": "🟢 CERRADO (95%)", "Entregables": "Flashcards 3D, Quiz Feedback, OCI Setup Script"},
+        {"Sprint": "Sprint 5", "Periodo": "12 Oct - 18 Oct", "Objetivo": "Diferenciales (Anki/LangGraph), Video Demo y Entregables", "Estatus": "🟡 EN CURSO (75%)", "Entregables": "LangGraph Multi-Agente, Anki CSV, Guion Video 3m, 4 Tareas No Country"}
     ]
 
     for sp in sprint_data:
