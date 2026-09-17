@@ -136,6 +136,14 @@ with st.sidebar:
         detalle = st.selectbox("Nivel de Detalle:", [d.value for d in NivelDetalle], index=0)
 
     st.markdown("---")
+    modo_orquestacion = st.radio(
+        "Modo de Orquestación IA:",
+        ["⚡ Motor RAG Directo", "🤖 Sistema Multi-Agente (LangGraph)"],
+        index=0,
+        help="El modo Multi-Agente activa el grafo LangGraph con Agente Investigador, Agente Redactor y Agente Crítico."
+    )
+
+    st.markdown("---")
     btn_generar = st.button("⚡ Generar Adaptación Pedagógica", type="primary", use_container_width=True)
 
 # --- PANEL SUPERIOR: Estado de la Infraestructura SaaS ---
@@ -162,9 +170,15 @@ if btn_generar:
     if not doc_contenido.strip():
         st.error("Por favor ingresa o carga un documento técnico antes de continuar.")
     else:
+        is_multi_agent = (modo_orquestacion == "🤖 Sistema Multi-Agente (LangGraph)")
         progress_placeholder = st.empty()
         with progress_placeholder.container():
-            st.info("🔄 **Iniciando ciclo de vida NuevaMente:** Ingestión, Hash SHA-256, Indexación RAG en ChromaDB y Generación Pedagógica...")
+            msg_proc = (
+                "🤖 **Ejecutando Sistema Multi-Agente LangGraph:** Investigador RAG ➔ Redactor Pedagógico ➔ Crítico Revisor..."
+                if is_multi_agent
+                else "🔄 **Iniciando ciclo de vida NuevaMente:** Ingestión, Hash SHA-256, Indexación RAG en ChromaDB y Generación Pedagógica..."
+            )
+            st.info(msg_proc)
 
         try:
             req = SolicitudAdaptacion(
@@ -176,9 +190,11 @@ if btn_generar:
                 nivel_detalle=NivelDetalle(detalle)
             )
 
-            # Ejecución a través del Servicio de Capa 4
+            # Ejecución a través del Servicio de Capa 4 con soporte Multi-Agente
             with get_db_session() as db:
-                respuesta, trace = adaptation_service.process_adaptation(req, db=db)
+                respuesta, trace = adaptation_service.process_adaptation(
+                    req, db=db, use_multi_agent=is_multi_agent
+                )
 
             st.session_state["ultima_respuesta"] = respuesta
             st.session_state["ultimo_request"] = req
@@ -420,6 +436,12 @@ with tab_calidad:
             <p style="margin:0; color: #CBD5E1;">{resp.evaluacion_calidad.observaciones}</p>
         </div>
         """, unsafe_allow_html=True)
+
+        if trace.get("agent_logs"):
+            st.markdown("---")
+            with st.expander("🤖 Traza de Ejecución Multi-Agente (LangGraph)", expanded=True):
+                for log_line in trace["agent_logs"]:
+                    st.markdown(f"- {log_line}")
     else:
         st.info("Las métricas de calidad y fidelidad se calculan dinámicamente al generar una adaptación pedagógica.")
 

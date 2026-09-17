@@ -55,23 +55,25 @@ class AdaptationService:
         self,
         request: SolicitudAdaptacion,
         user_id: Optional[uuid.UUID] = None,
-        db: Optional[Session] = None
+        db: Optional[Session] = None,
+        use_multi_agent: bool = False
     ) -> Tuple[RespuestaAdaptacion, Dict[str, Any]]:
         """
         Ejecuta el ciclo de vida completo de adaptación pedagógica.
         Retorna la respuesta oficial ONE G10 y un diccionario de trazabilidad con los IDs persistidos.
         """
         if db is not None:
-            return self._execute_flow(request, user_id, db)
+            return self._execute_flow(request, user_id, db, use_multi_agent)
         else:
             with get_db_session() as session:
-                return self._execute_flow(request, user_id, session)
+                return self._execute_flow(request, user_id, session, use_multi_agent)
 
     def _execute_flow(
         self,
         request: SolicitudAdaptacion,
         user_id: Optional[uuid.UUID],
-        db: Session
+        db: Session,
+        use_multi_agent: bool = False
     ) -> Tuple[RespuestaAdaptacion, Dict[str, Any]]:
         # 1. Obtener o crear usuario de la sesión
         if user_id:
@@ -125,8 +127,13 @@ class AdaptationService:
         else:
             RAGKnowledgeBaseRepository.update_status(db, kb.id, EstadoIndexacion.INDEXED.value)
 
-        # 4. Generación Pedagógica con LLM y RAG Grounding
-        respuesta = self.engine.adapt_content(request)
+        # 4. Generación Pedagógica con LLM (Modo Estándar o LangGraph Multi-Agente)
+        agent_logs = []
+        if use_multi_agent:
+            from src.agents.multi_agent_graph import run_langgraph_pipeline
+            respuesta, agent_logs = run_langgraph_pipeline(request)
+        else:
+            respuesta = self.engine.adapt_content(request)
 
         # 5. Persistencia de la Sesión de Aprendizaje en la DB
         session_create = LearningSessionCreate(
@@ -201,7 +208,9 @@ class AdaptationService:
             "flashcards_count": created_flashcards_count,
             "quiz_id": created_quiz_id,
             "oci_raw_object": doc.oci_object_id,
-            "oci_output_object": respuesta.almacenamiento_oci.objeto_id
+            "oci_output_object": respuesta.almacenamiento_oci.objeto_id,
+            "use_multi_agent": use_multi_agent,
+            "agent_logs": agent_logs
         }
 
         return respuesta, traceability
