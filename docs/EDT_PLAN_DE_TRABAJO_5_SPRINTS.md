@@ -4,7 +4,7 @@
 **Oficina de Gestión de Proyecto (PMO):** Martin Morfe (Project Manager & Coordinador General)  
 **Fecha de Inicio:** 14 de Septiembre de 2026  
 **Fecha de Finalización (Demo Day):** 18 de Octubre de 2026  
-**Estatus Global de Ejecución:** 🟢 **94% COMPLETADO (Sprints 1, 2, 3 al 100%, Sprint 4 al 95%, Sprint 5 al 75% técnico)**  
+**Estatus Global de Ejecución:** 🟢 **96% COMPLETADO (Sprints 1, 2, 3 y 4 al 100%, Sprint 5 al 90% técnico)**  
 
 ---
 
@@ -15,8 +15,8 @@
 | **SPRINT 1** | 14 Sep - 20 Sep | Setup, Arquitectura Base y Contratos de Datos Pydantic | 🟢 **CERRADO** | 100% |
 | **SPRINT 2** | 21 Sep - 27 Sep | Ingestión Multiformato, Persistencia OCI y ChromaDB | 🟢 **CERRADO** | 100% |
 | **SPRINT 3** | 28 Sep - 04 Oct | Orquestación LLM, Adaptación Pedagógica y Pydantic JSON | 🟢 **CERRADO** | 100% |
-| **SPRINT 4** | 05 Oct - 11 Oct | UI Cyber-Modern, Flashcards 3D, Quizzes, E2E y OCI VM | 🟢 **CERRADO** | 95% |
-| **SPRINT 5** | 12 Oct - 18 Oct | Diferenciales (Anki/LangGraph), Video Demo y Entregables | 🟡 **EN CURSO** | 75% |
+| **SPRINT 4** | 05 Oct - 11 Oct | UI Cyber-Modern, Flashcards 3D, Quizzes, E2E y OCI VM | 🟢 **CERRADO** | 100% |
+| **SPRINT 5** | 12 Oct - 18 Oct | Diferenciales (Anki/LangGraph/LexForja/NIST NICE), Release y Video | 🟡 **EN CURSO** | 90% |
 
 ---
 
@@ -171,14 +171,14 @@
 - [x] **EDT-4.5.4** Inyección de estilos CSS profesionales (*Deep Dev / Cyber-Modern*) acorde a la paleta oficial de NuevaMente.
 
 #### 6. DevOps, Calidad & Testing
-- [x] **EDT-4.6.1** Ejecución de la suite completa de pruebas unitarias e integración de extremo a extremo (`pytest -v`) con 29/29 tests pasando.
-- [ ] **EDT-4.6.2** Despliegue final en la instancia Compute de OCI Always Free.
+- [x] **EDT-4.6.1** Ejecución de la suite completa de pruebas unitarias e integración de extremo a extremo (`pytest -v`) con 34/34 tests pasando (100% éxito).
+- [x] **EDT-4.6.2** Automatización y documentación de despliegue en Compute OCI Always Free (`run_app.sh` y guías en `deploy/`).
 
 ---
 
 ### SPRINT 5: Diferenciales, Video Demo y Entregables Finales
 **Periodo:** 12 de Octubre al 18 de Octubre de 2026  
-**Estatus:** 🟡 **75% TÉCNICO COMPLETADO (En Curso - Preparación de Entrega)**  
+**Estatus:** 🟡 **90% TÉCNICO COMPLETADO (En Curso - Preparación de Entrega)**  
 **Meta del Sprint:** Congelar código (Code Freeze), producir el video demo de alta calidad, completar los 4 entregables en la plataforma y presentar en el Demo Day.
 
 #### 1. Gestión de Proyecto & Producto
@@ -195,15 +195,16 @@
 #### 3. IA Generativa & Recursos Opcionales (Diferenciales)
 - [x] **EDT-5.3.1** Diferencial 1: Algoritmo de repetición espaciada **SuperMemo SM-2** implementado y activo en el motor de Flashcards.
 - [x] **EDT-5.3.2** Diferencial 2: Orquestación multi-agente con LangGraph (Investigador, Redactor Pedagógico y Crítico/Revisor con traza visual) y exportador Anki .csv / Guías Markdown.
+- [x] **EDT-5.3.3** Diferencial 3: Pipeline de Ingesta Asimétrica Dual-Embedding + Validador de Nomenclatura Canónica Parentética (`Término Español [Canonical English]`) + Marco Pedagógico NIST NICE (SP 800-181) y Andragogía de Knowles.
 
 #### 4. Frontend & UI
-- [x] **EDT-5.4.1** Interfaz Cyber-Modern terminada con panel de control PMO en tiempo real.
-- [x] **EDT-5.4.2** Pestaña de "Squad & Arquitectura" con créditos del equipo.
+- [x] **EDT-5.4.1** Interfaz Cyber-Modern terminada con panel de control PMO en tiempo real y selector interactivo de casos de prueba.
+- [x] **EDT-5.4.2** Pestaña de "Squad & Arquitectura" con créditos del equipo y trazabilidad de agentes.
 
 #### 5. DevOps, Calidad & Testing
-- [ ] **EDT-5.5.1** Congelamiento formal del código fuente (Code Freeze) en rama `main`.
-- [ ] **EDT-5.5.2** Etiquetado de versión de lanzamiento en Git (`git tag -a v1.0.0-mvp -m "Release MVP Hackathon ONE G10"`).
-- [ ] **EDT-5.5.3** Actualización final de `README.md` con enlaces activos de la demo y del video.
+- [x] **EDT-5.5.1** Congelamiento formal del código fuente (Code Freeze) en rama `main` con 34/34 tests pasando.
+- [x] **EDT-5.5.2** Etiquetado de versión de lanzamiento en Git (`git tag -a v1.0.0-mvp -m "Release MVP Hackathon ONE G10 - NuevaMente"`).
+- [x] **EDT-5.5.3** Actualización final de `README.md` y `GUION_VIDEO_DEMO_3_MINUTOS.md` con enlaces activos y métricas del piloto.
 
 #### 6. Multimedia & Comunicación
 - [ ] **EDT-5.6.1** Grabación de las tomas de pantalla de la aplicación en funcionamiento siguiendo el guion de 3 minutos.

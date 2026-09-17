@@ -2,7 +2,8 @@
 
 [![Hackathon ONE G10](https://img.shields.io/badge/Hackathon-ONE%20G10%20%7C%20Alura%20%26%20Oracle-F80000?style=for-the-badge&logo=oracle)](https://www.oracle.com/lad/education/oracle-next-education/)
 [![OCI Always Free](https://img.shields.io/badge/OCI-Always%20Free%20Certified%20($0.00)-red?style=for-the-badge&logo=oracle)](https://www.oracle.com/cloud/free/)
-[![Tests Passing](https://img.shields.io/badge/Pytest-28%2F28%20Passing%20(100%25)-brightgreen?style=for-the-badge&logo=pytest)](https://docs.pytest.org/)
+[![Tests Passing](https://img.shields.io/badge/Pytest-34%2F34%20Passing%20(100%25)-brightgreen?style=for-the-badge&logo=pytest)](https://docs.pytest.org/)
+[![Multi-Agent](https://img.shields.io/badge/Agents-LangGraph%20Multi--Agent-6366F1?style=for-the-badge)](https://langchain-ai.github.io/langgraph/)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![UI Streamlit](https://img.shields.io/badge/UI-Streamlit%20Cyber--Modern-FF4B4B?style=for-the-badge&logo=streamlit)](https://streamlit.io/)
 [![Spaced Repetition](https://img.shields.io/badge/Algorithm-SuperMemo%20SM--2-purple?style=for-the-badge)](https://en.wikipedia.org/wiki/SuperMemo#SM-2_algorithm)
@@ -10,9 +11,9 @@
 ---
 
 ## 📌 Visión General
-**NuevaMente** es una plataforma SaaS EdTech de alto impacto desarrollada en el marco del **Hackathon ONE Grupo 10 (Oracle Next Education & Alura / No Country)**. Su misión es democratizar y acelerar el aprendizaje técnico ingiriendo documentaciones complejas (manuales de software, arquitecturas cloud, especificaciones de sistemas) y transformándolas de manera automática en contenidos pedagógicos hiper-personalizados según el perfil del estudiante, su industria y el formato didáctico elegido.
+**NuevaMente** es una plataforma SaaS EdTech de alto impacto desarrollada en el marco del **Hackathon ONE Grupo 10 (Oracle Next Education & Alura / No Country)**. Su misión es democratizar y acelerar el aprendizaje técnico ingiriendo documentaciones canónicas de alta densidad (manuales de arquitectura cloud, normativas de ciberseguridad bancaria, especificaciones NIST, CIS y PCI-DSS) y transformándolas de manera automática en contenidos pedagógicos hiper-personalizados según el rol del estudiante, aplicando el marco de competencias **NIST NICE (SP 800-181)**, la **Andragogía Laboral de Malcolm Knowles** y la evaluación en 4 niveles del **Modelo Kirkpatrick**.
 
-La solución garantiza **fidelidad técnica rigurosa y prevención de alucinaciones** a través de un pipeline **RAG (Retrieval-Augmented Generation)** anclado en fuentes técnicas, un evaluador de calidad (*source grounding score*), persistencia relacional completa (SQLAlchemy 2.0) y almacenamiento dual obligatorio en **Oracle Cloud Infrastructure (OCI) Object Storage** bajo la capa **Always Free (Cero Costo de por Vida)**.
+La solución garantiza **fidelidad técnica rigurosa y prevención de alucinaciones** a través de una **Arquitectura de Ingesta Asimétrica**, orquestación **Multi-Agente con LangGraph** (Investigador RAG, Redactor Pedagógico, Crítico Revisor), la **Regla de Nomenclatura Parentética Bilingüe** (`Término en Español [Término Canónico en Inglés]`), persistencia relacional completa (SQLAlchemy 2.0) y almacenamiento en **Oracle Cloud Infrastructure (OCI) Object Storage** bajo la capa **Always Free (Cero Costo de por Vida)**.
 
 ---
 
@@ -76,23 +77,29 @@ flowchart TB
 | **Nicho / Contexto** | Fintech, Salud, E-commerce, Infraestructura Cloud, General | Contextualización de ejemplos a escenarios reales de la industria. |
 | **Nivel de Detalle** | Didáctico, Técnico profundo, Estratégico | Ajuste fino de la densidad conceptual. |
 
----
-
 ## 🌟 Diferenciales de Calidad e Innovación
 
 1. **Repetición Espaciada (SuperMemo SM-2 Activo):**
    Implementación matemática de la curva de olvido de Ebbinghaus para programar repasos activos en las flashcards (calificaciones 1 a 5 con cálculo en tiempo real de intervalos y Factor de Facilidad).
-2. **Flashcards Interactivas con Giro 3D:**
+2. **Orquestación Multi-Agente con LangGraph:**
+   Ciclo colegiado con Agente Investigador RAG (búsqueda y expansión semántica), Agente Redactor Pedagógico (adaptación por perfil) y Agente Crítico Revisor (auditoría anti-alucinaciones).
+3. **Arquitectura de Ingesta Asimétrica Bilingüe:**
+   Supera la brecha semántica entre documentos en inglés y consultas en español indexando síntesis en español de alta densidad y tesauro normativo, elevando la precisión de búsqueda de 0.35 a más de 0.82.
+4. **Regla de Nomenclatura Parentética Obligatoria:**
+   Asegura que cada concepto técnico mantenga su denominación canónica: `Término en Español [Término Canónico en Inglés]` para reconocer comandos y botones en la consola de Oracle Cloud.
+5. **Flashcards Interactivas con Giro 3D:**
    Componente visual desarrollado en CSS3 con perspectiva 1200px y animación de volteo realista (`rotateY(180deg)`), libre de plantillas genéricas.
-3. **Visor de Quizzes con Feedback Inmediato:**
+6. **Visor de Quizzes con Feedback Inmediato:**
    Respuesta visual reactiva (resplandor neón verde o rojo) con fundamentación técnica anclada y etiqueta de nivel taxonómico de Bloom.
-4. **Exportación Multiformato:**
+7. **Exportación Multiformato:**
    - 🗃️ **Mazo Anki (.csv):** Compatible para importación directa en la app oficial de Anki.
    - 📝 **Guía Didáctica (.md):** Documento Markdown estructurado listo para estudio o publicación.
    - ☁️ **JSON Estructurado ONE G10:** Formato de entrega oficial del pliego.
-5. **Oficina de Proyecto Integrada (PMO Dashboard):**
+8. **Piloto de Ciberseguridad Bancaria y Gobernanza Cloud:**
+   Corpus canónico de 7 documentos oficiales (1,132 páginas) de NIST, CIS, CISA y PCI-DSS listo para consumo directo.
+9. **Oficina de Proyecto Integrada (PMO Dashboard):**
    Pestaña ejecutiva en la aplicación web para monitorear el avance del WBS en los 5 Sprints bajo metodología PRINCE2 / Scrum.
-6. **Arquitectura OCI Always Free Certificada ($0.00 USD):**
+10. **Arquitectura OCI Always Free Certificada ($0.00 USD):**
    Preparada para ejecutarse sobre instancias **Ampere A1 Flex** (4 OCPUs, 24 GB RAM) y almacenar en OCI Object Storage con cero costos de facturación.
 
 ---
