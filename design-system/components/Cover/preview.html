@@ -1,0 +1,49 @@
+<!-- @dsCard height=300 -->
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css">
+<title>NuevaMente</title>
+<style>
+  html, body { margin:0; height:100%; }
+  body { background:var(--bg-900); color:var(--ink); font-family:var(--font-sans); overflow:hidden; }
+  .cover { position:relative; height:300px; overflow:hidden; }
+  .art { position:absolute; top:0; left:480px; width:480px; height:300px; overflow:hidden; }
+  .art svg { display:block; }
+  .quantum { fill:var(--quantum); }
+  .cyber { fill:var(--cyber); }
+  .oracle { fill:var(--oracle); }
+  .amber { fill:var(--amber); }
+  .lg { rx:var(--radius-lg); }
+  .md { rx:var(--radius-md); }
+  .plus { stroke:var(--quantum-soft); stroke-width:2; stroke-linecap:round; fill:none; }
+  .words { position:absolute; left:var(--space-8); bottom:var(--space-8); max-width:440px; }
+  .name { margin:0; font-family:var(--font-display); font-size:72px; line-height:.92; font-weight:700; letter-spacing:-.02em; color:var(--ink); }
+  .name span { color:var(--quantum-soft); }
+  .tag { margin:var(--space-2) 0 0 2px; font-size:14px; line-height:20px; color:var(--ink-muted); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 300" width="480" height="300">
+<!--
+  blocks      quantum 168×272 bled off the top (identidad IA, el más grande) · cyber 120×120 (ciberseguridad) · amber 96×48 · oracle 48×48 (sello, pequeño) — ≈23% de 960×300
+  arrangement pila de tarjetas: una losa alta con satélites, bases alineadas a space-12 del borde inferior, calles de space-6
+  pattern     retícula de cruces a paso space-6 en quantum-soft — "Deep Dev: preciso, técnico, mono" → cruces de consola sobre el cian
+  scales      space-6 (24) calles y paso, space-12 (48) margen inferior y lado del sello, radius-lg en losas grandes, radius-md en satélites
+-->
+<rect class="quantum lg" x="24" y="-20" width="168" height="272"/>
+<rect class="cyber lg" x="216" y="132" width="120" height="120"/>
+<rect class="oracle md" x="360" y="132" width="48" height="48"/>
+<rect class="amber md" x="360" y="204" width="96" height="48"/>
+<path class="plus" d="M224 36h8M228 32v8"/><path class="plus" d="M248 36h8M252 32v8"/><path class="plus" d="M272 36h8M276 32v8"/><path class="plus" d="M296 36h8M300 32v8"/><path class="plus" d="M320 36h8M324 32v8"/><path class="plus" d="M344 36h8M348 32v8"/><path class="plus" d="M368 36h8M372 32v8"/><path class="plus" d="M392 36h8M396 32v8"/><path class="plus" d="M416 36h8M420 32v8"/><path class="plus" d="M440 36h8M444 32v8"/><path class="plus" d="M224 60h8M228 56v8"/><path class="plus" d="M248 60h8M252 56v8"/><path class="plus" d="M272 60h8M276 56v8"/><path class="plus" d="M296 60h8M300 56v8"/><path class="plus" d="M320 60h8M324 56v8"/><path class="plus" d="M344 60h8M348 56v8"/><path class="plus" d="M368 60h8M372 56v8"/><path class="plus" d="M392 60h8M396 56v8"/><path class="plus" d="M416 60h8M420 56v8"/><path class="plus" d="M440 60h8M444 56v8"/><path class="plus" d="M224 84h8M228 80v8"/><path class="plus" d="M248 84h8M252 80v8"/><path class="plus" d="M272 84h8M276 80v8"/><path class="plus" d="M296 84h8M300 80v8"/><path class="plus" d="M320 84h8M324 80v8"/><path class="plus" d="M344 84h8M348 80v8"/><path class="plus" d="M368 84h8M372 80v8"/><path class="plus" d="M392 84h8M396 80v8"/><path class="plus" d="M416 84h8M420 80v8"/><path class="plus" d="M440 84h8M444 80v8"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">Nueva<span>Mente</span></h1>
+<p class="tag">Normativa densa, mente nueva.</p>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!-- @dsCard group="Aprendizaje" height=120 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css"><title>Autoevaluación SM-2</title></head>
+<body class="nm-stage">
+<div class="nm-sm2">
+  <span class="nm-overline">¿Qué tan bien lo recordaste?</span>
+  <div class="nm-sm2__scale" id="s">
+    <button class="nm-sm2__btn" data-q="0">0<small>Nada</small></button>
+    <button class="nm-sm2__btn" data-q="1">1<small>Vago</small></button>
+    <button class="nm-sm2__btn" data-q="2">2<small>Casi</small></button>
+    <button class="nm-sm2__btn" data-q="3">3<small>Difícil</small></button>
+    <button class="nm-sm2__btn is-picked" data-q="4">4<small>Bien</small></button>
+    <button class="nm-sm2__btn" data-q="5">5<small>Perfecto</small></button>
+  </div>
+  <span class="nm-caption" id="o">Próximo repaso óptimo · en 6 días</span>
+</div>
+<script>
+var iv={0:1,1:1,2:1,3:3,4:6,5:8};
+document.getElementById('s').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+document.querySelectorAll('.nm-sm2__btn').forEach(function(x){x.classList.remove('is-picked')});b.classList.add('is-picked');
+var q=+b.dataset.q;document.getElementById('o').textContent=q<3?'Se repite hoy · el intervalo vuelve a 1 día':'Próximo repaso óptimo · en '+iv[q]+' días';});
+</script>
+</body>
+</html>

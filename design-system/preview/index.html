@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NuevaMente — UI Kit</title>
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components/bundle.css">
+<style>
+  iframe{width:100%;border:1px solid var(--glass-line);border-radius:var(--radius-lg);background:var(--bg-900);margin-bottom:var(--space-6)}
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-6)}
+</style>
+</head>
+<body class="nm-stage">
+<header><h1 class="h1" style="margin:0">Nueva<span style="color:var(--quantum-soft)">Mente</span> · UI Kit</h1>
+<button class="nm-btn nm-btn--glass" onclick="document.documentElement.dataset.theme=document.documentElement.dataset.theme==='dark'?'light':'dark'">Cambiar tema</button></header>
+<div id="list"></div>
+<script>
+// Las vistas previas usan tokens.css y bundle.css; este índice las carga con ambos.
+const comps=[['Button',100],['CanonicalTerm',170],['Flashcard3D',320],['SM2Rating',150],['RetentionMeter',150],['QuizOption',420],['MasteryBadge',240],['TrackCard',250],['KPICard',200]];
+const list=document.getElementById('list');
+comps.forEach(([n,h])=>{
+  const t=document.createElement('p');t.className='nm-overline';t.textContent=n;list.appendChild(t);
+  const f=document.createElement('iframe');f.height=h;f.src='../components/'+n+'/preview.html';
+  f.onload=()=>{const d=f.contentDocument;d.documentElement.dataset.theme=document.documentElement.dataset.theme;
+};
+  list.appendChild(f);
+});
+new MutationObserver(()=>document.querySelectorAll('iframe').forEach(f=>{try{f.contentDocument.documentElement.dataset.theme=document.documentElement.dataset.theme}catch(e){}})).observe(document.documentElement,{attributes:true});
+</script>
+</body>
+</html>

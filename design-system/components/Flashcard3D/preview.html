@@ -1,0 +1,37 @@
+<!-- @dsCard group="Aprendizaje" height=300 -->
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><link rel="stylesheet" href="../../tokens.css"><link rel="stylesheet" href="../bundle.css"><title>Flashcard 3D</title></head>
+<body class="nm-stage">
+<div class="nm-row">
+  <div class="nm-flash" id="f1" tabindex="0" role="button" aria-label="Voltear tarjeta">
+    <div class="nm-flash__inner">
+      <div class="nm-flash__face">
+        <div class="nm-flash__meta"><span class="nm-overline">Ruta B · Tarjeta 7/24</span><span class="nm-oci">OCI</span></div>
+        <p class="nm-flash__q">¿Qué recurso filtra el tráfico a nivel de subred en una VCN?</p>
+        <div class="nm-flash__hint"><b>Pista:</b> es una <em>lista</em> que vive en la subred, no en la VNIC.</div>
+      </div>
+      <div class="nm-flash__face nm-flash__back">
+        <div class="nm-flash__meta"><span class="nm-overline">Explicación canónica</span><div class="nm-ring nm-ring--sm" style="--p:82"><span class="nm-ring__val">82</span></div></div>
+        <p class="nm-flash__a">La <span class="nm-term">Lista de Seguridad<span class="nm-term__en">Security List</span></span> aplica reglas de entrada y salida a todas las VNIC de la subred.</p>
+        <span class="nm-flash__src">Fuente · OCI Docs › Networking › Security Lists</span>
+      </div>
+    </div>
+  </div>
+  <div class="nm-flash is-flipped" style="pointer-events:none"><div class="nm-flash__inner">
+    <div class="nm-flash__face"></div>
+    <div class="nm-flash__face nm-flash__back">
+      <div class="nm-flash__meta"><span class="nm-overline">Reverso (estático)</span><div class="nm-ring nm-ring--sm nm-ring--warn" style="--p:61"><span class="nm-ring__val">61</span></div></div>
+      <p class="nm-flash__a">Principio de <span class="nm-term">Menor Privilegio<span class="nm-term__en">Least Privilege</span></span>: cada cuenta recibe solo el acceso que su función exige.</p>
+      <span class="nm-flash__src">Fuente · NIST SP 800-53 Rev. 5 · AC-6</span>
+    </div>
+  </div></div>
+</div>
+<script>
+var f=document.getElementById('f1');
+function t(){f.classList.toggle('is-flipped');}
+f.addEventListener('click',t);
+f.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});
+</script>
+</body>
+</html>
