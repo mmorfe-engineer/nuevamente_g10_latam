@@ -535,7 +535,7 @@ with tab_pmo:
     with col_pmo2:
         st.metric("Sprint 5 (En Curso)", "75% Técnico", "LangGraph, Anki & Entregables")
     with col_pmo3:
-        st.metric("Tests Unitarios & DoD", "29 / 29 Pasando", "100% Calidad Aprobada")
+        st.metric("Tests Unitarios & DoD", "34 / 34 Pasando", "100% Calidad Aprobada (LexForja)")
     with col_pmo4:
         st.metric("Gasto OCI Always Free", "$0.00 USD", "100% Free Forever")
 

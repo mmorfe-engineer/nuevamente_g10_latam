@@ -265,3 +265,105 @@ class QuizRepository:
     @staticmethod
     def get_by_session(db: Session, session_id: UUID) -> Optional[QuizModel]:
         return db.query(QuizModel).filter(QuizModel.session_id == session_id).first()
+
+
+# ==============================================================================
+# REPOSITORIOS LEXFORJA: CORPUS Y GLOSARIO CANÓNICO
+# ==============================================================================
+
+class CorpusRepository:
+    @staticmethod
+    def create_document(db: Session, doc_data: dict) -> "CorpusDocumentoModel":
+        from src.storage.models import CorpusDocumentoModel
+        doc = CorpusDocumentoModel(
+            doc_id=doc_data["doc_id"],
+            titulo=doc_data["titulo"],
+            archivo_origen=doc_data["archivo_origen"],
+            idioma=doc_data.get("idioma", "en"),
+            version_normativa=doc_data.get("version_normativa"),
+            peso_bytes=doc_data.get("peso_bytes", 0),
+            sha256_hash=doc_data["sha256_hash"]
+        )
+        db.add(doc)
+        db.commit()
+        db.refresh(doc)
+        return doc
+
+    @staticmethod
+    def get_document(db: Session, doc_id: str) -> Optional["CorpusDocumentoModel"]:
+        from src.storage.models import CorpusDocumentoModel
+        return db.query(CorpusDocumentoModel).filter(CorpusDocumentoModel.doc_id == doc_id).first()
+
+    @staticmethod
+    def create_chunks(db: Session, chunks_data: List[dict]) -> List["CorpusChunkModel"]:
+        from src.storage.models import CorpusChunkModel
+        db_chunks = []
+        for c in chunks_data:
+            chunk = CorpusChunkModel(
+                chunk_id=c["chunk_id"],
+                doc_id=c["doc_id"],
+                pagina_numero=c.get("pagina_numero", 1),
+                capitulo_seccion=c.get("capitulo_seccion"),
+                contenido_original=c["contenido_original"],
+                sintesis_espanol=c["sintesis_espanol"],
+                terminos_clave_en=c.get("terminos_clave_en", []),
+                terminos_clave_es=c.get("terminos_clave_es", []),
+                aplicabilidad_roles=c.get("aplicabilidad_roles", []),
+                modifica_a_chunk_id=c.get("modifica_a_chunk_id"),
+                version_prioridad=c.get("version_prioridad", 1.0),
+                embedding_id=c.get("embedding_id")
+            )
+            db.add(chunk)
+            db_chunks.append(chunk)
+        db.commit()
+        for chunk in db_chunks:
+            db.refresh(chunk)
+        return db_chunks
+
+    @staticmethod
+    def get_chunks_with_precedence(db: Session, doc_id: Optional[str] = None) -> List["CorpusChunkModel"]:
+        """
+        Aplica la Regla de Precedencia Determinista de LexForja:
+        Si un chunk de enmienda modifica a otro anterior, adquiere prioridad forzada (+1.0)
+        y los chunks derogados o modificados se marcan con menor prioridad.
+        """
+        from src.storage.models import CorpusChunkModel
+        query = db.query(CorpusChunkModel)
+        if doc_id:
+            query = query.filter(CorpusChunkModel.doc_id == doc_id)
+        
+        chunks = query.all()
+        # Identificar IDs que fueron modificados/sustituidos
+        modified_ids = {c.modifica_a_chunk_id for c in chunks if c.modifica_a_chunk_id}
+        
+        # Ordenar: primero los no derogados y con mayor version_prioridad
+        def sort_key(c):
+            is_superseded = c.chunk_id in modified_ids
+            # Si fue modificado por una enmienda más reciente, penalizar prioridad
+            effective_priority = 0.1 if is_superseded else c.version_prioridad
+            return effective_priority
+
+        return sorted(chunks, key=sort_key, reverse=True)
+
+
+class GlosarioRepository:
+    @staticmethod
+    def get_all(db: Session) -> List["GlosarioCiberseguridadModel"]:
+        from src.storage.models import GlosarioCiberseguridadModel
+        return db.query(GlosarioCiberseguridadModel).all()
+
+    @staticmethod
+    def get_by_term_en(db: Session, term_en: str) -> Optional["GlosarioCiberseguridadModel"]:
+        from src.storage.models import GlosarioCiberseguridadModel
+        return db.query(GlosarioCiberseguridadModel).filter(
+            GlosarioCiberseguridadModel.termino_en == term_en
+        ).first()
+
+    @staticmethod
+    def search(db: Session, term: str) -> List["GlosarioCiberseguridadModel"]:
+        from src.storage.models import GlosarioCiberseguridadModel
+        pattern = f"%{term}%"
+        return db.query(GlosarioCiberseguridadModel).filter(
+            (GlosarioCiberseguridadModel.termino_en.ilike(pattern)) |
+            (GlosarioCiberseguridadModel.termino_es.ilike(pattern))
+        ).all()

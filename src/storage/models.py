@@ -255,3 +255,95 @@ class QuizQuestionModel(Base):
             "bloom_taxonomy_level": self.bloom_taxonomy_level,
             "created_at": self.created_at.isoformat() if self.created_at else None
         }
+
+
+# ==============================================================================
+# ESTÁNDAR LEXFORJA: INGESTA ASIMÉTRICA Y BASE DE DATOS ENRIQUECIDA
+# ==============================================================================
+
+class CorpusDocumentoModel(Base):
+    __tablename__ = "corpus_documentos"
+
+    doc_id = Column(String(50), primary_key=True)
+    titulo = Column(String(255), nullable=False)
+    archivo_origen = Column(String(255), nullable=False)
+    idioma = Column(String(10), nullable=False, default="en")
+    version_normativa = Column(String(50), nullable=True)
+    peso_bytes = Column(Integer, default=0, nullable=False)
+    sha256_hash = Column(String(64), nullable=False, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    # Relaciones
+    chunks = relationship("CorpusChunkModel", back_populates="documento", cascade="all, delete-orphan")
+
+    def to_dict(self):
+        return {
+            "doc_id": self.doc_id,
+            "titulo": self.titulo,
+            "archivo_origen": self.archivo_origen,
+            "idioma": self.idioma,
+            "version_normativa": self.version_normativa,
+            "peso_bytes": self.peso_bytes,
+            "sha256_hash": self.sha256_hash,
+            "created_at": self.created_at.isoformat() if self.created_at else None,
+            "total_chunks": len(self.chunks) if self.chunks else 0
+        }
+
+
+class CorpusChunkModel(Base):
+    __tablename__ = "corpus_chunks"
+
+    chunk_id = Column(String(50), primary_key=True)
+    doc_id = Column(String(50), ForeignKey("corpus_documentos.doc_id", ondelete="CASCADE"), nullable=False)
+    pagina_numero = Column(Integer, nullable=False, default=1)
+    capitulo_seccion = Column(String(255), nullable=True)
+    contenido_original = Column(Text, nullable=False)
+    sintesis_espanol = Column(Text, nullable=False)
+    terminos_clave_en = Column(JSON, nullable=False, default=list)
+    terminos_clave_es = Column(JSON, nullable=False, default=list)
+    aplicabilidad_roles = Column(JSON, nullable=False, default=list)
+    modifica_a_chunk_id = Column(String(50), nullable=True, index=True)
+    version_prioridad = Column(Float, default=1.0, nullable=False)
+    embedding_id = Column(String(100), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    # Relaciones
+    documento = relationship("CorpusDocumentoModel", back_populates="chunks")
+
+    def to_dict(self):
+        return {
+            "chunk_id": self.chunk_id,
+            "doc_id": self.doc_id,
+            "pagina_numero": self.pagina_numero,
+            "capitulo_seccion": self.capitulo_seccion,
+            "contenido_original": self.contenido_original,
+            "sintesis_espanol": self.sintesis_espanol,
+            "terminos_clave_en": self.terminos_clave_en,
+            "terminos_clave_es": self.terminos_clave_es,
+            "aplicabilidad_roles": self.aplicabilidad_roles,
+            "modifica_a_chunk_id": self.modifica_a_chunk_id,
+            "version_prioridad": self.version_prioridad,
+            "embedding_id": self.embedding_id,
+            "created_at": self.created_at.isoformat() if self.created_at else None
+        }
+
+
+class GlosarioCiberseguridadModel(Base):
+    __tablename__ = "glosario_ciberseguridad"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    termino_en = Column(String(150), unique=True, nullable=False, index=True)
+    termino_es = Column(String(150), nullable=False, index=True)
+    definicion_didactica = Column(Text, nullable=False)
+    categoria = Column(String(50), default="General", nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "termino_en": self.termino_en,
+            "termino_es": self.termino_es,
+            "definicion_didactica": self.definicion_didactica,
+            "categoria": self.categoria,
+            "created_at": self.created_at.isoformat() if self.created_at else None
+        }

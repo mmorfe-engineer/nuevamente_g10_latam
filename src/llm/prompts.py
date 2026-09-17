@@ -98,6 +98,16 @@ Aplica ejemplos y terminología contextualizada al sector: {nicho}.
 4. NIVEL DE DETALLE:
 Nivel solicitado: {nivel_detalle}.
 
+5. ESTÁNDAR LEXFORJA DE NOMENCLATURA CANÓNICA (OBLIGATORIO):
+Cada vez que menciones un concepto técnico, estándar o servicio cloud/ciberseguridad, exprésalo en formato parentético bilingüe:
+Término en Español [Término Canónico en Inglés]
+Ejemplos:
+- Listas de Seguridad de Entrada con Estado [Stateful Ingress Security Lists]
+- Red Virtual en la Nube [Virtual Cloud Network (VCN)]
+- Principio de Mínimo Privilegio [Principle of Least Privilege]
+- Control de Acceso Basado en Roles [Role-Based Access Control (RBAC)]
+- Gestión de Riesgos en Cadena de Suministro [Supply Chain Risk Management (SCRM)]
+
 REGLAS CRÍTICAS DE SALIDA:
 - Basa TODAS las explicaciones en el contexto técnico proporcionado.
 - Si un concepto no está en el material técnico, limítate a lo provisto sin inventar datos.

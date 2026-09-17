@@ -49,12 +49,33 @@ class MultiAgentState(TypedDict):
 
 
 def investigador_rag_node(state: MultiAgentState) -> Dict[str, Any]:
-    """Agente 1: Examina la base vectorial en ChromaDB y extrae el contexto verificado."""
+    """Agente 1: Examina la base vectorial en ChromaDB y extrae el contexto verificado usando LexForja."""
     logs = list(state.get("agent_logs", []))
-    logs.append("🕵️ [Agente Investigador RAG] Iniciando inspección semántica en ChromaDB...")
+    logs.append("🕵️ [Agente Investigador RAG] Iniciando inspección semántica bilingüe...")
 
-    query = f"{state['documento_titulo']} {state['perfil_destinatario']} {state['formato_salida']}"
-    context_text, chunks, avg_sim = rag_retriever.retrieve_context(query=query, top_k=4)
+    base_query = f"{state['documento_titulo']} {state['perfil_destinatario']} {state['formato_salida']}"
+    
+    # Enriquecimiento semántico con Glosario LexForja
+    from src.storage.database import SessionLocal
+    from src.storage.repository import GlosarioRepository
+    session = SessionLocal()
+    try:
+        glossary_terms = GlosarioRepository.get_all(session)
+        matching_en_terms = [
+            t.termino_en for t in glossary_terms
+            if t.termino_es.lower() in base_query.lower() or t.termino_en.lower() in base_query.lower()
+        ]
+        if matching_en_terms:
+            enriched_query = f"{base_query} {' '.join(matching_en_terms)}"
+            logs.append(f"🛡️ [Estándar LexForja] Consulta expandida con tesauro canónico: {', '.join(matching_en_terms[:3])}")
+        else:
+            enriched_query = base_query
+    except Exception:
+        enriched_query = base_query
+    finally:
+        session.close()
+
+    context_text, chunks, avg_sim = rag_retriever.retrieve_context(query=enriched_query, top_k=4)
 
     if not context_text:
         context_text = state["documento_contenido"]
@@ -138,6 +159,16 @@ def critico_revisor_node(state: MultiAgentState) -> Dict[str, Any]:
         logs.append(
             f"🔍 [Agente Crítico/Revisor] Dictamen: APROBADO. Grounding Score: {score * 100:.1f}%. Fidelidad certificada."
         )
+        
+        # Auditoría de Nomenclatura Canónica LexForja
+        from src.utils.validators import lexforja_validator
+        text_to_audit = f"{draft.get('introduccion_contextualizada', '')} {str(draft.get('items', []))}"
+        lex_res = lexforja_validator.validate_text_nomenclature(text_to_audit)
+        if lex_res["parenthetical_count"] > 0:
+            logs.append(
+                f"🛡️ [Estándar LexForja] Nomenclatura canónica certificada: {lex_res['parenthetical_count']} "
+                f"términos bilingües conformes [Término EN]."
+            )
     else:
         feedback = "Requiere ajuste: Profundizar en analogías didácticas y mayor claridad en los ítems."
         score = 0.80
