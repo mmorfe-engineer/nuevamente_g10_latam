@@ -67,7 +67,7 @@ def investigador_rag_node(state: MultiAgentState) -> Dict[str, Any]:
         ]
         if matching_en_terms:
             enriched_query = f"{base_query} {' '.join(matching_en_terms)}"
-            logs.append(f"🛡️ [Estándar LexForja] Consulta expandida con tesauro canónico: {', '.join(matching_en_terms[:3])}")
+            logs.append(f"🛡️ [NuevaMente Engine] Consulta expandida con tesauro canónico: {', '.join(matching_en_terms[:3])}")
         else:
             enriched_query = base_query
     except Exception:
@@ -166,7 +166,7 @@ def critico_revisor_node(state: MultiAgentState) -> Dict[str, Any]:
         lex_res = lexforja_validator.validate_text_nomenclature(text_to_audit)
         if lex_res["parenthetical_count"] > 0:
             logs.append(
-                f"🛡️ [Estándar LexForja] Nomenclatura canónica certificada: {lex_res['parenthetical_count']} "
+                f"🛡️ [NuevaMente Engine] Nomenclatura canónica certificada: {lex_res['parenthetical_count']} "
                 f"términos bilingües conformes [Término EN]."
             )
     else:

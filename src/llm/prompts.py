@@ -101,7 +101,7 @@ Aplica ejemplos y terminología contextualizada al sector: {nicho}.
 4. NIVEL DE DETALLE:
 Nivel solicitado: {nivel_detalle}.
 
-5. ESTÁNDAR LEXFORJA DE NOMENCLATURA CANÓNICA (OBLIGATORIO):
+5. REGLA DE NOMENCLATURA CANÓNICA PARENTÉTICA (NUEVAMENTE CORE):
 Cada vez que menciones un concepto técnico, estándar o servicio cloud/ciberseguridad, exprésalo en formato parentético bilingüe:
 Término en Español [Término Canónico en Inglés]
 Ejemplos:

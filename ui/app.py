@@ -76,7 +76,7 @@ with st.sidebar:
     modo_entrada = st.radio(
         "Modo de Carga de Documento:",
         [
-            "🛡️ Piloto Ciberseguridad Bancaria (LexForja)",
+            "🛡️ Piloto Ciberseguridad Bancaria (NuevaMente Core)",
             "Escenarios Base (Demo ONE)",
             "Subir Archivo Propio",
             "Pegar Texto Técnico"
@@ -87,7 +87,7 @@ with st.sidebar:
     doc_titulo = ""
     doc_contenido = ""
 
-    if modo_entrada == "🛡️ Piloto Ciberseguridad Bancaria (LexForja)":
+    if modo_entrada == "🛡️ Piloto Ciberseguridad Bancaria (NuevaMente Core)":
         casos_ciberseguridad = {
             "Caso 1: NIST SP 800-161r1 (Riesgo en Proveedores TI y Contrataciones)": "01_nist_sp_800_161r1_riesgo_proveedores_ti.pdf",
             "Caso 2: CISA / NSA (Guía de Phishing y Antifraude en Taquillas)": "02_cisa_nsa_guia_phishing_antifraude.pdf",
@@ -102,7 +102,7 @@ with st.sidebar:
             doc_contenido = doc_loader.extract_from_file(archivo_ciber)
             if len(doc_contenido) > 30000:
                 doc_contenido = doc_contenido[:30000] + "\n\n... [Muestra representativa del documento canónico para procesamiento en memoria]"
-            st.success(f"🛡️ Corpus LexForja: `{casos_ciberseguridad[seleccion_caso]}` ({len(doc_contenido):,} chars)")
+            st.success(f"🛡️ Corpus Oficial NuevaMente: `{casos_ciberseguridad[seleccion_caso]}` ({len(doc_contenido):,} chars)")
 
     elif modo_entrada == "Escenarios Base (Demo ONE)":
         escenarios_disponibles = {
@@ -557,7 +557,7 @@ with tab_pmo:
     with col_pmo2:
         st.metric("Sprint 5 (En Curso)", "75% Técnico", "LangGraph, Anki & Entregables")
     with col_pmo3:
-        st.metric("Tests Unitarios & DoD", "34 / 34 Pasando", "100% Calidad Aprobada (LexForja)")
+        st.metric("Tests Unitarios & DoD", "34 / 34 Pasando", "100% Calidad Aprobada (NuevaMente Suite)")
     with col_pmo4:
         st.metric("Gasto OCI Always Free", "$0.00 USD", "100% Free Forever")
 
