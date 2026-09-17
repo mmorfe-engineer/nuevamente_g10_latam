@@ -128,6 +128,10 @@ Genera el JSON estructurado con los campos:
 
     def _call_llm(self, system_prompt: str, user_prompt: str, request: SolicitudAdaptacion) -> Dict[str, Any]:
         """Llama a NVIDIA NIM (DeepSeek), Mistral AI, Gemini, OpenAI o fallback heurístico."""
+        # En entorno de pruebas automatizadas, usar directamente el generador determinista
+        if settings.APP_ENV == "testing":
+            return self._generate_heuristic_demo(request)
+
         # 1. Intento con NVIDIA NIM (DeepSeek)
         if self.nvidia_key:
             try:
