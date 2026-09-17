@@ -20,7 +20,14 @@ from src.storage.repository import (
     FlashcardRepository,
     QuizRepository
 )
-from src.storage.oci_client import oci_storage, OCIStorageClient
+from src.storage.oci_client import (
+    oci_storage,
+    OCIStorageClient,
+    universal_storage,
+    s3_storage,
+    UniversalStorageClient,
+    S3StorageClient
+)
 
 __all__ = [
     "Base",
@@ -45,4 +52,8 @@ __all__ = [
     "QuizRepository",
     "oci_storage",
     "OCIStorageClient",
+    "universal_storage",
+    "s3_storage",
+    "UniversalStorageClient",
+    "S3StorageClient",
 ]

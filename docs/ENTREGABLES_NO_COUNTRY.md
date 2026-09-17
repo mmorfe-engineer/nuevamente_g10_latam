@@ -77,9 +77,9 @@ Seleccionar y registrar las siguientes tecnologías en el formulario de la plata
 ### ☁️ Cloud & Persistencia (Always Free)
 - **Oracle Cloud Infrastructure (OCI) Always Free** (Capa de costo $0.00 permanente)
 - **Neon Serverless PostgreSQL 18.6** (Base de datos relacional serverless sincronizada por HTTPS)
-- **OCI Object Storage** (Buckets: `nuevamente-documentos-origen` y `nuevamente-contenidos-educativos`)
+- **OCI Object Storage & Adaptador S3 Universal (`boto3`)** (Buckets: `nuevamente-documentos-origen` y `nuevamente-contenidos-educativos` con compatibilidad nativa S3 API de OCI)
 - **OCI Compute Ampere A1 Flex** (4 OCPUs Arm, 24 GB RAM para alojamiento de microservicios)
-- **OCI Python SDK (`oci`)** (Integración programática con signing keys RSA)
+- **OCI Python SDK (`oci`) & Boto3** (Integración dual programática para portabilidad multicloud)
 - **SQLite 3 WAL** (Persistencia relacional local de ultra baja latencia)
 
 ### 💻 Frontend & Experiencia de Usuario
@@ -90,7 +90,7 @@ Seleccionar y registrar las siguientes tecnologías en el formulario de la plata
 
 ### ⚙️ DevOps, Calidad & Metodología
 - **Python 3.11**
-- **Pytest** (34 tests automatizados pasando al 100% con aislamiento en memoria)
+- **Pytest** (37 tests automatizados pasando al 100% con aislamiento en memoria y mocks S3)
 - **Git & GitHub** (Flujo de ramas, commits convencionales y auditoría estricta)
 - **PRINCE2 Agile & Scrum** (Tablero WBS en 5 Sprints, gestión de tolerancias)
 

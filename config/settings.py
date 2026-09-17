@@ -50,6 +50,15 @@ class Settings(BaseSettings):
     OCI_BUCKET_DOCS: str = Field(default="nuevamente-documentos-origen", description="Bucket para documentos originales")
     OCI_BUCKET_OUTPUTS: str = Field(default="nuevamente-contenidos-educativos", description="Bucket para contenidos generados")
 
+    # Almacenamiento de Objetos Universal S3-Compatible (Desacoplado: OCI S3 API / Supabase / Cloudflare R2 / MinIO)
+    STORAGE_PROVIDER: str = Field(default="s3_compatible", description="Proveedor de almacenamiento (s3_compatible, oci_native, emulated)")
+    STORAGE_ENDPOINT_URL: Optional[str] = Field(default=None, description="Endpoint personalizado S3 (ej: https://{ns}.compat.objectstorage.{region}.oraclecloud.com)")
+    STORAGE_ACCESS_KEY_ID: Optional[str] = Field(default=None, description="Access Key ID de S3 / Customer Secret Key de OCI")
+    STORAGE_SECRET_ACCESS_KEY: Optional[str] = Field(default=None, description="Secret Access Key de S3 / Customer Secret Key de OCI")
+    STORAGE_REGION: str = Field(default="us-ashburn-1", description="Región del proveedor de almacenamiento")
+    STORAGE_BUCKET_DOCS: str = Field(default="nuevamente-documentos-origen", description="Bucket de documentos de origen")
+    STORAGE_BUCKET_OUTPUTS: str = Field(default="nuevamente-contenidos-educativos", description="Bucket de contenidos educativos generados")
+
     # Vector Store & RAG
     CHROMA_PERSIST_DIR: str = Field(default=str(BASE_DIR / "data" / "chroma_db"), description="Directorio de persistencia de ChromaDB")
     EMBEDDING_MODEL: str = Field(default="all-MiniLM-L6-v2", description="Modelo de embeddings")
