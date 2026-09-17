@@ -2,10 +2,11 @@
 
 [![Hackathon ONE G10](https://img.shields.io/badge/Hackathon-ONE%20G10%20%7C%20Alura%20%26%20Oracle-F80000?style=for-the-badge&logo=oracle)](https://www.oracle.com/lad/education/oracle-next-education/)
 [![OCI Always Free](https://img.shields.io/badge/OCI-Always%20Free%20Certified%20($0.00)-red?style=for-the-badge&logo=oracle)](https://www.oracle.com/cloud/free/)
-[![Tests Passing](https://img.shields.io/badge/Pytest-34%2F34%20Passing%20(100%25)-brightgreen?style=for-the-badge&logo=pytest)](https://docs.pytest.org/)
+[![Tests Passing](https://img.shields.io/badge/Pytest-37%2F37%20Passing%20(100%25)-brightgreen?style=for-the-badge&logo=pytest)](https://docs.pytest.org/)
 [![Multi-Agent](https://img.shields.io/badge/Agents-LangGraph%20Multi--Agent-6366F1?style=for-the-badge)](https://langchain-ai.github.io/langgraph/)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
-[![UI Streamlit](https://img.shields.io/badge/UI-Streamlit%20Cyber--Modern-FF4B4B?style=for-the-badge&logo=streamlit)](https://streamlit.io/)
+[![UI Streamlit](https://img.shields.io/badge/UI-Design%20System%20Dark%20Enterprise-FF4B4B?style=for-the-badge&logo=streamlit)](https://streamlit.io/)
+[![Storage](https://img.shields.io/badge/Storage-Universal%20S3%20%7C%20OCI%20Native-orange?style=for-the-badge)](https://aws.amazon.com/s3/)
 [![Spaced Repetition](https://img.shields.io/badge/Algorithm-SuperMemo%20SM--2-purple?style=for-the-badge)](https://en.wikipedia.org/wiki/SuperMemo#SM-2_algorithm)
 
 ---
