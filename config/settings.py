@@ -28,7 +28,7 @@ class Settings(BaseSettings):
     # NVIDIA NIM (DeepSeek / Llama)
     NVIDIA_API_KEY: Optional[str] = Field(default=None, description="API Key de NVIDIA NIM")
     NVIDIA_BASE_URL: str = Field(default="https://integrate.api.nvidia.com/v1", description="Endpoint base de NVIDIA NIM")
-    NVIDIA_MODEL: str = Field(default="deepseek-ai/deepseek-r1", description="Modelo predeterminado de NVIDIA NIM")
+    NVIDIA_MODEL: str = Field(default="deepseek-ai/deepseek-v4-flash-0731", description="Modelo predeterminado de NVIDIA NIM")
 
     # Mistral AI
     MISTRAL_API_KEY: Optional[str] = Field(default=None, description="API Key de Mistral AI")

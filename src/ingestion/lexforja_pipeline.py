@@ -55,7 +55,17 @@ class LexForjaPipeline:
 
         # 2. Idempotencia y registro relacional
         doc_existente = CorpusRepository.get_document(self.db, doc_id)
-        if not doc_existente:
+        if doc_existente:
+            total_existentes = self.db.query(CorpusChunkModel).filter(CorpusChunkModel.doc_id == doc_id).count()
+            if total_existentes > 0:
+                return {
+                    "doc_id": doc_id,
+                    "titulo": doc_existente.titulo,
+                    "total_chunks_procesados": total_existentes,
+                    "sha256": doc_existente.sha256_hash,
+                    "status": "ya_procesado"
+                }
+        else:
             doc_data = {
                 "doc_id": doc_id,
                 "titulo": titulo,

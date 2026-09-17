@@ -145,7 +145,8 @@ Genera el JSON estructurado con los campos:
                     temperature=0.2,
                     max_tokens=2048
                 )
-                content = response.choices[0].message.content
+                msg = response.choices[0].message
+                content = msg.content if msg.content else getattr(msg, "reasoning_content", "")
                 logger.info("Respuesta generada exitosamente con NVIDIA NIM.")
                 return self._parse_llm_json(content)
             except Exception as e:
