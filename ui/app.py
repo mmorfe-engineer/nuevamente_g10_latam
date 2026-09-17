@@ -21,6 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 if str(BASE_DIR) not in sys.path:
     sys.path.insert(0, str(BASE_DIR))
 
+# Cargar secretos de Streamlit Community Cloud en os.environ si existen
+try:
+    for sec_key, sec_val in st.secrets.items():
+        if isinstance(sec_val, str):
+            os.environ[sec_key] = sec_val
+except Exception:
+    pass
+
 from config.settings import settings
 from src.storage.database import init_db, get_db_session, SessionLocal
 from src.storage.models import (
