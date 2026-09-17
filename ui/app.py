@@ -75,14 +75,36 @@ with st.sidebar:
     
     modo_entrada = st.radio(
         "Modo de Carga de Documento:",
-        ["Escenarios Oficiales (Demo ONE)", "Subir Archivo Propio", "Pegar Texto Técnico"],
+        [
+            "🛡️ Piloto Ciberseguridad Bancaria (LexForja)",
+            "Escenarios Base (Demo ONE)",
+            "Subir Archivo Propio",
+            "Pegar Texto Técnico"
+        ],
         index=0
     )
 
     doc_titulo = ""
     doc_contenido = ""
 
-    if modo_entrada == "Escenarios Oficiales (Demo ONE)":
+    if modo_entrada == "🛡️ Piloto Ciberseguridad Bancaria (LexForja)":
+        casos_ciberseguridad = {
+            "Caso 1: NIST SP 800-161r1 (Riesgo en Proveedores TI y Contrataciones)": "01_nist_sp_800_161r1_riesgo_proveedores_ti.pdf",
+            "Caso 2: CISA / NSA (Guía de Phishing y Antifraude en Taquillas)": "02_cisa_nsa_guia_phishing_antifraude.pdf",
+            "Caso 3: CIS Oracle Cloud Infrastructure v3.1.1 (Hardening VCN & IAM)": "03_cis_oracle_cloud_infrastructure_v3_1_1.pdf",
+            "Caso 4: CISA / FBI (StopRansomware & Continuidad de Negocio BCP)": "04_cisa_fbi_guia_stop_ransomware_bcp.pdf",
+            "Caso 5: PCI-DSS v4.0 (Seguridad y Control de Accesos Bancarios)": "05_pci_dss_v4_0_la_seguridad_bancaria.pdf"
+        }
+        seleccion_caso = st.selectbox("Selecciona un caso del piloto bancario:", list(casos_ciberseguridad.keys()))
+        archivo_ciber = Path("data/fuentes_ciberseguridad") / casos_ciberseguridad[seleccion_caso]
+        if archivo_ciber.exists():
+            doc_titulo = seleccion_caso.split(":")[1].split("(")[0].strip()
+            doc_contenido = doc_loader.extract_from_file(archivo_ciber)
+            if len(doc_contenido) > 30000:
+                doc_contenido = doc_contenido[:30000] + "\n\n... [Muestra representativa del documento canónico para procesamiento en memoria]"
+            st.success(f"🛡️ Corpus LexForja: `{casos_ciberseguridad[seleccion_caso]}` ({len(doc_contenido):,} chars)")
+
+    elif modo_entrada == "Escenarios Base (Demo ONE)":
         escenarios_disponibles = {
             "Escenario 1: Redes VCN en OCI (Principiante / Flashcards)": "01_oci_vcn_redes.md",
             "Escenario 2: Arquitectura Microservicios (Arquitecto / Tutorial)": "02_arquitectura_microservicios.md",

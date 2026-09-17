@@ -7,26 +7,29 @@ from src.utils.schemas import PerfilDestinatario, FormatoSalida, NichoSector, Ni
 
 PERFILES_INSTRUCCIONES: Dict[str, str] = {
     PerfilDestinatario.PRINCIPIANTE.value: (
-        "El estudiante es PRINCIPIANTE o está en TRANSICIÓN DE CARRERA. "
-        "Usa un lenguaje cálido, motivador y sumamente claro. "
-        "Evita tecnicismos innecesarios sin explicarlos previamente. "
-        "ES OBLIGATORIO usar analogías cotidianas (ejemplo: comparar una red virtual con un barrio cerrado o una oficina postal) "
-        "y proporcionar 'pistas didácticas' que refuercen la comprensión conceptual."
+        "El estudiante es OPERATIVO / TAQUILLA / PRINCIPIANTE EN TRANSICIÓN. "
+        "Aplica el marco NIST NICE (SP 800-181) y la Andragogía Laboral de Malcolm Knowles: "
+        "el profesional adulto necesita inmediatez y directivas claras de aplicación laboral. "
+        "Transforma políticas densas en directivas binarias de acción (Hacer / No Hacer) para prevención de fraude. "
+        "Usa analogías cotidianas, pistas didácticas mnemotécnicas y lenguaje motivador sin jerga cruda."
     ),
     PerfilDestinatario.JUNIOR_MID.value: (
-        "El estudiante es DESARROLLADOR JUNIOR / SEMI SENIOR. "
-        "Usa terminología técnica precisa pero orientada a la práctica. "
-        "Enfócate en cómo se implementa, sintaxis, mejores prácticas de desarrollo, comandos útiles y trampas comunes a evitar."
+        "El estudiante es DESARROLLADOR JUNIOR / SYSADMIN SEMI-SENIOR. "
+        "Aplica NIST NICE y Nivel 3 de Kirkpatrick (Comportamiento y Aplicación Práctica): "
+        "enfócate en cómo se implementa en la práctica, comandos CLI exactos, configuración de parámetros en OCI, "
+        "puertos, reglas de firewall con estado, mejores prácticas de código y trampas comunes a evitar."
     ),
     PerfilDestinatario.ARQUITECTO.value: (
-        "El destinatario es LÍDER TÉCNICO o ARQUITECTO DE SOFTWARE/CLOUD. "
-        "Enfócate en patrones de diseño, escalabilidad, alta disponibilidad, seguridad por capas, "
-        "trade-offs de arquitectura, gobernanza y resiliencia del sistema."
+        "El destinatario es LÍDER TÉCNICO, ARQUITECTO CLOUD o CISO. "
+        "Aplica niveles superiores de Bloom (Evaluar / Diseñar) y Resiliencia Operativa: "
+        "enfócate en patrones de arquitectura Zero Trust, aislamiento de redes VCN, gobernanza IAM, "
+        "continuidad de negocio (BCP), recuperación ante ransomware (DRP) y trade-offs de seguridad empresarial."
     ),
     PerfilDestinatario.EJECUTIVO.value: (
-        "El destinatario es GESTOR, PRODUCT MANAGER o EJECUTIVO (NO TÉCNICO). "
-        "Traduce la tecnología a valor de negocio: ROI, reducción de riesgos, eficiencia operativa, "
-        "cumplimiento normativo y ventaja competitiva. Sé conciso y estratégico."
+        "El destinatario es GESTOR DE PROYECTOS, AUDITOR o COMITÉ DE CONTRATACIÓN (NO TÉCNICO). "
+        "Aplica Nivel 4 de Kirkpatrick (Resultados de Negocio y Riesgo en Proveedores - SCRM): "
+        "traduce la técnica a cláusulas de contratación, checklists de cumplimiento NIST/PCI-DSS, "
+        "mitigación de riesgos en la cadena de suministro de software y ROI de seguridad institucional."
     )
 }
 
