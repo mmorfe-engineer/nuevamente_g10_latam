@@ -26,6 +26,8 @@ logger = logging.getLogger(__name__)
 
 class LLMEngine:
     def __init__(self):
+        self.nvidia_key = settings.NVIDIA_API_KEY
+        self.mistral_key = settings.MISTRAL_API_KEY
         self.gemini_key = settings.GEMINI_API_KEY
         self.openai_key = settings.OPENAI_API_KEY
 
@@ -110,9 +112,69 @@ Genera el JSON estructurado con los campos:
             almacenamiento_oci=almacenamiento_oci
         )
 
+    def _parse_llm_json(self, raw_text: str) -> Dict[str, Any]:
+        """Extrae de forma robusta un bloque JSON del texto generado por el LLM."""
+        text = raw_text.strip()
+        # Limpiar bloques markdown si existen
+        if "```json" in text:
+            match = re.search(r"```json\s*(.*?)\s*```", text, re.DOTALL)
+            if match:
+                text = match.group(1).strip()
+        elif "```" in text:
+            match = re.search(r"```\s*(.*?)\s*```", text, re.DOTALL)
+            if match:
+                text = match.group(1).strip()
+        return json.loads(text)
+
     def _call_llm(self, system_prompt: str, user_prompt: str, request: SolicitudAdaptacion) -> Dict[str, Any]:
-        """Llama a la API de Gemini, OpenAI o genera simulación heurística si no hay API key."""
-        # Intento con Gemini
+        """Llama a NVIDIA NIM (DeepSeek), Mistral AI, Gemini, OpenAI o fallback heurístico."""
+        # 1. Intento con NVIDIA NIM (DeepSeek)
+        if self.nvidia_key:
+            try:
+                from openai import OpenAI
+                client = OpenAI(
+                    base_url=settings.NVIDIA_BASE_URL,
+                    api_key=self.nvidia_key
+                )
+                response = client.chat.completions.create(
+                    model=settings.NVIDIA_MODEL,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    temperature=0.2,
+                    max_tokens=2048
+                )
+                content = response.choices[0].message.content
+                logger.info("Respuesta generada exitosamente con NVIDIA NIM.")
+                return self._parse_llm_json(content)
+            except Exception as e:
+                logger.warning(f"Error llamando a NVIDIA NIM API: {e}. Probando siguiente proveedor.")
+
+        # 2. Intento con Mistral AI
+        if self.mistral_key:
+            try:
+                from openai import OpenAI
+                client = OpenAI(
+                    base_url=settings.MISTRAL_BASE_URL,
+                    api_key=self.mistral_key
+                )
+                response = client.chat.completions.create(
+                    model=settings.MISTRAL_MODEL,
+                    messages=[
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
+                    temperature=0.2,
+                    max_tokens=2048
+                )
+                content = response.choices[0].message.content
+                logger.info("Respuesta generada exitosamente con Mistral AI.")
+                return self._parse_llm_json(content)
+            except Exception as e:
+                logger.warning(f"Error llamando a Mistral AI API: {e}. Probando siguiente proveedor.")
+
+        # 3. Intento con Gemini
         if self.gemini_key:
             try:
                 import google.generativeai as genai
@@ -127,7 +189,7 @@ Genera el JSON estructurado con los campos:
             except Exception as e:
                 logger.warning(f"Error llamando a Gemini API: {e}. Probando siguiente proveedor.")
 
-        # Intento con OpenAI
+        # 4. Intento con OpenAI
         if self.openai_key:
             try:
                 from openai import OpenAI
@@ -144,7 +206,7 @@ Genera el JSON estructurado con los campos:
             except Exception as e:
                 logger.warning(f"Error llamando a OpenAI API: {e}.")
 
-        # Modo Demostración Heurística Inteligente (Offline Fallback para pruebas sin costo)
+        # 5. Modo Demostración Heurística Inteligente (Offline Fallback para pruebas sin costo)
         return self._generate_heuristic_demo(request)
 
     def _generate_heuristic_demo(self, request: SolicitudAdaptacion) -> Dict[str, Any]:

@@ -24,9 +24,19 @@ class Settings(BaseSettings):
     GEMINI_API_KEY: Optional[str] = Field(default=None, description="API Key de Google Gemini")
     OPENAI_API_KEY: Optional[str] = Field(default=None, description="API Key de OpenAI")
     ANTHROPIC_API_KEY: Optional[str] = Field(default=None, description="API Key de Anthropic")
+    
+    # NVIDIA NIM (DeepSeek / Llama)
+    NVIDIA_API_KEY: Optional[str] = Field(default=None, description="API Key de NVIDIA NIM")
+    NVIDIA_BASE_URL: str = Field(default="https://integrate.api.nvidia.com/v1", description="Endpoint base de NVIDIA NIM")
+    NVIDIA_MODEL: str = Field(default="deepseek-ai/deepseek-r1", description="Modelo predeterminado de NVIDIA NIM")
 
-    DEFAULT_LLM_PROVIDER: str = Field(default="gemini", description="Proveedor predeterminado (gemini, openai)")
-    DEFAULT_LLM_MODEL: str = Field(default="gemini-1.5-flash", description="Modelo LLM predeterminado")
+    # Mistral AI
+    MISTRAL_API_KEY: Optional[str] = Field(default=None, description="API Key de Mistral AI")
+    MISTRAL_BASE_URL: str = Field(default="https://api.mistral.ai/v1", description="Endpoint base de Mistral AI")
+    MISTRAL_MODEL: str = Field(default="mistral-small-latest", description="Modelo predeterminado de Mistral AI")
+
+    DEFAULT_LLM_PROVIDER: str = Field(default="nvidia", description="Proveedor predeterminado (nvidia, mistral, gemini, openai)")
+    DEFAULT_LLM_MODEL: str = Field(default="deepseek-ai/deepseek-r1", description="Modelo LLM predeterminado")
 
     # Oracle Cloud Infrastructure (OCI Always Free)
     OCI_CONFIG_FILE: str = Field(default="~/.oci/config", description="Ruta al archivo config de OCI")
