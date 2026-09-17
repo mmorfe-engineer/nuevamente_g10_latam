@@ -19,14 +19,35 @@ logger = logging.getLogger(__name__)
 Base = declarative_base()
 
 # Construcción del engine según dialecto
-database_url = settings.DATABASE_URL
+database_url = os.environ.get("DATABASE_URL") or settings.DATABASE_URL
 
 # Asegurar directorio si es SQLite
 if database_url.startswith("sqlite"):
-    db_path = database_url.replace("sqlite:///", "")
-    if db_path and db_path != ":memory:":
-        os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
-    
+    if ":memory:" in database_url:
+        db_path = None
+    else:
+        raw_path = database_url.replace("sqlite:///", "")
+        abs_path = os.path.abspath(raw_path)
+        dir_path = os.path.dirname(abs_path)
+
+        # Comprobar si el directorio es escribible (en Streamlit Cloud /mount/src es READ-ONLY)
+        can_write = False
+        try:
+            os.makedirs(dir_path, exist_ok=True)
+            test_file = os.path.join(dir_path, ".write_test")
+            with open(test_file, "w") as f:
+                f.write("ok")
+            os.remove(test_file)
+            can_write = True
+        except Exception:
+            can_write = False
+
+        if not can_write:
+            # Conmutar automáticamente al directorio escribible del contenedor
+            safe_db = "/tmp/nuevamente.db"
+            database_url = f"sqlite:///{safe_db}"
+            logger.warning(f"Directorio {dir_path} es de solo lectura. Conmutando base de datos a: {safe_db}")
+
     # Habilitar SQLite en modo seguro para concurrencia básica
     engine = create_engine(
         database_url,
@@ -34,15 +55,21 @@ if database_url.startswith("sqlite"):
         connect_args={"check_same_thread": False}
     )
 
-    # Activar llaves foráneas y modo WAL en SQLite
+    # Activar llaves foráneas y modo WAL en SQLite de forma tolerante a fallos
     @event.listens_for(Engine, "connect")
     def set_sqlite_pragma(dbapi_connection, connection_record):
-        cursor = dbapi_connection.cursor()
-        cursor.execute("PRAGMA foreign_keys=ON")
-        cursor.execute("PRAGMA journal_mode=WAL")
-        cursor.close()
+        try:
+            cursor = dbapi_connection.cursor()
+            cursor.execute("PRAGMA foreign_keys=ON")
+            try:
+                cursor.execute("PRAGMA journal_mode=WAL")
+            except Exception:
+                pass
+            cursor.close()
+        except Exception as e:
+            logger.warning(f"Aviso configurando pragmas SQLite: {e}")
 else:
-    # PostgreSQL / Supabase
+    # PostgreSQL / Neon / Supabase
     engine = create_engine(
         database_url,
         echo=settings.DB_ECHO,
@@ -54,11 +81,21 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def init_db():
-    """Crea todas las tablas en la base de datos de manera idempotente."""
-    # Importar modelos aquí para registrar metadatos en Base
-    from src.storage import models  # noqa: F401
-    Base.metadata.create_all(bind=engine)
-    logger.info("Esquema relacional de NuevaMente inicializado exitosamente.")
+    """Crea todas las tablas en la base de datos de manera idempotente y siembra glosario si está vacío."""
+    try:
+        from src.storage import models  # noqa: F401
+        Base.metadata.create_all(bind=engine)
+        logger.info("Esquema relacional de NuevaMente inicializado exitosamente.")
+    except Exception as e:
+        logger.warning(f"Advertencia creando esquema relacional: {e}")
+
+    # Sembrar glosario básico de forma segura si está vacío
+    try:
+        from src.storage.seed_glossary import seed_glosario_database
+        with SessionLocal() as s:
+            seed_glosario_database(s)
+    except Exception as e:
+        logger.debug(f"Aviso sembrando glosario inicial: {e}")
 
 
 def reset_db():
