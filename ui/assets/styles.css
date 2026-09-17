@@ -133,11 +133,12 @@
 .nm-ring--risk { --tone:var(--danger); }
 
 /* Flashcard 3D */
-.nm-flash { width:320px; height:236px; perspective:1200px; cursor:pointer; }
-.nm-flash__inner { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .6s cubic-bezier(.2,.7,.2,1); }
-.nm-flash.is-flipped .nm-flash__inner { transform:rotateY(180deg); }
-.nm-flash__face { position:absolute; inset:0; display:flex; flex-direction:column; gap:var(--space-3); padding:var(--space-6); border-radius:var(--radius-lg); background:var(--bg-800); border:1px solid var(--line); box-shadow:var(--elev-3d); -webkit-backface-visibility:hidden; backface-visibility:hidden; box-sizing:border-box; }
-.nm-flash:hover .nm-flash__face { border-color:var(--cyber); }
+.nm-flash { width: 100%; max-width: 680px; height: 260px; perspective: 1200px; cursor: pointer; }
+.nm-flash__inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.nm-flash:hover .nm-flash__inner,
+.nm-flash.is-flipped .nm-flash__inner { transform: rotateY(180deg) !important; }
+.nm-flash__face { position: absolute; inset: 0; display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-6); border-radius: var(--radius-lg); background: var(--bg-800); border: 1px solid var(--line); box-shadow: var(--elev-3d); -webkit-backface-visibility: hidden; backface-visibility: hidden; box-sizing: border-box; }
+.nm-flash:hover .nm-flash__face { border-color: var(--cyber); }
 .nm-flash:focus-visible { outline:2px solid var(--cyber); outline-offset:4px; border-radius:var(--radius-lg); }
 .nm-flash__back { transform:rotateY(180deg); }
 .nm-flash__q { font:600 20px/28px var(--font-display); margin:0; }
@@ -191,13 +192,33 @@
 .nm-badge--l4 .nm-badge__hex, .nm-badge--l4 .nm-badge__lvl { --tone:var(--amber); }
 
 /* Tarjeta de ruta NICE */
-.nm-track { --tone:var(--track-ops); width:230px; padding:var(--space-4); display:flex; flex-direction:column; gap:var(--space-2); border-radius:var(--radius-lg); background:var(--bg-800); border:1px solid var(--line); box-sizing:border-box; }
-.nm-track:hover { border-color:var(--tone); }
+.nm-track {
+  --tone: var(--track-ops);
+  width: 100%;
+  min-height: 270px;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-3);
+  border-radius: var(--radius-lg);
+  background: var(--bg-800);
+  border: 1px solid var(--line);
+  box-sizing: border-box;
+  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.nm-track:hover {
+  border-color: var(--tone);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
+}
 .nm-track__head { display:flex; align-items:center; justify-content:space-between; }
 .nm-track__tag { font:600 11px/14px var(--font-mono); color:var(--tone); letter-spacing:.1em; }
-.nm-track__title { margin:0; font:600 17px/22px var(--font-display); }
-.nm-track__skills { display:flex; flex-wrap:wrap; gap:var(--space-1); }
-.nm-chip { padding:2px var(--space-2); border-radius:var(--radius-sm); background:var(--bg-700); font-size:12px; line-height:18px; color:var(--ink); }
+.nm-track__title { margin:0; font:600 18px/24px var(--font-display); }
+.nm-track__skills { display:flex; flex-wrap:wrap; gap:var(--space-1); margin: 6px 0; }
+.nm-chip { padding:3px var(--space-2); border-radius:var(--radius-sm); background:var(--bg-700); font-size:12px; line-height:18px; color:var(--ink); }
+.nm-bar-container { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+.nm-bar-label { display: flex; justify-content: space-between; font: 500 11px/14px var(--font-mono); color: var(--ink-muted); }
 .nm-bar { height:6px; border-radius:var(--radius-pill); background:var(--bg-700); overflow:hidden; }
 .nm-bar > i { display:block; height:100%; border-radius:var(--radius-pill); background:var(--tone, var(--quantum)); }
 .nm-track--ops { --tone:var(--track-ops); }
@@ -305,3 +326,48 @@ button[data-baseweb="tab"][aria-selected="true"] {
     border-radius: var(--radius-md) !important;
     color: var(--ink) !important;
 }
+
+/* Ocultar barra superior y decoración de Streamlit Cloud */
+[data-testid="stToolbar"],
+[data-testid="stAppDeployButton"],
+[data-testid="manage-app-button"],
+[data-testid="stDecoration"] {
+    display: none !important;
+}
+
+/* ==============================================================================
+   ALTA ACCESIBILIDAD Y CONTRASTE EN SIDEBAR
+   ============================================================================== */
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] .stMarkdown p,
+[data-testid="stSidebar"] .stRadio label {
+    color: #E6EDF3 !important;
+    opacity: 1 !important;
+    font-weight: 600 !important;
+}
+
+[data-testid="stSidebar"] .stRadio label > div {
+    color: #E6EDF3 !important;
+}
+
+[data-testid="stSidebar"] .stSelectbox > div > div,
+[data-testid="stSidebar"] .stTextInput input,
+[data-testid="stSidebar"] .stTextArea textarea,
+[data-testid="stSidebar"] [data-baseweb="select"] {
+    background-color: #161B22 !important;
+    color: #E6EDF3 !important;
+    border: 1px solid #30363D !important;
+    font-weight: 500 !important;
+}
+
+[data-testid="stSidebar"] input::placeholder,
+[data-testid="stSidebar"] textarea::placeholder {
+    color: #8B949E !important;
+}
+
+[data-testid="stSidebar"] .stAlert {
+    border-color: #7EE787 !important;
+    background: rgba(16, 217, 138, 0.08) !important;
+    color: #E6EDF3 !important;
+}
+

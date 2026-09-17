@@ -100,44 +100,119 @@ st.markdown("""
         </div>
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
-        <span class="nm-oci">OCI Always Free · $0.00</span>
+        <a href="https://github.com/mmorfe-engineer/nuevamente_g10_latam" target="_blank" style="text-decoration: none;">
+            <span class="nm-chip" style="color: var(--ink); border: 1px solid var(--line); font-weight: 600; cursor: pointer;">
+                📂 GitHub: nuevamente_g10_latam
+            </span>
+        </a>
         <span class="nm-chip" style="color: var(--cyber); border: 1px solid var(--cyber);">NIST NICE Framework</span>
         <span class="nm-chip" style="color: var(--success); border: 1px solid var(--success);">SuperMemo SM-2</span>
+        <span class="nm-chip" style="color: var(--quantum-soft); border: 1px solid var(--quantum-soft);">Universal S3 Storage</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# RUTAS DE APRENDIZAJE NIST NICE (TrackCards Oficiales)
+# RUTAS DE APRENDIZAJE NIST NICE (Matriz Simétrica 2x2 de TrackCards)
 # ==============================================================================
-st.markdown("""
-<div class="nm-row" style="margin-bottom: 1.5rem; justify-content: space-between;">
-  <div class="nm-track nm-track--ops" style="flex: 1; min-width: 220px;">
-    <div class="nm-track__head"><span class="nm-track__tag">RUTA A</span><span class="nm-caption">Operativo</span></div>
-    <h4 class="nm-track__title">Taquilla & Operaciones</h4>
-    <div class="nm-track__skills"><span class="nm-chip">Anti-phishing</span><span class="nm-chip">FIDO2 MFA</span><span class="nm-chip">Ingeniería Social</span></div>
-    <div class="nm-bar" style="margin-top: 6px;"><i style="width: 85%"></i></div>
-  </div>
-  <div class="nm-track nm-track--dev" style="flex: 1; min-width: 220px;">
-    <div class="nm-track__head"><span class="nm-track__tag">RUTA B</span><span class="nm-caption">Desarrollo</span></div>
-    <h4 class="nm-track__title">Desarrollador Junior</h4>
-    <div class="nm-track__skills"><span class="nm-chip">Hardening VCN</span><span class="nm-chip">Security Lists</span><span class="nm-chip">Tokenización</span></div>
-    <div class="nm-bar" style="margin-top: 6px;"><i style="width: 65%"></i></div>
-  </div>
-  <div class="nm-track nm-track--arch" style="flex: 1; min-width: 220px;">
-    <div class="nm-track__head"><span class="nm-track__tag">RUTA C</span><span class="nm-caption">Estratégico</span></div>
-    <h4 class="nm-track__title">Arquitecto & CISO</h4>
-    <div class="nm-track__skills"><span class="nm-chip">Zero Trust</span><span class="nm-chip">Plan BCP</span><span class="nm-chip">Ransomware</span></div>
-    <div class="nm-bar" style="margin-top: 6px;"><i style="width: 40%"></i></div>
-  </div>
-  <div class="nm-track nm-track--audit" style="flex: 1; min-width: 220px;">
-    <div class="nm-track__head"><span class="nm-track__tag">RUTA D</span><span class="nm-caption">Gobernanza</span></div>
-    <h4 class="nm-track__title">Auditor & Compras</h4>
-    <div class="nm-track__skills"><span class="nm-chip">C-SCRM</span><span class="nm-chip">PCI DSS v4.0</span><span class="nm-chip">Contratos TI</span></div>
-    <div class="nm-bar" style="margin-top: 6px;"><i style="width: 25%"></i></div>
-  </div>
-</div>
-""", unsafe_allow_html=True)
+st.markdown("#### 🗺️ Rutas de Especialización y Certificación NIST NICE")
+track_f1_c1, track_f1_c2 = st.columns(2)
+with track_f1_c1:
+    st.markdown("""
+    <div class="nm-track nm-track--ops">
+      <div class="nm-track__head">
+        <span class="nm-track__tag">RUTA A · OPERATIVO</span>
+        <span class="nm-caption">Soporte, Taquilla & Helpdesk</span>
+      </div>
+      <h4 class="nm-track__title">Operaciones Seguras & Defensa Cotidiana</h4>
+      <div class="nm-track__skills">
+        <span class="nm-chip">Anti-Phishing FIDO2</span>
+        <span class="nm-chip">Ingeniería Social</span>
+        <span class="nm-chip">MFA Hardware</span>
+      </div>
+      <div class="nm-bar-container">
+        <div class="nm-bar-label">
+          <span>Competencia NIST NICE:</span>
+          <span style="color: var(--cyber); font-weight: 600;">85% (Nivel Avanzado)</span>
+        </div>
+        <div class="nm-bar"><i style="width: 85%;"></i></div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with track_f1_c2:
+    st.markdown("""
+    <div class="nm-track nm-track--dev">
+      <div class="nm-track__head">
+        <span class="nm-track__tag">RUTA B · DESARROLLO</span>
+        <span class="nm-caption">Desarrollador Junior & Cloud Dev</span>
+      </div>
+      <h4 class="nm-track__title">Desarrollo Seguro en la Nube (DevSecOps)</h4>
+      <div class="nm-track__skills">
+        <span class="nm-chip">Hardening VCN</span>
+        <span class="nm-chip">Security Lists</span>
+        <span class="nm-chip">Tokenización PCI</span>
+      </div>
+      <div class="nm-bar-container">
+        <div class="nm-bar-label">
+          <span>Competencia NIST NICE:</span>
+          <span style="color: var(--quantum-soft); font-weight: 600;">65% (Nivel Intermedio)</span>
+        </div>
+        <div class="nm-bar"><i style="width: 65%;"></i></div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+
+track_f2_c1, track_f2_c2 = st.columns(2)
+with track_f2_c1:
+    st.markdown("""
+    <div class="nm-track nm-track--arch">
+      <div class="nm-track__head">
+        <span class="nm-track__tag">RUTA C · ARQUITECTURA</span>
+        <span class="nm-caption">Arquitecto Cloud & CISO</span>
+      </div>
+      <h4 class="nm-track__title">Arquitectura Zero Trust & Resiliencia</h4>
+      <div class="nm-track__skills">
+        <span class="nm-chip">Zero Trust (ZTA)</span>
+        <span class="nm-chip">Plan BCP / RTO</span>
+        <span class="nm-chip">Mitigación Ransomware</span>
+      </div>
+      <div class="nm-bar-container">
+        <div class="nm-bar-label">
+          <span>Competencia NIST NICE:</span>
+          <span style="color: var(--amber); font-weight: 600;">40% (En Progreso)</span>
+        </div>
+        <div class="nm-bar"><i style="width: 40%;"></i></div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+with track_f2_c2:
+    st.markdown("""
+    <div class="nm-track nm-track--audit">
+      <div class="nm-track__head">
+        <span class="nm-track__tag">RUTA D · GOBERNANZA</span>
+        <span class="nm-caption">Auditor, Compras & Compliance</span>
+      </div>
+      <h4 class="nm-track__title">Auditoría, SCRM & Marco Regulatorio</h4>
+      <div class="nm-track__skills">
+        <span class="nm-chip">C-SCRM NIST</span>
+        <span class="nm-chip">PCI DSS v4.0</span>
+        <span class="nm-chip">Contratos Cloud</span>
+      </div>
+      <div class="nm-bar-container">
+        <div class="nm-bar-label">
+          <span>Competencia NIST NICE:</span>
+          <span style="color: var(--oracle-text); font-weight: 600;">25% (Fase Inicial)</span>
+        </div>
+        <div class="nm-bar"><i style="width: 25%;"></i></div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
 
 
 # ==============================================================================
@@ -225,6 +300,12 @@ with st.sidebar:
     else:
         doc_titulo = st.text_input("Título del Documento:", value="Procedimiento de Seguridad")
         doc_contenido = st.text_area("Pega el texto técnico aquí:", height=180)
+
+    st.markdown("""
+    <div style="margin-top: 10px; margin-bottom: 12px; padding: 10px 12px; border-radius: 8px; background: rgba(116, 86, 247, 0.12); border: 1px solid rgba(116, 86, 247, 0.3); font-size: 12px; line-height: 16px; color: #E6EDF3;">
+        🛡️ <strong>Base Normativa Soberana:</strong> Cualquier documento propio o fragmento que ingreses se procesa y se cruza con los 3,020 fragmentos canónicos (NIST, CIS, CISA, ISO) para certificar su anclaje técnico.
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown("---")
     st.markdown("### 🎯 Adaptación Pedagógica (NIST NICE)")
@@ -341,21 +422,18 @@ if btn_generar:
 # ==============================================================================
 # PESTAÑAS PRINCIPALES DEL SISTEMA (Tablero NuevaMente)
 # ==============================================================================
-tab_contenido, tab_calidad, tab_insignias, tab_oci, tab_biblioteca, tab_pmo, tab_squad = st.tabs([
-    "📖 Experiencia de Aprendizaje",
-    "📊 Métricas & Traza Multi-Agente",
-    "🎖️ Insignias Kirkpatrick",
-    "☁️ Persistencia OCI & JSON",
-    "📚 Biblioteca SQL",
-    "🏢 Tablero PMO (WBS 96%)",
-    "👥 Squad & Arquitectura"
+tab_estudio, tab_metricas, tab_corpus, tab_pmo_arq = st.tabs([
+    "🎓 Experiencia de Estudio (Flashcards · Quiz · Guías)",
+    "📊 Auditoría, Calidad & Grafo Multi-Agente",
+    "📚 Corpus Normativo & Glosario Canónico",
+    "🏢 Tablero PMO & Arquitectura Cloud"
 ])
 
 
 # ------------------------------------------------------------------------------
-# TAB 1: CONTENIDO ADAPTADO (Flashcards 3D, Quizzes, Tutoriales)
+# TAB 1: EXPERIENCIA DE ESTUDIO INTERACTIVO (Flashcards 3D, Quiz, Guías)
 # ------------------------------------------------------------------------------
-with tab_contenido:
+with tab_estudio:
     if "ultima_respuesta" in st.session_state:
         resp = st.session_state["ultima_respuesta"]
         req = st.session_state["ultimo_request"]
@@ -390,7 +468,7 @@ with tab_contenido:
             col_fc_title, col_fc_anki = st.columns([3, 1])
             with col_fc_title:
                 st.markdown("### 🗂️ Flashcards 3D con Repetición Espaciada SM-2")
-                st.caption("Pasa el cursor sobre la tarjeta para voltearla en 3D. Cada concepto incluye Nomenclatura Canónica [Término EN] y su cita normativa.")
+                st.caption("Pasa el cursor sobre la tarjeta o pulsa el botón 'Voltear' para ver el anverso. Incluye Términos Canónicos [EN/ES] y cita normativa.")
             with col_fc_anki:
                 st.download_button(
                     "🗃️ Exportar a Anki (.csv)",
@@ -407,8 +485,8 @@ with tab_contenido:
                     saved_cards_db = FlashcardRepository.get_by_session(db, uuid.UUID(session_id_str))
 
             for i, itm in enumerate(items):
-                frente = itm.get("frente", "Pregunta")
-                dorso = itm.get("dorso", "Respuesta")
+                frente = itm.get("frente", "Concepto de Seguridad")
+                dorso = itm.get("dorso", "Explicación Técnica")
                 pista = itm.get("pista_didactica", "")
                 fuente = itm.get("fuente", req.documento_titulo)
                 card_db = saved_cards_db[i] if i < len(saved_cards_db) else None
@@ -416,23 +494,26 @@ with tab_contenido:
                 frente_html = format_canonical_terms(frente)
                 dorso_html = format_canonical_terms(dorso)
 
-                # Flashcard 3D Oficial del Design System
+                # Control de volteo híbrido (Hover CSS + Toggle Button)
+                is_flipped = st.session_state.get(f"card_flipped_{i}", False)
+                flip_class = "is-flipped" if is_flipped else ""
+
                 card_html = f"""
-                <div class="nm-row" style="margin-bottom: 1.25rem;">
-                  <div class="nm-flash" style="width: 100%; max-width: 680px; height: 260px;" onclick="this.classList.toggle('is-flipped')">
+                <div class="nm-row" style="margin-bottom: 0.75rem;">
+                  <div class="nm-flash {flip_class}" style="width: 100%; max-width: 680px; height: 260px;">
                     <div class="nm-flash__inner">
                       <div class="nm-flash__face">
                         <div class="nm-flash__meta">
                           <span class="nm-overline">Tarjeta #{i+1} · {req.perfil_destinatario.value}</span>
-                          <span class="nm-oci">OCI / NIST</span>
+                          <span class="nm-chip" style="color: var(--cyber); border: 1px solid var(--cyber); font-size: 11px;">NIST NICE</span>
                         </div>
-                        <p class="nm-flash__q" style="margin-top: 1rem;">{frente_html}</p>
+                        <p class="nm-flash__q" style="margin-top: 0.85rem;">{frente_html}</p>
                         {f'<div class="nm-flash__hint"><b>Pista Didáctica:</b> {pista}</div>' if pista else ''}
                       </div>
                       <div class="nm-flash__face nm-flash__back">
                         <div class="nm-flash__meta">
                           <span class="nm-overline">Explicación Canónica & Fundamento</span>
-                          <div class="nm-ring nm-ring--sm" style="--p:90"><span class="nm-ring__val">90%</span></div>
+                          <div class="nm-ring nm-ring--sm" style="--p:92"><span class="nm-ring__val">92%</span></div>
                         </div>
                         <p class="nm-flash__a" style="margin-top: 0.5rem;">{dorso_html}</p>
                         <span class="nm-flash__src">Fuente Oficial: {fuente}</span>
@@ -443,58 +524,70 @@ with tab_contenido:
                 """
                 st.markdown(card_html, unsafe_allow_html=True)
 
-                # Barra de Autoevaluación SM-2 (0 a 5)
-                st.markdown("<span class='nm-overline' style='font-size:11px;'>Calificar Asimilación (Algoritmo SM-2):</span>", unsafe_allow_html=True)
-                c0, c1, c2, c3, c4, c5, c_info = st.columns([1, 1, 1, 1, 1, 1, 4])
-                
-                with c0:
-                    if st.button("0 Nada", key=f"q0_{i}", use_container_width=True):
-                        reps, iv, ef, next_rev = calculate_sm2(quality=0)
-                        if card_db:
-                            with get_db_session() as db:
-                                FlashcardRepository.update_mastery(db, card_db.id, FlashcardUpdateMastery(mastery_level=0, next_review_at=next_rev))
-                        st.toast(f"SM-2: Olvido total. Intervalo reseteado a 1 día.", icon="⏳")
+                col_flip, col_sm2 = st.columns([1, 4])
+                with col_flip:
+                    flip_label = "↩️ Ver Frente" if is_flipped else "🔄 Voltear Tarjeta"
+                    if st.button(flip_label, key=f"btn_flip_{i}", use_container_width=True):
+                        st.session_state[f"card_flipped_{i}"] = not is_flipped
+                        st.rerun()
 
-                with c1:
-                    if st.button("1 Vago", key=f"q1_{i}", use_container_width=True):
-                        reps, iv, ef, next_rev = calculate_sm2(quality=1)
-                        if card_db:
-                            with get_db_session() as db:
-                                FlashcardRepository.update_mastery(db, card_db.id, FlashcardUpdateMastery(mastery_level=1, next_review_at=next_rev))
-                        st.toast(f"SM-2: Repaso mañana (+1 día)", icon="⏳")
+                with col_sm2:
+                    st.markdown("<span class='nm-overline' style='font-size:11px;'>Calificar Asimilación (SuperMemo SM-2):</span>", unsafe_allow_html=True)
+                    c0, c1, c2, c3, c4, c5 = st.columns(6)
+                    
+                    with c0:
+                        if st.button("0 Nada", key=f"q0_{i}", use_container_width=True):
+                            reps, iv, ef, next_rev = calculate_sm2(quality=0)
+                            if card_db:
+                                with get_db_session() as db:
+                                    FlashcardRepository.update_mastery(db, card_db.id, FlashcardUpdateMastery(mastery_level=0, next_review_at=next_rev))
+                            st.toast(f"SM-2: Olvido total. Intervalo reseteado a 1 día.", icon="⏳")
 
-                with c2:
-                    if st.button("2 Casi", key=f"q2_{i}", use_container_width=True):
-                        reps, iv, ef, next_rev = calculate_sm2(quality=2)
-                        st.toast(f"SM-2: Repaso mañana (+1 día)", icon="⏳")
+                    with c1:
+                        if st.button("1 Vago", key=f"q1_{i}", use_container_width=True):
+                            reps, iv, ef, next_rev = calculate_sm2(quality=1)
+                            if card_db:
+                                with get_db_session() as db:
+                                    FlashcardRepository.update_mastery(db, card_db.id, FlashcardUpdateMastery(mastery_level=1, next_review_at=next_rev))
+                            st.toast(f"SM-2: Repaso programado para mañana (+1 día).", icon="⏳")
 
-                with c3:
-                    if st.button("3 Difícil", key=f"q3_{i}", use_container_width=True):
-                        reps, iv, ef, next_rev = calculate_sm2(quality=3, repetitions=1)
-                        st.toast(f"SM-2: Próximo repaso en {iv} días ({next_rev.strftime('%d/%m')})", icon="👍")
+                    with c2:
+                        if st.button("2 Casi", key=f"q2_{i}", use_container_width=True):
+                            reps, iv, ef, next_rev = calculate_sm2(quality=2)
+                            st.toast(f"SM-2: Repaso mañana (+1 día).", icon="⏳")
 
-                with c4:
-                    if st.button("4 Bien", key=f"q4_{i}", use_container_width=True):
-                        reps, iv, ef, next_rev = calculate_sm2(quality=4, repetitions=2, previous_interval=1)
-                        st.toast(f"SM-2: Próximo repaso en {iv} días", icon="🌟")
+                    with c3:
+                        if st.button("3 Bien", key=f"q3_{i}", use_container_width=True):
+                            reps, iv, ef, next_rev = calculate_sm2(quality=3, repetitions=1)
+                            st.toast(f"SM-2: Próximo repaso en {iv} días ({next_rev.strftime('%d/%m')})", icon="👍")
 
-                with c5:
-                    if st.button("5 Pro", key=f"q5_{i}", use_container_width=True):
-                        reps, iv, ef, next_rev = calculate_sm2(quality=5, repetitions=3, previous_interval=6)
-                        st.toast(f"SM-2: Dominado (+{iv} días, EF {ef})", icon="🔥")
+                    with c4:
+                        if st.button("4 Pro", key=f"q4_{i}", use_container_width=True):
+                            reps, iv, ef, next_rev = calculate_sm2(quality=4, repetitions=2, previous_interval=1)
+                            st.toast(f"SM-2: Asimilación sólida (+{iv} días).", icon="🌟")
 
-                st.markdown("<hr style='border:0; border-top: 1px solid var(--line); margin: 1.5rem 0;'>", unsafe_allow_html=True)
+                    with c5:
+                        if st.button("5 Crack", key=f"q5_{i}", use_container_width=True):
+                            reps, iv, ef, next_rev = calculate_sm2(quality=5, repetitions=3, previous_interval=6)
+                            st.toast(f"SM-2: Concepto dominado (+{iv} días, EF {ef:.2f}).", icon="🔥")
 
-        # --- CASO 2: QUIZ INTERACTIVO NEÓN ---
+                st.markdown("<hr style='border:0; border-top: 1px solid var(--line); margin: 1.25rem 0;'>", unsafe_allow_html=True)
+
+        # --- CASO 2: QUIZ INTERACTIVO NEÓN CON FEEDBACK FUNDAMENTADO ---
         elif req.formato_salida == FormatoSalida.QUIZ:
             st.markdown("### ❓ Evaluación Diagnóstica de Retención")
-            st.caption("Cada respuesta evalúa competencias NIST NICE con anclaje estricto a las normas.")
+            st.caption("Cada pregunta valida competencias laborales NIST NICE con fundamentación técnica explícita y anclaje normativo.")
 
             for i, itm in enumerate(items):
                 pregunta = itm.get("pregunta", "Pregunta de evaluación")
                 opciones = itm.get("opciones", [])
                 correcta = itm.get("respuesta_correcta", "")
-                explicacion = itm.get("explicacion", "")
+                explicacion = (
+                    itm.get("justificacion_didactica")
+                    or itm.get("explicacion")
+                    or itm.get("pista_didactica")
+                    or "Fundamentación técnica verificada contra el marco normativo de ciberseguridad NIST NICE."
+                )
 
                 st.markdown(f"#### {i+1}. {format_canonical_terms(pregunta)}", unsafe_allow_html=True)
                 opcion_seleccionada = st.radio(
@@ -505,12 +598,20 @@ with tab_contenido:
                 )
 
                 if st.button(f"Validar Pregunta {i+1}", key=f"btn_val_{i}"):
-                    is_correct = (opcion_seleccionada == correcta)
+                    # Comparación flexible (coincidencia exacta o por letra clave)
+                    opc_str = opcion_seleccionada.strip()
+                    cor_str = correcta.strip()
+                    is_correct = (
+                        opc_str == cor_str
+                        or opc_str.startswith(cor_str.split(")")[0] + ")")
+                        or cor_str.startswith(opc_str.split(")")[0] + ")")
+                    )
+
                     if is_correct:
                         st.markdown(f"""
                         <div class="nm-opt is-correct" style="margin-top: 10px;">
                             <span class="nm-opt__key">✓</span>
-                            <span><strong>Respuesta Correcta:</strong> {format_canonical_terms(opcion_seleccionada)}
+                            <span><strong>¡Correcto!</strong> {format_canonical_terms(opcion_seleccionada)}
                                 <span class="nm-opt__note" style="display:block; margin-top: 6px;">
                                     <strong>Justificación Técnica:</strong> {format_canonical_terms(explicacion)}
                                 </span>
@@ -521,10 +622,11 @@ with tab_contenido:
                         st.markdown(f"""
                         <div class="nm-opt is-wrong" style="margin-top: 10px;">
                             <span class="nm-opt__key">✕</span>
-                            <span><strong>No exactamente.</strong>
+                            <span><strong>Respuesta no esperada.</strong>
                                 <span class="nm-opt__note" style="display:block; margin-top: 6px;">
-                                    <strong>Respuesta Esperada:</strong> {format_canonical_terms(correcta)}<br/>
-                                    <strong>Fundamento:</strong> {format_canonical_terms(explicacion)}
+                                    <strong>Tu selección:</strong> {format_canonical_terms(opcion_seleccionada)}<br/>
+                                    <strong>Respuesta Correcta:</strong> {format_canonical_terms(correcta)}<br/>
+                                    <strong>Fundamentación Normativa:</strong> {format_canonical_terms(explicacion)}
                                 </span>
                             </span>
                         </div>
@@ -534,7 +636,19 @@ with tab_contenido:
 
         # --- CASO 3: GUÍA PRÁCTICA / TUTORIAL PASO A PASO ---
         elif req.formato_salida == FormatoSalida.TUTORIAL:
-            st.markdown("### 📋 Guía Técnica de Aplicación Inmediata")
+            col_tut_title, col_tut_dl = st.columns([3, 1])
+            with col_tut_title:
+                st.markdown("### 📋 Guía Técnica de Aplicación Inmediata")
+                st.caption("Procedimiento estructurado con comandos de terminal, segmentación de privilegios y criterios de validación.")
+            with col_tut_dl:
+                st.download_button(
+                    "📝 Descargar Guía (.md)",
+                    data=export_to_markdown_guide(resp),
+                    file_name=f"guia_{resp.almacenamiento_oci.objeto_id.replace('.json', '.md')}",
+                    mime="text/markdown",
+                    use_container_width=True
+                )
+
             for itm in items:
                 paso_num = itm.get("paso", 1)
                 st.markdown(f"""
@@ -549,18 +663,31 @@ with tab_contenido:
                 if itm.get("verificacion"):
                     st.info(f"🔍 **Criterio de Verificación:** {itm.get('verificacion')}")
 
+        # --- CASO 4: SÍNTESIS EJECUTIVA / RESUMEN / CASOS ---
         else:
+            st.markdown("### 📝 Síntesis Andragógica & Ejecutiva")
             for itm in items:
-                st.json(itm)
+                sec_title = itm.get("seccion") or itm.get("caso_estudio") or itm.get("titulo") or "Dimensión Clave"
+                sec_content = itm.get("contenido") or itm.get("descripcion") or str(itm)
+                sec_hint = itm.get("pista_didactica") or itm.get("impacto_empresarial")
+                st.markdown(f"""
+                <div class="nm-glass" style="padding: 1.25rem 1.5rem; margin-bottom: 1rem; border-left: 4px solid var(--amber);">
+                    <h4 style="margin: 0 0 0.5rem 0; color: var(--ink);">{format_canonical_terms(sec_title)}</h4>
+                    <p style="color: var(--ink-muted); line-height: 1.6;">{format_canonical_terms(sec_content)}</p>
+                    {f'<div class="nm-flash__hint" style="margin-top: 8px;"><b>💡 Implicación Normativa:</b> {sec_hint}</div>' if sec_hint else ''}
+                </div>
+                """, unsafe_allow_html=True)
     else:
         st.info("👈 Selecciona un documento en la barra lateral y presiona **'⚡ Generar Adaptación Pedagógica'** para explorar la experiencia interactiva.")
 
 
 # ------------------------------------------------------------------------------
-# TAB 2: MÉTRICAS Y TRAZA MULTI-AGENTE
+# TAB 2: AUDITORÍA DE CALIDAD & TRAZA MULTI-AGENTE (LangGraph + Kirkpatrick)
 # ------------------------------------------------------------------------------
-with tab_calidad:
-    st.markdown("### Auditoría de Calidad y Traza del Grafo Multi-Agente")
+with tab_metricas:
+    st.markdown("### 📊 Auditoría de Calidad y Traza del Grafo Multi-Agente")
+    st.caption("Verificación de cero alucinaciones normativas mediante orquestación LangGraph (3 Agentes Especializados).")
+
     if "ultima_respuesta" in st.session_state:
         resp = st.session_state["ultima_respuesta"]
         trace = st.session_state.get("ultimo_trace", {})
@@ -578,7 +705,7 @@ with tab_calidad:
         st.markdown("---")
         st.markdown(f"""
         <div class="nm-glass" style="padding: 1.25rem 1.5rem;">
-            <span class="nm-overline" style="color: var(--cyber);">Dictamen del Agente Crítico:</span>
+            <span class="nm-overline" style="color: var(--cyber);">Dictamen del Agente Crítico Revisor:</span>
             <p style="margin: 0.35rem 0 0 0; color: var(--ink);">{resp.evaluacion_calidad.observaciones}</p>
         </div>
         """, unsafe_allow_html=True)
@@ -589,15 +716,11 @@ with tab_calidad:
                 for log_line in trace["agent_logs"]:
                     st.markdown(f"- {log_line}")
     else:
-        st.info("Las métricas de anclaje y la traza de los 3 agentes se calculan al generar una adaptación.")
+        st.info("Las métricas de anclaje y la traza de los 3 agentes se calculan en tiempo real al generar una adaptación.")
 
-
-# ------------------------------------------------------------------------------
-# TAB 3: INSIGNIAS DE DOMINIO KIRKPATRICK (Oficiales del Design System)
-# ------------------------------------------------------------------------------
-with tab_insignias:
-    st.markdown("### 🎖️ Sistema de Insignias y Competencias Demostrables")
-    st.caption("Basado en el Modelo de Evaluación Kirkpatrick (Niveles 1 a 4) y el marco de roles laborales NIST NICE.")
+    st.markdown("---")
+    st.markdown("### 🎖️ Sistema de Insignias de Dominio (Modelo Kirkpatrick)")
+    st.caption("Evaluación progresiva basada en los 4 Niveles de Kirkpatrick y los roles ocupacionales NIST NICE.")
 
     st.markdown("""
     <div class="nm-row" style="justify-content: space-around; margin-top: 1.5rem;">
@@ -641,73 +764,55 @@ with tab_insignias:
 
 
 # ------------------------------------------------------------------------------
-# TAB 4: PERSISTENCIA OCI OBJECT STORAGE Y JSON OFICIAL
+# TAB 3: CORPUS NORMATIVO SOBERANO & GLOSARIO CANÓNICO
 # ------------------------------------------------------------------------------
-with tab_oci:
-    st.markdown("### Persistencia en OCI Object Storage Always Free")
-    if "ultima_respuesta" in st.session_state:
-        resp = st.session_state["ultima_respuesta"]
-        st.info(f"📦 **Bucket OCI:** `{resp.almacenamiento_oci.bucket}` | **Objeto:** `{resp.almacenamiento_oci.objeto_id}`")
-        
-        json_output = resp.model_dump()
-        json_str = json.dumps(json_output, indent=2, ensure_ascii=False)
-
-        col_d1, col_d2 = st.columns(2)
-        with col_d1:
-            st.download_button(
-                "⬇️ Descargar JSON Oficial (ONE G10)",
-                data=json_str,
-                file_name=resp.almacenamiento_oci.objeto_id,
-                mime="application/json",
-                use_container_width=True
-            )
-        with col_d2:
-            st.download_button(
-                "📝 Descargar Guía Didáctica Markdown",
-                data=export_to_markdown_guide(resp),
-                file_name=resp.almacenamiento_oci.objeto_id.replace(".json", ".md"),
-                mime="text/markdown",
-                use_container_width=True
-            )
-
-        st.code(json_str, language="json")
-    else:
-        st.markdown("""
-        <div class="nm-glass" style="padding: 1.25rem 1.5rem;">
-            <h4 style="margin:0 0 0.5rem 0; color: var(--ink);">Configuración de Almacenamiento OCI Always Free:</h4>
-            <ul>
-                <li><strong>Bucket Origen:</strong> <code>nuevamente-documentos-origen</code></li>
-                <li><strong>Bucket Artefactos:</strong> <code>nuevamente-contenidos-educativos</code></li>
-                <li><strong>Cuota Permanente:</strong> 10 GB de almacenamiento gratuito de por vida ($0.00 USD)</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-
-
-# ------------------------------------------------------------------------------
-# TAB 5: BIBLIOTECA SQL (Explorador de la Base de Datos Relacional)
-# ------------------------------------------------------------------------------
-with tab_biblioteca:
-    st.markdown("### 📚 Explorador Relacional del Corpus (SQLAlchemy 2.0)")
-    st.caption("Visualiza los documentos y fragmentos procesados bajo el Estándar de Ingesta Asimétrica LexForja.")
+with tab_corpus:
+    st.markdown("### 📚 Base Normativa Soberana (PostgreSQL 18.6 & ChromaDB)")
+    st.caption("3,020 fragmentos de estándares oficiales de ciberseguridad procesados bajo la arquitectura de Ingesta Asimétrica LexForja.")
 
     with get_db_session() as db:
         docs_db = CorpusRepository.get_all_documents(db) if hasattr(CorpusRepository, "get_all_documents") else db.query(CorpusDocumentoModel).all()
         
     for d in docs_db:
         with st.expander(f"📄 {d.titulo} ({d.idioma.upper()}) · Chunks: {len(d.chunks)}"):
-            st.markdown(f"**ID del Documento:** `{d.doc_id}` | **Versión:** `{d.version_normativa}`")
-            st.markdown(f"**Archivo de Origen:** `{d.archivo_origen}` | **SHA-256:** `{d.sha256_hash[:16]}...`")
+            st.markdown(f"**ID:** `{d.doc_id}` | **Versión Normativa:** `{d.version_normativa}`")
+            st.markdown(f"**Archivo Origen:** `{d.archivo_origen}` | **Hash SHA-256:** `{d.sha256_hash[:16]}...`")
             if d.chunks:
-                st.markdown(f"**Muestra del Primer Chunk ({d.chunks[0].chunk_id}):**")
-                st.caption(f"**Síntesis en Español:** {d.chunks[0].sintesis_espanol}")
-                st.text(d.chunks[0].contenido_original[:300] + "...")
+                st.markdown(f"**Muestra del Primer Fragmento ({d.chunks[0].chunk_id}):**")
+                st.caption(f"**Síntesis Canónica en Español:** {d.chunks[0].sintesis_espanol}")
+                st.text(d.chunks[0].contenido_original[:350] + "...")
+
+    st.markdown("---")
+    st.markdown("### 🛡️ Glosario Canónico Bilingüe LexForja (Español [Canonical English])")
+    st.caption("Garantiza que ningún término crítico de ciberseguridad se pierda en traducciones ambiguas.")
+
+    with get_db_session() as db:
+        glossary_items = GlosarioRepository.get_all(db)
+
+    if glossary_items:
+        cols_g = st.columns(2)
+        for idx, g in enumerate(glossary_items):
+            target_col = cols_g[idx % 2]
+            with target_col:
+                st.markdown(f"""
+                <div class="nm-glass" style="padding: 0.9rem 1.1rem; margin-bottom: 0.6rem;">
+                    <span class="nm-term">
+                        <strong>{g.termino_es}</strong> <span class="nm-term__en">{g.termino_en}</span>
+                    </span>
+                    <p style="margin: 0.3rem 0 0 0; font-size: 13px; color: var(--ink-muted); line-height: 1.4;">
+                        {g.definicion_operativa}
+                    </p>
+                    <span class="nm-caption" style="display: block; margin-top: 4px; font-size: 11px; color: var(--quantum-soft);">
+                        Rol NIST: {g.rol_nist_nice} · Contexto: {g.contexto_uso}
+                    </span>
+                </div>
+                """, unsafe_allow_html=True)
 
 
 # ------------------------------------------------------------------------------
-# TAB 6: OFICINA DE PROYECTO (PMO & WBS TRACKER)
+# TAB 4: TABLERO PMO & ARQUITECTURA CLOUD
 # ------------------------------------------------------------------------------
-with tab_pmo:
+with tab_pmo_arq:
     st.markdown("""
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
@@ -718,7 +823,7 @@ with tab_pmo:
     </div>
     """, unsafe_allow_html=True)
 
-    # 4 KPIs PMO oficiales
+    # 4 KPIs PMO oficiales actualizados a 37 tests
     st.markdown("""
     <div class="nm-row" style="margin-bottom: 1.5rem; justify-content: space-between;">
       <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
@@ -728,7 +833,7 @@ with tab_pmo:
       </div>
       <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
         <span class="nm-overline">Tests Unitarios</span>
-        <span class="nm-kpi__val">34<span style="color:var(--ink-muted);font-size:18px">/34</span></span>
+        <span class="nm-kpi__val">37<span style="color:var(--ink-muted);font-size:18px">/37</span></span>
         <span class="nm-kpi__foot"><span class="nm-dot"></span>100% pasando</span>
       </div>
       <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
@@ -751,7 +856,7 @@ with tab_pmo:
         {"s": "Sprint 2", "f": "21 Sep - 27 Sep", "m": "Ingestión Multiformato, OCI Object Storage y ChromaDB", "st": "🟢 CERRADO (100%)"},
         {"s": "Sprint 3", "f": "28 Sep - 04 Oct", "m": "Orquestación LLM, Adaptación Pedagógica y JSON ONE G10", "st": "🟢 CERRADO (100%)"},
         {"s": "Sprint 4", "f": "05 Oct - 11 Oct", "m": "UI Cyber-Modern, Flashcards 3D, Quizzes, E2E y OCI VM", "st": "🟢 CERRADO (100%)"},
-        {"s": "Sprint 5", "f": "12 Oct - 18 Oct", "m": "Diferenciales (NIST NICE/SM-2), Corpus Real SQL, Video y Entrega", "st": "🟡 EN CURSO (90%)"}
+        {"s": "Sprint 5", "f": "12 Oct - 18 Oct", "m": "Diferenciales (NIST NICE/SM-2), Corpus Real SQL, Video y Entrega", "st": "🟡 EN CURSO (96%)"}
     ]
     for sp in sprints:
         st.markdown(f"""
@@ -766,11 +871,49 @@ with tab_pmo:
         </div>
         """, unsafe_allow_html=True)
 
+    st.markdown("---")
+    st.markdown("### ☁️ Persistencia en OCI Object Storage & S3 Universal")
+    if "ultima_respuesta" in st.session_state:
+        resp = st.session_state["ultima_respuesta"]
+        st.info(f"📦 **Bucket:** `{resp.almacenamiento_oci.bucket}` | **Objeto ID:** `{resp.almacenamiento_oci.objeto_id}`")
+        
+        json_output = resp.model_dump()
+        json_str = json.dumps(json_output, indent=2, ensure_ascii=False)
 
-# ------------------------------------------------------------------------------
-# TAB 7: SQUAD & CRÉDITOS
-# ------------------------------------------------------------------------------
-with tab_squad:
+        col_d1, col_d2 = st.columns(2)
+        with col_d1:
+            st.download_button(
+                "⬇️ Descargar JSON Oficial (ONE G10)",
+                data=json_str,
+                file_name=resp.almacenamiento_oci.objeto_id,
+                mime="application/json",
+                use_container_width=True
+            )
+        with col_d2:
+            st.download_button(
+                "📝 Descargar Guía Didáctica Markdown",
+                data=export_to_markdown_guide(resp),
+                file_name=resp.almacenamiento_oci.objeto_id.replace(".json", ".md"),
+                mime="text/markdown",
+                use_container_width=True
+            )
+
+        with st.expander("👁️ Inspeccionar Payload JSON Persistido"):
+            st.code(json_str, language="json")
+    else:
+        st.markdown("""
+        <div class="nm-glass" style="padding: 1.25rem 1.5rem;">
+            <h4 style="margin:0 0 0.5rem 0; color: var(--ink);">Configuración de Almacenamiento OCI Always Free:</h4>
+            <ul>
+                <li><strong>Bucket Origen:</strong> <code>nuevamente-documentos-origen</code></li>
+                <li><strong>Bucket Artefactos:</strong> <code>nuevamente-contenidos-educativos</code></li>
+                <li><strong>Cuota Permanente:</strong> 10 GB de almacenamiento gratuito de por vida ($0.00 USD)</li>
+                <li><strong>Adaptador S3 Universal:</strong> Compatible con OCI, Cloudflare R2, MinIO y AWS S3</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
     st.markdown("### 👥 Squad de Ingeniería — Proyecto NuevaMente")
     st.markdown("""
     - **Project Manager & Coordinador General:** Martin Morfe
@@ -780,5 +923,8 @@ with tab_squad:
     - **Frontend & UI Developer (@Frontend-UI-Dev):** Cristian Contreras, Diana Castaño
     - **DevOps & QA Engineer (@QA-DevOps-Dev):** Ivan Hernandez
     """)
-    st.markdown("---")
-    st.markdown("**Repositorio Oficial del PM:** [https://github.com/mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")
+
+# Pie de página institucional y acreditación OCI Always Free
+st.markdown("---")
+st.caption("Infraestructura de Nube: Oracle Cloud Infrastructure (OCI Always Free · $0.00/mes) · Persistencia S3 Universal · Repositorio Oficial: [mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")
+

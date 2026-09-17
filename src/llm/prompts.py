@@ -114,6 +114,8 @@ Ejemplos:
 REGLAS CRÍTICAS DE SALIDA:
 - Basa TODAS las explicaciones en el contexto técnico proporcionado.
 - Si un concepto no está en el material técnico, limítate a lo provisto sin inventar datos.
-- Devuelve la respuesta ÚNICAMENTE como un objeto JSON estructurado válido según el esquema requerido.
+- Sé conciso y directo: cada ítem debe tener un máximo de 2 a 3 oraciones explicativas para evitar truncamientos.
+- Genera exactamente entre 3 y 4 ítems pedagógicos en el arreglo 'items'.
+- Devuelve la respuesta ÚNICAMENTE como un objeto JSON válido directamente en la raíz con las claves: 'titulo', 'introduccion_contextualizada', 'tiempo_estimado_estudio_minutos', 'conceptos_clave', 'items'.
 """
     return prompt
