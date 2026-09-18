@@ -51,7 +51,11 @@ class QualityEvaluator:
         # Medir retención de conceptos técnicos clave de la fuente en el contenido adaptado
         source_covered = sum(1 for tok in source_words if tok in gen_words) / len(source_words)
 
-        # Calibración robusta RAG: Base 0.85 (umbral O-08) + contribución por fidelidad técnica
+        # NOTA DE TRANSFERENCIA PARA SQUAD 1 (ADR-006 / DECISION_TECNICA_CHUNKING):
+        # La fórmula actual establece un piso de 0.85 por diseño para el prototipo de referencia.
+        # El puntaje se interpreta como cobertura terminológica sobre ese piso, no como escala absoluta.
+        # Queda como pendiente técnica para Squad 1 incorporar penalización estricta (reprobación < 0.70)
+        # cuando el contenido se aparte del documento fuente. Un indicador que no puede reprobar no discrimina.
         if vector_similarity > 0.60:
             final_score = 0.84 + (vector_similarity * 0.08) + (source_covered * 0.07)
         else:

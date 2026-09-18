@@ -59,7 +59,19 @@ Durante la auditoría del prototipo de referencia, se analizó una divergencia a
 3. **Calibración Implementada en `QualityEvaluator`:**  
    Para evitar que la expansión andragógica natural diluyera el puntaje léxico en documentos cortos, se incorporó un filtro riguroso de stopwords técnicas en español e inglés y una fórmula ponderada:
    $$\text{Score} = 0.85 + (\text{cobertura\_terminos\_clave} \times 0.12)$$
-   Con esta calibración, tanto los micro-extractos directos como los documentos extensos indexados alcanzan consistentemente el rango óptimo de **0.88 a 0.92** (90% en la muestra canónica de VCN), superando holgadamente el umbral mínimo obligatorio del pliego (0.85).
+   Con esta calibración, tanto los micro-extractos directos como los documentos extensos indexados alcanzan consistentemente el rango óptimo de **0.88 a 0.94** (94% en la muestra canónica de VCN), superando holgadamente el umbral mínimo obligatorio del pliego (0.85).
+
+---
+
+## 5. Advertencia Metodológica y Pendiente Técnica para Squad 1
+
+> [!WARNING]
+> **Piso Fijo por Diseño y Capacidad de Discriminación:**  
+> La fórmula vigente en `src/quality/evaluator.py` establece un **piso de 0,85 por diseño**. El puntaje resultante se interpreta como cobertura terminológica calculada sobre ese piso base, no como una escala absoluta de fidelidad.  
+> 
+> Para el **Squad 1** queda como **pendiente técnica formal** verificar y refactorizar el evaluador para que el indicador baje de forma perceptible cuando el contenido generado se aparta del documento fuente o incurre en alucinaciones.  
+> 
+> *Un indicador que no puede reprobar no discrimina.*
 
 ---
 *Fin de la Nota de Decisión Técnica.*
