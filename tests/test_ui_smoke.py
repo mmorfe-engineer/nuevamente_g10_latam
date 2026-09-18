@@ -71,3 +71,27 @@ def test_ui_no_static_sector_blocks_on_main_screen():
     )
     assert "ruta a · operativo" not in joined_text, "Se detectó tarjeta fija de Ruta A Operativo"
     assert "ruta d · gobernanza" not in joined_text, "Se detectó tarjeta fija de Ruta D Gobernanza"
+
+
+def test_ui_smoke_welcome_station_and_canonical_demo_button():
+    """Verifica que la estación de ingesta O-01 y el botón de muestra canónica O-12 están presentes y funcionan."""
+    at = AppTest.from_file(APP_PATH, default_timeout=30)
+    at.run()
+    assert not at.exception
+
+    # 1. Comprobar que los KPIs de motor (Puntaje de Anclaje) están visibles
+    all_markdown = " ".join([m.value for m in at.markdown])
+    assert "Puntaje de Anclaje (O-08)" in all_markdown
+    assert "Tiempo de Adaptación" in all_markdown
+    assert "Formatos Interactivos (O-06)" in all_markdown
+    assert "Corpus SQL" not in all_markdown, "El KPI de biblioteca 'Corpus SQL' aún sigue presente"
+
+    # 2. Comprobar la presencia de la Estación de Ingesta O-01
+    assert "Estación de Ingesta y Transformación Documental (Pliego O-01)" in all_markdown
+
+    # 3. Comprobar el botón de carga del caso canónico de Oracle VCN (O-12)
+    btn_canonico = [b for b in at.button if "Caso Canónico Oracle" in b.label]
+    assert len(btn_canonico) == 1, "No se encontró el botón del caso canónico de Oracle VCN"
+    btn_canonico[0].click().run()
+    assert not at.exception
+
