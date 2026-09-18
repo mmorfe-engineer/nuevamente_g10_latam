@@ -706,16 +706,18 @@ with tab_estudio:
                     )
 
                     t_start = datetime.now()
-                    resp = adaptation_service.process_adaptation(solicitud, use_langgraph=use_langgraph)
+                    with get_db_session() as db:
+                        resp, trace = adaptation_service.process_adaptation(solicitud, db=db, use_multi_agent=use_langgraph)
                     duracion_total = (datetime.now() - t_start).total_seconds()
+
+                    trace = trace or {}
+                    trace["metodo"] = "LangGraph (Multi-Agente)" if use_langgraph else "RAG Asimétrico Directo"
+                    trace["duracion_segundos"] = duracion_total
+                    trace["timestamp"] = datetime.now().isoformat()
 
                     st.session_state["ultima_respuesta"] = resp
                     st.session_state["ultimo_request"] = solicitud
-                    st.session_state["ultimo_trace"] = {
-                        "metodo": "LangGraph (Multi-Agente)" if use_langgraph else "RAG Asimétrico Directo",
-                        "duracion_segundos": duracion_total,
-                        "timestamp": datetime.now().isoformat()
-                    }
+                    st.session_state["ultimo_trace"] = trace
                     st.rerun()
 
 
