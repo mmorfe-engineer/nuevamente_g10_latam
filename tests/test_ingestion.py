@@ -21,3 +21,16 @@ def test_loader_extract_txt_and_cleaning():
     text = doc_loader.extract_from_bytes("test.txt", content)
     assert "Encabezado\n\nLinea con espacios multiples." == text
 
+def test_chunker_overlap_retention():
+    from src.ingestion.chunker import DocumentChunker
+    chunker = DocumentChunker(chunk_size=100, chunk_overlap=25)
+    text = (
+        "El mantenimiento preventivo de compresores incluye verificación de presión de aceite cada 500 horas. "
+        "Adicionalmente, se debe calibrar la válvula de alivio y registrar las vibraciones anómalas en el cuaderno de bitácora."
+    )
+    chunks = chunker.split_text(text, source_id="overlap_test")
+    assert len(chunks) >= 2
+    tail_chunk0 = chunks[0]["content"][-15:]
+    assert tail_chunk0 in chunks[1]["content"]
+
+
