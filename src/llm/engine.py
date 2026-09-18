@@ -60,6 +60,7 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
 - introduccion_contextualizada (string)
 - tiempo_estimado_estudio_minutos (entero)
 - conceptos_clave (lista de strings)
+- prerrequisitos (lista de 2 a 3 strings con conocimientos previos recomendados)
 - items (lista de objetos con las especificaciones del formato)
 """
 
@@ -77,7 +78,8 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
             perfil_aplicado=request.perfil_destinatario.value,
             formato_generado=request.formato_salida.value,
             tiempo_estimado_estudio_minutos=generated_raw.get("tiempo_estimado_estudio_minutos", 5),
-            conceptos_clave=generated_raw.get("conceptos_clave", ["Arquitectura", "Cloud", "Seguridad"])
+            conceptos_clave=generated_raw.get("conceptos_clave", ["Conceptos Fundamentales", "Estructura Operativa"]),
+            prerrequisitos=generated_raw.get("prerrequisitos", ["Conocimientos generales del sector", "Lectura técnica básica"])
         )
 
         contenido = ContenidoAdaptado(
@@ -375,9 +377,10 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
 
             return {
                 "titulo": f"Tarjetas Didácticas 3D: {titulo}",
-                "introduccion_contextualizada": f"Flashcards interactivas optimizadas para el perfil {perfil.value}. Diseñadas con repetición espaciada SM-2 y anclaje normativo NIST NICE.",
+                "introduccion_contextualizada": f"Flashcards interactivas optimizadas para el perfil {perfil.value}. Diseñadas con repetición espaciada y anclaje técnico en fuentes oficiales.",
                 "tiempo_estimado_estudio_minutos": 8,
-                "conceptos_clave": ["NIST NICE", "SuperMemo SM-2", "Seguridad Cloud", "Cifrado", "Zero Trust"],
+                "conceptos_clave": ["Fundamentos Técnicos", "Estructura Operativa", "Buenas Prácticas"],
+                "prerrequisitos": ["Lectura comprensiva de manuales técnicos", "Conocimientos generales de arquitectura de sistemas"],
                 "items": items_fc
             }
 
@@ -472,9 +475,10 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
 
             return {
                 "titulo": f"Evaluación Diagnóstica: {titulo}",
-                "introduccion_contextualizada": f"Evaluación de asimilación técnica adaptada para {perfil.value}. Cada ítem valida competencias demostrables alineadas al marco NIST NICE.",
+                "introduccion_contextualizada": f"Evaluación de asimilación técnica adaptada para {perfil.value}. Cada ítem valida competencias demostrables y comprensión conceptual.",
                 "tiempo_estimado_estudio_minutos": 10,
-                "conceptos_clave": ["NIST NICE", "Validación Técnica", "Zero Trust", "Defensa en Profundidad"],
+                "conceptos_clave": ["Evaluación Técnica", "Validación Operativa", "Criterios de Decisión"],
+                "prerrequisitos": ["Revisión previa de la documentación técnica del sistema", "Terminología operativa básica"],
                 "items": items_quiz
             }
 
@@ -517,7 +521,8 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
                 "titulo": f"Guía Técnica de Implementación: {titulo}",
                 "introduccion_contextualizada": f"Procedimiento técnico paso a paso adaptado para el perfil {perfil.value}. Instrucciones concretas con comandos de CLI y criterios de verificación.",
                 "tiempo_estimado_estudio_minutos": 15,
-                "conceptos_clave": ["Hardening", "CLI OCI", "Flow Logs", "Segmentación", "Zero Trust"],
+                "conceptos_clave": ["Implementación Paso a Paso", "Procedimientos de Configuración", "Criterios de Verificación"],
+                "prerrequisitos": ["Acceso a terminal de línea de comandos (CLI)", "Credenciales con privilegios para aprovisionamiento"],
                 "items": items_tut
             }
 
@@ -529,12 +534,12 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
                 {
                     "seccion": "1. Diagnóstico y Postura Estratégica",
                     "contenido": f"La normativa y arquitectura de '{titulo}' establece directrices críticas para la protección de activos tecnológicos corporativos, priorizando mitigación de riesgos y resiliencia operativa.",
-                    "pista_didactica": "Alineado a marcos NIST Cybersecurity Framework (CSF) y CIS Controls."
+                    "pista_didactica": "Alineado a marcos normativos internacionales y mejores prácticas de la industria."
                 },
                 {
                     "seccion": "2. Controles Críticos de Implementación",
                     "contenido": "Implementación de controles de autenticación multifactor [MFA], segmentación de redes privadas [VCN Subnets] y cifrado obligatorio de datos en tránsito (TLS 1.3) y en reposo (AES-256).",
-                    "pista_didactica": "Cumplimiento obligatorio para auditorías PCI DSS v4.0 e ISO/IEC 27001."
+                    "pista_didactica": "Cumplimiento obligatorio para auditorías de calidad y seguridad."
                 },
                 {
                     "seccion": "3. Procedimiento de Respuesta y Resiliencia",
@@ -547,7 +552,8 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
                 "titulo": f"Síntesis Ejecutiva & Andragógica: {titulo}",
                 "introduccion_contextualizada": f"Resumen estratégico adaptado para el perfil {perfil.value}. Enfoque en toma de decisiones, impacto operativo y gobernanza técnica.",
                 "tiempo_estimado_estudio_minutos": 7,
-                "conceptos_clave": ["Gobernanza", "Resiliencia", "NIST CSF", "Gestión de Riesgo"],
+                "conceptos_clave": ["Gobernanza", "Resiliencia Operativa", "Gestión de Riesgo", "Toma de Decisiones"],
+                "prerrequisitos": ["Comprensión global de los objetivos del proyecto", "Nociones de gobernanza y acuerdos de nivel de servicio (SLA)"],
                 "items": items_doc
             }
 
