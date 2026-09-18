@@ -1,0 +1,55 @@
+{
+  "status": "exito",
+  "metadatos": {
+    "perfil_aplicado": "Gestor / Ejecutivo (No Técnico)",
+    "formato_generado": "Resumen Ejecutivo (TL;DR)",
+    "tiempo_estimado_estudio_minutos": 8,
+    "conceptos_clave": [
+      "Autenticación Multifactor (MFA) [Multi-Factor Authentication (MFA)]",
+      "Principio de Mínimo Privilegio [Principle of Least Privilege (PoLP)]",
+      "Control de Acceso Basado en Roles (RBAC) [Role-Based Access Control (RBAC)]",
+      "Cumplimiento Normativo en Cloud [Cloud Compliance]"
+    ],
+    "prerrequisitos": [
+      "Conocimiento básico de modelos de despliegue en la nube (IaaS, PaaS, SaaS)",
+      "Familiaridad con conceptos de riesgo operacional y gobernanza corporativa",
+      "Entendimiento de frameworks de cumplimiento como ISO 27001 o SOC 2"
+    ]
+  },
+  "contenido_adaptado": {
+    "titulo": "Gobernanza de Seguridad Cloud e Identidad IAM: Claves para Líderes No Técnicos",
+    "introduccion_contextualizada": "En un entorno empresarial donde la migración a la nube es estratégica pero crítica, la gestión de identidad y acceso (IAM) [Identity and Access Management (IAM)] emerge como el pilar fundamental para equilibrar productividad, seguridad y cumplimiento normativo. Este documento traduce los principios técnicos de IAM a criterios ejecutivos, destacando cómo su implementación impacta directamente en la resiliencia operativa y la reducción de riesgos corporativos.",
+    "items": [
+      {
+        "seccion": "Autenticación Multifactor (MFA): La Primera Línea de Defensa",
+        "contenido": "La autenticación multifactor (MFA) [Multi-Factor Authentication (MFA)] exige a los usuarios validar su identidad mediante dos o más métodos (ej.: contraseña + token biométrico o SMS), reduciendo hasta un 99.9% los intentos de acceso no autorizado. Su implementación en entornos cloud no solo mitiga riesgos de phishing, sino que también alinea la organización con estándares de cumplimiento como PCI DSS o HIPAA.",
+        "pista_didactica": "Priorice la adopción de MFA en cuentas administrativas y sistemas críticos; evalúe soluciones como Azure MFA o AWS IAM MFA para integración con su infraestructura existente."
+      },
+      {
+        "seccion": "Principio de Mínimo Privilegio (PoLP): Menos Acceso, Más Seguridad",
+        "contenido": "El principio de mínimo privilegio [Principle of Least Privilege (PoLP)] limita los permisos de los usuarios a solo aquellos necesarios para realizar sus funciones, minimizando la superficie de ataque. En cloud, esto se traduce en evitar asignar roles globales (ej.: 'Administrador') y en revisar periódicamente los permisos otorgados, especialmente tras cambios organizacionales.",
+        "pista_didactica": "Implemente revisiones trimestrales de permisos y automatice alertas para accesos inusuales; herramientas como AWS IAM Access Analyzer pueden identificar permisos sobredimensionados."
+      },
+      {
+        "seccion": "Control de Acceso Basado en Roles (RBAC): Estructura y Escalabilidad",
+        "contenido": "El control de acceso basado en roles (RBAC) [Role-Based Access Control (RBAC)] asigna permisos según funciones laborales (ej.: 'Desarrollador', 'Finanzas'), simplificando la gestión de accesos en entornos cloud complejos. Esto no solo reduce errores humanos, sino que facilita auditorías y demuestra cumplimiento ante reguladores.",
+        "pista_didactica": "Diseñe roles RBAC alineados con su organigrama corporativo; evite roles genéricos como 'Usuario' y documente cada asignación para trazabilidad."
+      },
+      {
+        "seccion": "Cumplimiento Normativo en Cloud: Riesgo Legal y Reputacional",
+        "contenido": "La gobernanza IAM en cloud debe cumplir con marcos normativos como GDPR, ISO 27001 o SOC 2, donde la trazabilidad de accesos y la segregación de funciones son auditables. La falta de cumplimiento puede derivar en multas millonarias (ej.: hasta el 4% de la facturación global bajo GDPR) y daño reputacional irreversible.",
+        "pista_didactica": "Integre herramientas de auditoría continua (ej.: AWS CloudTrail, Azure Monitor) para generar registros inalterables y automatice informes de cumplimiento para presentar a stakeholders."
+      }
+    ]
+  },
+  "evaluacion_calidad": {
+    "anclaje_fuente_score": 0.7,
+    "claridad_pedagogica": "Alta",
+    "observaciones": "Contenido adaptado para perfil Gestor / Ejecutivo (No Técnico). Anclaje riguroso en fuentes técnicas originales sin alucinaciones detectadas."
+  },
+  "almacenamiento_oci": {
+    "bucket": "nuevamente-contenidos-educativos",
+    "objeto_id": "contenido-gobernanza-de-seguri-ejecutivo-resumen-0b94c3.json",
+    "status_upload": "completado (local/emulado)"
+  }
+}

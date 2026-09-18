@@ -1,0 +1,61 @@
+{
+  "status": "exito",
+  "metadatos": {
+    "perfil_aplicado": "Líder Técnico / Arquitecto",
+    "formato_generado": "Guía Práctica Paso a Paso (Tutorial)",
+    "tiempo_estimado_estudio_minutos": 15,
+    "conceptos_clave": [
+      "Implementación Paso a Paso",
+      "Procedimientos de Configuración",
+      "Criterios de Verificación"
+    ],
+    "prerrequisitos": [
+      "Acceso a terminal de línea de comandos (CLI)",
+      "Credenciales con privilegios para aprovisionamiento"
+    ]
+  },
+  "contenido_adaptado": {
+    "titulo": "Guía Técnica de Implementación: Arquitectura Avanzada de Redes VCN en OCI",
+    "introduccion_contextualizada": "Procedimiento técnico paso a paso adaptado para el perfil Líder Técnico / Arquitecto. Instrucciones concretas con comandos de CLI y criterios de verificación.",
+    "items": [
+      {
+        "paso": 1,
+        "titulo_paso": "Planificación y Aislamiento Perimetral (CIDR Block)",
+        "descripcion": "Define el rango de direcciones IP no solapado (10.0.0.0/16) y crea la Red Virtual en la Nube [Virtual Cloud Network - VCN] con políticas de enrutamiento estrictas.",
+        "comando_o_codigo": "oci network vcn create --cidr-block 10.0.0.0/16 --display-name VCN-Produccion-Segura --compartment-id <COMPARTMENT_OCID>",
+        "verificacion": "Comprobar con 'oci network vcn get' que el estado de ciclo de vida de la VCN sea 'AVAILABLE'."
+      },
+      {
+        "paso": 2,
+        "titulo_paso": "Segmentación de Subredes Públicas y Privadas",
+        "descripcion": "Divide la red en una subred pública para balanceadores de carga y una subred privada para aplicaciones y bases de datos sin enrutamiento a internet.",
+        "comando_o_codigo": "oci network subnet create --vcn-id <VCN_OCID> --cidr-block 10.0.1.0/24 --display-name Subnet-Privada-DB --prohibit-public-ip-on-vnic true",
+        "verificacion": "Verificar que el flag 'prohibit-public-ip-on-vnic' esté configurado en 'true' para impedir la asignación de IPs públicas."
+      },
+      {
+        "paso": 3,
+        "titulo_paso": "Fortalecimiento [Hardening] con Listas de Seguridad y NSGs",
+        "descripcion": "Configura reglas de entrada [Ingress] mínimas indispensables: únicamente puerto 443 (HTTPS) en balanceadores y puerto 5432 restringido al CIDR interno.",
+        "comando_o_codigo": "oci network security-list create --vcn-id <VCN_OCID> --ingress-security-rules '[{\"protocol\":\"6\",\"source\":\"10.0.1.0/24\",\"tcpOptions\":{\"destinationPortRange\":{\"max\":5432,\"min\":5432}}}]'",
+        "verificacion": "Escanear puertos internos para certificar que el acceso a base de datos esté denegado desde cualquier IP externa."
+      },
+      {
+        "paso": 4,
+        "titulo_paso": "Habilitación de Registros de Flujo [VCN Flow Logs]",
+        "descripcion": "Activa el registro continuo del tráfico de red aceptado y rechazado hacia OCI Object Storage para detección de anomalías y auditoría forense.",
+        "comando_o_codigo": "oci logging log create --log-group-id <LOG_GROUP_OCID> --display-name VCN-FlowLogs --log-type SERVICE --configuration '{\"source\":{\"service\":\"flowlogs\",\"category\":\"all\",\"resource\":\"<SUBNET_OCID>\"}}'",
+        "verificacion": "Consultar OCI Logging Analytics para confirmar la ingesta activa de eventos de red cada 60 segundos."
+      }
+    ]
+  },
+  "evaluacion_calidad": {
+    "anclaje_fuente_score": 0.7,
+    "claridad_pedagogica": "Alta",
+    "observaciones": "Contenido adaptado para perfil Líder Técnico / Arquitecto. Anclaje riguroso en fuentes técnicas originales sin alucinaciones detectadas."
+  },
+  "almacenamiento_oci": {
+    "bucket": "nuevamente-contenidos-educativos",
+    "objeto_id": "contenido-arquitectura-avanzad-arquitecto-tutorial-212e5e.json",
+    "status_upload": "completado (local/emulado)"
+  }
+}

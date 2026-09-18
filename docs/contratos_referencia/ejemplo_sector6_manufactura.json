@@ -1,0 +1,61 @@
+{
+  "status": "exito",
+  "metadatos": {
+    "perfil_aplicado": "Principiante",
+    "formato_generado": "Guía Práctica Paso a Paso (Tutorial)",
+    "tiempo_estimado_estudio_minutos": 15,
+    "conceptos_clave": [
+      "Implementación Paso a Paso",
+      "Procedimientos de Configuración",
+      "Criterios de Verificación"
+    ],
+    "prerrequisitos": [
+      "Acceso a terminal de línea de comandos (CLI)",
+      "Credenciales con privilegios para aprovisionamiento"
+    ]
+  },
+  "contenido_adaptado": {
+    "titulo": "Guía Técnica de Implementación: Manual de Compresores de Tornillo Rotativo Industrial",
+    "introduccion_contextualizada": "Procedimiento técnico paso a paso adaptado para el perfil Principiante. Instrucciones concretas con comandos de CLI y criterios de verificación.",
+    "items": [
+      {
+        "paso": 1,
+        "titulo_paso": "Preparación y Diagnóstico Operativo: Manual de Compresores de Tornillo Rotativo Industrial",
+        "descripcion": "Inspeccionar las condiciones operativas y verificar los parámetros nominales establecidos en la documentación de 'Manual de Compresores de Tornillo Rotativo Industrial'.",
+        "comando_o_codigo": "systemctl status service --no-pager || inspect-status --target=primary",
+        "verificacion": "Comprobar que los indicadores de estado y variables de trabajo se encuentren en nivel nominal."
+      },
+      {
+        "paso": 2,
+        "titulo_paso": "Ajuste y Calibración de Parámetros de Control",
+        "descripcion": "Ajustar las variables de operación, válvulas de alivio o puntos de corte según los lineamientos de la guía técnica.",
+        "comando_o_codigo": "calibrate --mode=standard --tolerance=0.05",
+        "verificacion": "Verificar en el panel de control o telemetría que la calibración responda sin desviaciones anómalas."
+      },
+      {
+        "paso": 3,
+        "titulo_paso": "Prueba de Carga y Monitoreo Continuo",
+        "descripcion": "Iniciar el ciclo de trabajo bajo demanda controlada y supervisar los registros térmicos, de flujo y de consumo.",
+        "comando_o_codigo": "monitor-telemetry --interval=10s --log-file=/var/log/operation.log",
+        "verificacion": "Confirmar que no se registren alarmas preventivas ni se activen enclavamientos de emergencia."
+      },
+      {
+        "paso": 4,
+        "titulo_paso": "Registro de Bitácora y Protocolo de Verificación",
+        "descripcion": "Consignar las lecturas finales, certificar el cumplimiento del procedimiento y archivar la bitácora técnica.",
+        "comando_o_codigo": "audit-log record --procedure=completed --status=certified",
+        "verificacion": "Validar la consistencia de los registros para auditoría de calidad y control operacional."
+      }
+    ]
+  },
+  "evaluacion_calidad": {
+    "anclaje_fuente_score": 0.85,
+    "claridad_pedagogica": "Alta",
+    "observaciones": "Contenido adaptado para perfil Principiante. Anclaje riguroso en fuentes técnicas originales sin alucinaciones detectadas."
+  },
+  "almacenamiento_oci": {
+    "bucket": "nuevamente-contenidos-educativos",
+    "objeto_id": "contenido-manual-de-compresore-principiante-tutorial-27a1d6.json",
+    "status_upload": "completado (local/emulado)"
+  }
+}

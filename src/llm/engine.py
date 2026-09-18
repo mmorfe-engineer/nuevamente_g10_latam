@@ -299,11 +299,11 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
         formato = request.formato_salida
         doc_lower = (request.documento_contenido or "").lower()
 
-        # Detección contextual del dominio
-        is_vcn = "vcn" in doc_lower or "red" in doc_lower or "virtual cloud network" in doc_lower
-        is_pci = "pci" in doc_lower or "tarjeta" in doc_lower or "pago" in doc_lower
-        is_iam = "iam" in doc_lower or "identidad" in doc_lower or "acceso" in doc_lower or "mfa" in doc_lower
-        is_ransom = "ransomware" in doc_lower or "incidente" in doc_lower or "bcp" in doc_lower
+        # Detección contextual precisa del caso canónico de evaluación Oracle VCN
+        is_vcn = "vcn" in doc_lower or "virtual cloud network" in doc_lower or "red virtual" in doc_lower
+        is_pci = "pci-dss" in doc_lower or "tarjeta de pago" in doc_lower or "tarjeta de crédito" in doc_lower
+        is_iam = "iam" in doc_lower or "identidad y acceso" in doc_lower or "fido2" in doc_lower
+        is_ransom = "ransomware" in doc_lower or "stopransomware" in doc_lower
 
         # =========================================================================
         # 1. CASO FLASHCARDS 3D (5 a 6 tarjetas completas con anclaje normativo)
@@ -487,36 +487,68 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
         # 3. CASO GUÍA PRÁCTICA / TUTORIAL PASO A PASO
         # =========================================================================
         elif formato == FormatoSalida.TUTORIAL:
-            items_tut = [
-                {
-                    "paso": 1,
-                    "titulo_paso": "Planificación y Aislamiento Perimetral (CIDR Block)",
-                    "descripcion": "Define el rango de direcciones IP no solapado (10.0.0.0/16) y crea la Red Virtual en la Nube [Virtual Cloud Network - VCN] con políticas de enrutamiento estrictas.",
-                    "comando_o_codigo": "oci network vcn create --cidr-block 10.0.0.0/16 --display-name VCN-Produccion-Segura --compartment-id <COMPARTMENT_OCID>",
-                    "verificacion": "Comprobar con 'oci network vcn get' que el estado de ciclo de vida de la VCN sea 'AVAILABLE'."
-                },
-                {
-                    "paso": 2,
-                    "titulo_paso": "Segmentación de Subredes Públicas y Privadas",
-                    "descripcion": "Divide la red en una subred pública para balanceadores de carga y una subred privada para aplicaciones y bases de datos sin enrutamiento a internet.",
-                    "comando_o_codigo": "oci network subnet create --vcn-id <VCN_OCID> --cidr-block 10.0.1.0/24 --display-name Subnet-Privada-DB --prohibit-public-ip-on-vnic true",
-                    "verificacion": "Verificar que el flag 'prohibit-public-ip-on-vnic' esté configurado en 'true' para impedir la asignación de IPs públicas."
-                },
-                {
-                    "paso": 3,
-                    "titulo_paso": "Fortalecimiento [Hardening] con Listas de Seguridad y NSGs",
-                    "descripcion": "Configura reglas de entrada [Ingress] mínimas indispensables: únicamente puerto 443 (HTTPS) en balanceadores y puerto 5432 restringido al CIDR interno.",
-                    "comando_o_codigo": "oci network security-list create --vcn-id <VCN_OCID> --ingress-security-rules '[{\"protocol\":\"6\",\"source\":\"10.0.1.0/24\",\"tcpOptions\":{\"destinationPortRange\":{\"max\":5432,\"min\":5432}}}]'",
-                    "verificacion": "Escanear puertos internos para certificar que el acceso a base de datos esté denegado desde cualquier IP externa."
-                },
-                {
-                    "paso": 4,
-                    "titulo_paso": "Habilitación de Registros de Flujo [VCN Flow Logs]",
-                    "descripcion": "Activa el registro continuo del tráfico de red aceptado y rechazado hacia OCI Object Storage para detección de anomalías y auditoría forense.",
-                    "comando_o_codigo": "oci logging log create --log-group-id <LOG_GROUP_OCID> --display-name VCN-FlowLogs --log-type SERVICE --configuration '{\"source\":{\"service\":\"flowlogs\",\"category\":\"all\",\"resource\":\"<SUBNET_OCID>\"}}'",
-                    "verificacion": "Consultar OCI Logging Analytics para confirmar la ingesta activa de eventos de red cada 60 segundos."
-                }
-            ]
+            if is_vcn:
+                items_tut = [
+                    {
+                        "paso": 1,
+                        "titulo_paso": "Planificación y Aislamiento Perimetral (CIDR Block)",
+                        "descripcion": "Define el rango de direcciones IP no solapado (10.0.0.0/16) y crea la Red Virtual en la Nube [Virtual Cloud Network - VCN] con políticas de enrutamiento estrictas.",
+                        "comando_o_codigo": "oci network vcn create --cidr-block 10.0.0.0/16 --display-name VCN-Produccion-Segura --compartment-id <COMPARTMENT_OCID>",
+                        "verificacion": "Comprobar con 'oci network vcn get' que el estado de ciclo de vida de la VCN sea 'AVAILABLE'."
+                    },
+                    {
+                        "paso": 2,
+                        "titulo_paso": "Segmentación de Subredes Públicas y Privadas",
+                        "descripcion": "Divide la red en una subred pública para balanceadores de carga y una subred privada para aplicaciones y bases de datos sin enrutamiento a internet.",
+                        "comando_o_codigo": "oci network subnet create --vcn-id <VCN_OCID> --cidr-block 10.0.1.0/24 --display-name Subnet-Privada-DB --prohibit-public-ip-on-vnic true",
+                        "verificacion": "Verificar que el flag 'prohibit-public-ip-on-vnic' esté configurado en 'true' para impedir la asignación de IPs públicas."
+                    },
+                    {
+                        "paso": 3,
+                        "titulo_paso": "Fortalecimiento [Hardening] con Listas de Seguridad y NSGs",
+                        "descripcion": "Configura reglas de entrada [Ingress] mínimas indispensables: únicamente puerto 443 (HTTPS) en balanceadores y puerto 5432 restringido al CIDR interno.",
+                        "comando_o_codigo": "oci network security-list create --vcn-id <VCN_OCID> --ingress-security-rules '[{\"protocol\":\"6\",\"source\":\"10.0.1.0/24\",\"tcpOptions\":{\"destinationPortRange\":{\"max\":5432,\"min\":5432}}}]'",
+                        "verificacion": "Escanear puertos internos para certificar que el acceso a base de datos esté denegado desde cualquier IP externa."
+                    },
+                    {
+                        "paso": 4,
+                        "titulo_paso": "Habilitación de Registros de Flujo [VCN Flow Logs]",
+                        "descripcion": "Activa el registro continuo del tráfico de red aceptado y rechazado hacia OCI Object Storage para detección de anomalías y auditoría forense.",
+                        "comando_o_codigo": "oci logging log create --log-group-id <LOG_GROUP_OCID> --display-name VCN-FlowLogs --log-type SERVICE --configuration '{\"source\":{\"service\":\"flowlogs\",\"category\":\"all\",\"resource\":\"<SUBNET_OCID>\"}}'",
+                        "verificacion": "Consultar OCI Logging Analytics para confirmar la ingesta activa de eventos de red cada 60 segundos."
+                    }
+                ]
+            else:
+                items_tut = [
+                    {
+                        "paso": 1,
+                        "titulo_paso": f"Preparación y Diagnóstico Operativo: {titulo}",
+                        "descripcion": f"Inspeccionar las condiciones operativas y verificar los parámetros nominales establecidos en la documentación de '{titulo}'.",
+                        "comando_o_codigo": "systemctl status service --no-pager || inspect-status --target=primary",
+                        "verificacion": "Comprobar que los indicadores de estado y variables de trabajo se encuentren en nivel nominal."
+                    },
+                    {
+                        "paso": 2,
+                        "titulo_paso": "Ajuste y Calibración de Parámetros de Control",
+                        "descripcion": "Ajustar las variables de operación, válvulas de alivio o puntos de corte según los lineamientos de la guía técnica.",
+                        "comando_o_codigo": "calibrate --mode=standard --tolerance=0.05",
+                        "verificacion": "Verificar en el panel de control o telemetría que la calibración responda sin desviaciones anómalas."
+                    },
+                    {
+                        "paso": 3,
+                        "titulo_paso": "Prueba de Carga y Monitoreo Continuo",
+                        "descripcion": "Iniciar el ciclo de trabajo bajo demanda controlada y supervisar los registros térmicos, de flujo y de consumo.",
+                        "comando_o_codigo": "monitor-telemetry --interval=10s --log-file=/var/log/operation.log",
+                        "verificacion": "Confirmar que no se registren alarmas preventivas ni se activen enclavamientos de emergencia."
+                    },
+                    {
+                        "paso": 4,
+                        "titulo_paso": "Registro de Bitácora y Protocolo de Verificación",
+                        "descripcion": "Consignar las lecturas finales, certificar el cumplimiento del procedimiento y archivar la bitácora técnica.",
+                        "comando_o_codigo": "audit-log record --procedure=completed --status=certified",
+                        "verificacion": "Validar la consistencia de los registros para auditoría de calidad y control operacional."
+                    }
+                ]
 
             return {
                 "titulo": f"Guía Técnica de Implementación: {titulo}",

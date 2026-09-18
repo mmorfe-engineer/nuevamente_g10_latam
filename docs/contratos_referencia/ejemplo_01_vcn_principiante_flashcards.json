@@ -1,0 +1,55 @@
+{
+  "status": "exito",
+  "metadatos": {
+    "perfil_aplicado": "Principiante",
+    "formato_generado": "Flashcards",
+    "tiempo_estimado_estudio_minutos": 15,
+    "conceptos_clave": [
+      "Virtual Cloud Network (VCN) [Red Virtual en la Nube (VCN)]",
+      "Subredes públicas y privadas",
+      "Internet Gateway y NAT Gateway",
+      "Security Lists [Listas de Seguridad] para control de tráfico"
+    ],
+    "prerrequisitos": [
+      "Conocimiento básico de redes informáticas (ej: qué es una red local)",
+      "Entendimiento de conceptos como IP, subred y firewall",
+      "Familiaridad con el concepto de nube (Cloud Computing)"
+    ]
+  },
+  "contenido_adaptado": {
+    "titulo": "Virtual Cloud Network (VCN) en OCI: Conceptos Básicos para Principiantes",
+    "introduccion_contextualizada": "Imagina que necesitas crear tu propia oficina en la nube, donde puedas organizar equipos, controlar quién entra y sale, y decidir cómo se comunican entre sí. La Virtual Cloud Network (VCN) [Red Virtual en la Nube (VCN)] de Oracle Cloud Infrastructure (OCI) es exactamente eso: un espacio privado y personalizable que te permite diseñar una red virtual con la misma flexibilidad que una red física, pero sin la necesidad de hardware físico. Este material te guiará para entender sus componentes esenciales y cómo funcionan juntos.",
+    "items": [
+      {
+        "frente": "¿Qué es una Virtual Cloud Network (VCN) [Red Virtual en la Nube (VCN)] y cómo se compara con una red física?",
+        "dorso": "La VCN es una red privada y personalizable que se crea dentro de Oracle Cloud Infrastructure (OCI), similar a una red de centro de datos tradicional pero sin hardware físico. Puedes configurar subredes, gateways y reglas de seguridad como lo harías en una oficina física, pero todo está en la nube. Es como tener un edificio virtual donde tú decides cómo distribuir los espacios y quién puede acceder a ellos.",
+        "pista_didactica": "Piensa en la VCN como tu 'oficina en la nube': tú decides cómo organizar los equipos (subredes), quién entra (reglas de seguridad) y cómo se conectan con el exterior (gateways)."
+      },
+      {
+        "frente": "¿Cuál es la diferencia entre una subred pública y una privada en una VCN?",
+        "dorso": "Una subred pública permite que los recursos dentro de ella sean accesibles desde Internet (ej: un servidor web), mientras que una subred privada no tiene acceso directo a Internet. Las subredes privadas son ideales para bases de datos o servidores internos que no necesitan ser visibles públicamente. Es como tener una oficina con una recepción abierta al público (pública) y áreas restringidas solo para empleados (privada).",
+        "pista_didactica": "Recuerda: 'Pública' = accesible desde Internet; 'Privada' = solo para uso interno. Usa la analogía de una oficina con áreas comunes y zonas restringidas."
+      },
+      {
+        "frente": "¿Para qué sirve un Internet Gateway en una VCN?",
+        "dorso": "El Internet Gateway [Puerta de Enlace a Internet] permite que los recursos dentro de una subred pública se comuniquen con Internet y viceversa. Es como la puerta principal de tu oficina en la nube: sin ella, los equipos internos no podrían enviar o recibir datos de la web. Sin embargo, no es necesario en subredes privadas, ya que estas no deben tener acceso directo a Internet.",
+        "pista_didactica": "Piensa en el Internet Gateway como la 'puerta de entrada/salida' de tu oficina virtual. Sin ella, los recursos públicos no podrían conectarse con el mundo exterior."
+      },
+      {
+        "frente": "¿Qué son las Security Lists [Listas de Seguridad] y cómo controlan el tráfico en una VCN?",
+        "dorso": "Las Security Lists [Listas de Seguridad] son reglas que definen qué tráfico de red puede entrar (ingress) o salir (egress) de una subred o instancia. Funcionan como un portero que revisa quién puede entrar o salir de tu oficina: puedes permitir solo ciertos tipos de tráfico (ej: HTTP para un servidor web) y bloquear todo lo demás. Son esenciales para proteger tu red de accesos no autorizados.",
+        "pista_didactica": "Usa la analogía de un 'portero de seguridad': las Security Lists son las reglas que él sigue para decidir quién entra o sale de tu oficina virtual."
+      }
+    ]
+  },
+  "evaluacion_calidad": {
+    "anclaje_fuente_score": 0.7,
+    "claridad_pedagogica": "Alta",
+    "observaciones": "Contenido adaptado para perfil Principiante. Anclaje riguroso en fuentes técnicas originales sin alucinaciones detectadas."
+  },
+  "almacenamiento_oci": {
+    "bucket": "nuevamente-contenidos-educativos",
+    "objeto_id": "contenido-introduccion-a-la-ar-principiante-flashcards-069c21.json",
+    "status_upload": "completado (local/emulado)"
+  }
+}
