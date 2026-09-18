@@ -76,7 +76,7 @@ flowchart TB
 
 ---
 
-## 🎯 Cuatro Parámetros de Control (Requisito O-11)
+## 🎯 Cuatro Parámetros de Control (Requisito O-13)
 
 | Dimensión | Opciones Soportadas | Enfoque Pedagógico |
 | :--- | :--- | :--- |
@@ -159,21 +159,21 @@ OCI_CONFIG_FILE=~/.oci/config
 
 | Criterio | Descripción | Estado | Evidencia |
 | :--- | :--- | :---: | :--- |
-| **O-01** | Ingesta PDF, Markdown y Texto Plano | ✅ PASS | `src/ingestion/loaders.py` · `tests/test_ingestion.py` |
-| **O-02** | Limpieza y normalización de texto | ✅ PASS | `src/ingestion/loaders.py` (`clean_text`) · `tests/test_ingestion.py` |
-| **O-03** | Segmentación con solapamiento configurable | ✅ PASS | `src/ingestion/chunker.py` (`HierarchicalChunker`) · `tests/test_ingestion.py` |
-| **O-04** | Vector store y búsqueda semántica | ✅ PASS | `src/rag/vector_store.py` (ChromaDB) · `tests/test_rag_pipeline.py` |
-| **O-05** | 4 perfiles de destinatario | ✅ PASS | `src/schemas/adaptation.py` · `tests/test_domain_contracts.py` |
-| **O-06** | Formatos Flashcards, Tutorial y Resumen | ✅ PASS | `src/schemas/adaptation.py` · `tests/test_schemas.py` |
-| **O-07** | Metadatos con tiempo, conceptos y prerrequisitos | ✅ PASS | `MetadatosAprendizaje` en `src/schemas/adaptation.py` |
-| **O-08** | Control de alucinaciones con anclaje a la fuente | ✅ PASS | `src/quality/evaluator.py` (`anclaje_fuente_score >= 0.85`) |
-| **O-09** | Salida forzada en JSON estructurado tipado | ✅ PASS | `src/llm/engine.py` (validación Pydantic estricta) |
-| **O-10** | Manejo de excepciones defensivo del LLM | ✅ PASS | Multi-proveedor fallback (Gemini/Mistral/NVIDIA/OpenAI) |
-| **O-11** | Interfaz con los 4 parámetros de control | ✅ PASS | `ui/app.py` (Perfil, Formato, 10 Sectores, Nivel) |
-| **O-12** | Caso de evaluación precargado en 1-click | ✅ PASS | `ui/app.py` (Botón "Cargar Caso Oficial: Arquitectura VCN") |
-| **O-13** | Almacenamiento en OCI Object Storage | ✅ PASS | `src/storage/oci_storage.py` (Universal Storage Adapter) |
-| **O-14** | Suite de pruebas automatizadas | ✅ PASS | **46/46 tests pasando** (`pytest tests/ -v`) |
-| **X-01** | Independencia del corpus con sector no relacionado | ✅ PASS | Sector 6 Manufactura en `tests/test_cross_corpus_domain.py` |
+| **O-01** | Ingesta PDF, Markdown y Texto Plano | 🟢 VERIFICADO | `src/ingestion/loaders.py` · `tests/test_ingestion.py` |
+| **O-02** | Limpieza y normalización de texto conservando terminología | 🟢 VERIFICADO | `src/ingestion/loaders.py` (`clean_text`) · `tests/test_ingestion.py` |
+| **O-03** | Orquestación con LLM (Google Gemini) | 🟡 PENDIENTE | Cliente migrado a `google-genai` en `src/llm/engine.py`; ejecución viva pendiente de provisión de `GEMINI_API_KEY` por el squad. |
+| **O-04** | Pipeline RAG: chunking 1000/150, embeddings y vector store | 🟢 VERIFICADO | `src/ingestion/chunker.py` · `src/rag/vector_store.py` (ChromaDB) |
+| **O-05** | Mismo documento adaptado a al menos 2 perfiles y 2 formatos | 🟢 VERIFICADO | Vinculado a Contrato 01 (Principiante Flashcards) y Contrato 02 (Arquitecto Tutorial) en `docs/contratos_referencia/` |
+| **O-06** | Formatos mínimos (Flashcards, Tutorial y Resumen) | 🟢 VERIFICADO | `src/schemas/adaptation.py` · `tests/test_schemas.py` |
+| **O-07** | Metadatos de aprendizaje con tiempo, conceptos y prerrequisitos | 🟢 VERIFICADO | `MetadatosAprendizaje` en `src/schemas/adaptation.py` |
+| **O-08** | Control de alucinaciones con anclaje a la fuente | 🟢 VERIFICADO | `src/quality/evaluator.py` (`anclaje_fuente_score >= 0.85`) |
+| **O-09** | Salida forzada en JSON estructurado y tipado | 🟢 VERIFICADO | `src/llm/engine.py` (validación Pydantic estricta con `RespuestaAdaptacion`) |
+| **O-10** | Manejo de excepciones defensivo ante caídas del LLM | 🟢 VERIFICADO | Cadena multi-proveedor: Google GenAI ➔ Mistral ➔ NVIDIA NIM ➔ OpenAI ➔ Sintético |
+| **O-11** | Almacenamiento en OCI Object Storage Always Free | 🟠 EXCEPCIÓN | Documentada y certificada en `docs/EXCEPCION_ALMACENAMIENTO_OCI.md`. Adaptador conmutable con prueba archivada |
+| **O-12** | Mínimo de 3 ejemplos de ejecución documentados | 🟢 VERIFICADO | Contratos 01, 02 y 03 versionados en `docs/contratos_referencia/` |
+| **O-13** | Interfaz de usuario con los 4 parámetros de control | 🟢 VERIFICADO | `ui/app.py` (Perfil, Formato, 10 Sectores Canónicos, Nivel de Detalle) |
+| **O-14** | Suite de pruebas automatizadas que valide el flujo completo | 🟢 VERIFICADO | 46 pruebas automatizadas passing en `tests/` (`pytest tests/ -v`) |
+| **X-01** | Independencia del corpus con sector no relacionado | 🟢 VERIFICADO | Sector 6 Manufactura en `tests/test_cross_corpus_domain.py` y `docs/INFORME_INDEPENDENCIA_CORPUS.md` |
 
 ---
 

@@ -1,4 +1,4 @@
-# 📋 REGISTRO FORMAL DE EXCEPCIÓN TÉCNICA — ALMACENAMIENTO OCI OBJECT STORAGE (CRITERIO O-13)
+# 📋 REGISTRO FORMAL DE EXCEPCIÓN TÉCNICA — ALMACENAMIENTO OCI OBJECT STORAGE (CRITERIO O-11)
 
 **Proyecto:** NuevaMente (NewMind)  
 **Programa:** Hackathon ONE G10 (Oracle Next Education & Alura)  
@@ -10,7 +10,7 @@
 ## 1. ENTREGABLE A: Registro Formal de la Excepción Técnica
 
 ### 1.1 Antecedentes y Justificación
-El pliego oficial del Hackathon ONE G10 estipula en el criterio **O-13**:
+El pliego oficial del Hackathon ONE G10 estipula en el criterio **O-11**:
 > *"Integración activa y funcional con OCI Object Storage (capa Always Free) para la persistencia de archivos."*
 
 Para la fase de construcción del prototipo de referencia y su validación asíncrona, se declaró formalmente una **Excepción Técnica de Almacenamiento**:
@@ -98,4 +98,4 @@ En la prueba `test_storage_commutation_and_fallback`:
 - El objeto JSON se persiste sin pérdida de datos y retorna estado `"completado (local/emulado)"`.
 
 ---
-*Fin del Registro de Excepción O-13.*
+*Fin del Registro de Excepción O-11.*

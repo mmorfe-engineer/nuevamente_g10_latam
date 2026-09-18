@@ -919,28 +919,33 @@ with tab_pmo_arq:
     # ELEMENTO 1 APROBADO: MATRIZ DE TRAZABILIDAD VISIBLE CON ESTADOS REALES
     # --------------------------------------------------------------------------
     st.markdown("### 📋 1. Matriz de Trazabilidad del Pliego (15 Criterios Oficiales)")
-    st.caption("Verificación con estados reales: 🟢 Verde = Evidencia comprobada · 🟠 Naranja = Excepción técnica justificada · 🟡 Ámbar = En proceso.")
+    st.caption("Verificación con estados reales: 🟢 Verde = Evidencia comprobada (13) · 🟠 Naranja = Excepción técnica justificada (1, O-11) · 🟡 Ámbar = Pendiente de verificación (1, O-03).")
 
     matriz_criterios = [
         {"cod": "O-01", "req": "Ingesta de documentos técnicos en PDF, Markdown y Texto Plano", "st": "🟢 VERIFICADO", "ev": "src/ingestion/loaders.py · tests/test_ingestion.py"},
-        {"cod": "O-02", "req": "Limpieza y normalización de texto conservando terminología técnica", "st": "🟢 VERIFICADO", "ev": "src/ingestion/loaders.py (clean_text)"},
-        {"cod": "O-03", "req": "Segmentación en fragmentos con solapamiento configurable", "st": "🟢 VERIFICADO", "ev": "src/ingestion/chunker.py (1000/150) · docs/DECISION_TECNICA_CHUNKING.md"},
-        {"cod": "O-04", "req": "Almacenamiento y recuperación vectorial semántica", "st": "🟢 VERIFICADO", "ev": "src/rag/vector_store.py (ChromaDB) · tests/test_rag_pipeline.py"},
-        {"cod": "O-05", "req": "Adaptación pedagógica según los cuatro perfiles del pliego", "st": "🟢 VERIFICADO", "ev": "docs/contratos_referencia/ (ejemplos 01, 02, 03 y gemini junior)"},
+        {"cod": "O-02", "req": "Limpieza y normalización de texto conservando terminología técnica", "st": "🟢 VERIFICADO", "ev": "src/ingestion/loaders.py (clean_text) · tests/test_ingestion.py"},
+        {"cod": "O-03", "req": "Orquestación con LLM (Google Gemini)", "st": "🟡 PENDIENTE DE VERIFICACIÓN", "ev": "Cliente migrado a google-genai listo en src/llm/engine.py; ejecución viva pendiente de provisión de GEMINI_API_KEY por el squad."},
+        {"cod": "O-04", "req": "Pipeline RAG: chunking 1000/150, embeddings y Vector Store", "st": "🟢 VERIFICADO", "ev": "src/ingestion/chunker.py (1000/150 configurable) · src/rag/vector_store.py (ChromaDB)"},
+        {"cod": "O-05", "req": "Mismo documento adaptado a al menos dos perfiles y dos formatos", "st": "🟢 VERIFICADO", "ev": "docs/contratos_referencia/ (Contrato 01 Principiante/Flashcards y Contrato 02 Arquitecto/Tutorial)"},
         {"cod": "O-06", "req": "Generación en los tres formatos mínimos (Flashcards, Tutorial, Resumen)", "st": "🟢 VERIFICADO", "ev": "src/schemas/adaptation.py · tests/test_schemas.py"},
         {"cod": "O-07", "req": "Metadatos de aprendizaje con tiempo, conceptos y prerrequisitos", "st": "🟢 VERIFICADO", "ev": "src/schemas/adaptation.py (MetadatosAprendizaje)"},
         {"cod": "O-08", "req": "Control de alucinaciones con anclaje a la fuente comprobable", "st": "🟢 VERIFICADO", "ev": "src/quality/evaluator.py (anclaje_fuente_score >= 0.85)"},
         {"cod": "O-09", "req": "Salida forzada en formato JSON estructurado y tipado", "st": "🟢 VERIFICADO", "ev": "src/llm/engine.py · RespuestaAdaptacion Pydantic v2"},
         {"cod": "O-10", "req": "Manejo de excepciones defensivo ante caídas de la API del LLM", "st": "🟢 VERIFICADO", "ev": "src/llm/engine.py (Google GenAI ➔ Mistral ➔ NVIDIA ➔ OpenAI ➔ Sintético)"},
-        {"cod": "O-11", "req": "Interfaz de usuario con los cuatro parámetros de control requeridos", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Perfil, Formato, 10 Sectores, Nivel de Detalle)"},
-        {"cod": "O-12", "req": "Caso de evaluación precargado seleccionable en un solo clic", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Botón '⚡ Caso Oficial Oracle VCN' y 3 Escenarios pág. 6)"},
-        {"cod": "O-13", "req": "Almacenamiento de contenidos generados en OCI Object Storage", "st": "🟠 EXCEPCIÓN TÉCNICA", "ev": "docs/EXCEPCION_ALMACENAMIENTO_OCI.md · Adaptador S3 conmutable"},
+        {"cod": "O-11", "req": "Almacenamiento de contenidos generados en OCI Object Storage", "st": "🟠 EXCEPCIÓN TÉCNICA", "ev": "docs/EXCEPCION_ALMACENAMIENTO_OCI.md · Adaptador S3 conmutable"},
+        {"cod": "O-12", "req": "Mínimo de 3 ejemplos de ejecución documentados", "st": "🟢 VERIFICADO", "ev": "docs/contratos_referencia/ (Contratos 01, 02 y 03 versionados)"},
+        {"cod": "O-13", "req": "Interfaz de usuario con los cuatro parámetros de control requeridos", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Perfil, Formato, 10 Sectores Canónicos, Nivel de Detalle)"},
         {"cod": "O-14", "req": "Suite de pruebas automatizadas que valide el flujo completo", "st": "🟢 VERIFICADO", "ev": "tests/ (46 tests unitarios e integrales en Pytest)"},
         {"cod": "X-01", "req": "Independencia del corpus demostrada con sector no relacionado", "st": "🟢 VERIFICADO", "ev": "docs/INFORME_INDEPENDENCIA_CORPUS.md · tests/test_cross_corpus_domain.py"}
     ]
 
     for c in matriz_criterios:
-        color = "var(--success)" if "VERIFICADO" in c["st"] else "var(--amber)"
+        if "🟢" in c["st"]:
+            color = "var(--success)"
+        elif "🟠" in c["st"]:
+            color = "#f97316"
+        else:
+            color = "var(--amber)"
         st.markdown(f"""
         <div class="nm-glass" style="padding: 0.75rem 1.1rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
             <div style="flex: 1; min-width: 250px;">
@@ -1000,7 +1005,7 @@ with tab_pmo_arq:
 
     docs_transferencia = [
         ("PAQUETE_TRANSFERENCIA_PROYECTO_1.md", "Paquete Maestro de Transferencia", "Guía integral con secuencia de commits, arquitectura, trampas y riesgos."),
-        ("EXCEPCION_ALMACENAMIENTO_OCI.md", "Registro de Excepción OCI (O-13)", "Procedimiento de conmutación de almacenamiento y prueba archivada."),
+        ("EXCEPCION_ALMACENAMIENTO_OCI.md", "Registro de Excepción OCI (O-11)", "Procedimiento de conmutación de almacenamiento y prueba archivada."),
         ("DECISION_TECNICA_CHUNKING.md", "Decisión Técnica: Chunking 1000/150", "Medición comparativa contra 500/50 y mitigación del efecto acantilado."),
         ("INFORME_INDEPENDENCIA_CORPUS.md", "Informe de Independencia del Corpus", "Certificación del Principio de Agnosticismo con Sector 6 (Manufactura)."),
         ("MAPA_MODULOS_REUTILIZABLES.md", "Mapa de Módulos Reutilizables", "Inventario archivo por archivo: qué copiar a FastAPI y qué tomar para React.")

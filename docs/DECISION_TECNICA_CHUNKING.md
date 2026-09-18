@@ -3,7 +3,8 @@
 **Proyecto:** NuevaMente (NewMind)  
 **Componente:** Pipeline de Ingestión y RAG (`src/ingestion/chunker.py`)  
 **Autor:** Coordinación General & PM (Martin Morfe) / Prototipo de Referencia  
-**Decisión:** Adopción obligatoria de `chunk_size = 1000` caracteres y `chunk_overlap = 150` caracteres.
+**Decisión:** Adopción referencial de `chunk_size = 1000` caracteres y `chunk_overlap = 150` caracteres como punto de partida calibrado.
+**Carácter de los Valores:** **REFERENCIALES Y CONFIGURABLES (No Taxativos ni Limitativos)**.
 
 ---
 
@@ -17,7 +18,9 @@ Una directiva técnica completa se compone de:
 3. Parámetros cuantitativos (ej. `Puerto de destino 443, Bloque CIDR 0.0.0.0/0`).
 4. Justificación de seguridad / trade-off (ej. `Exposición pública controlada`).
 
-La longitud promedio de este bloque semántico oscila entre **680 y 890 caracteres**.
+> [!TIP]
+> **Hallazgo Clave de Calibración:**  
+> La longitud promedio de una directiva indivisible oscila entre **680 y 890 caracteres**. Con este dato empírico, el Squad 1 no necesita repetir la calibración base desde cero.
 
 ---
 
@@ -35,12 +38,11 @@ Se ejecutó una prueba de corte comparativa sobre el manual de arquitectura de r
 
 ---
 
-## 3. Conclusión y Recomendación para Squad 1
+## 3. Pautas de Aplicación y Flexibilidad para Squad 1
 
-La configuración `chunk_size = 1000` y `chunk_overlap = 150`:
-1. **Preserva la regla parentética:** El solapamiento de 150 caracteres garantiza que la primera aparición de un término con su equivalente en inglés (`Virtual Cloud Network (VCN) [Red Virtual en la Nube (VCN)]`) no quede desprendida de su definición.
-2. **Optimiza la ventana de contexto:** Permite inyectar 3 chunks recuperados en el prompt (~3000 caracteres) sin saturar la ventana de atención ni incurrir en costos innecesarios.
-3. **Regla de Oro:** Si un equipo reduce el chunk a 500 para "ahorrar tokens", destruirá la relación de causa-efecto en las guías técnicas. El valor de 1000/150 es el estándar calibrado del proyecto.
+1. **Punto de Partida Medido, No Restricción:** Los valores `1000/150` se declaran como punto de partida de referencia probado. Si Squad 1, al ingerir sus propios documentos específicos, obtiene mejor anclaje con otros valores (ej. 800/120 o 1200/200), adoptará dicha configuración y registrará la decisión técnica en su bitácora.
+2. **Configurabilidad Obligatoria (Nunca Fijos en Código):** Los parámetros de segmentación deben ser siempre configurables mediante variables de entorno (`DEFAULT_CHUNK_SIZE`, `DEFAULT_CHUNK_OVERLAP`) o mediante argumentos del constructor en `DocumentChunker(chunk_size=..., chunk_overlap=...)`. Jamás deben cablearse valores fijos en el código fuente.
+3. **Preservación de la Nomenclatura Parentética:** El solapamiento de 150 caracteres garantiza que la primera aparición de un término con su equivalente en inglés (`Virtual Cloud Network (VCN) [Red Virtual en la Nube (VCN)]`) no quede desprendida de su definición conceptual.
 
 ---
 *Fin de la Nota de Decisión Técnica.*
