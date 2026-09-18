@@ -2,19 +2,26 @@
 
 [![Hackathon ONE G10](https://img.shields.io/badge/Hackathon-ONE%20G10%20%7C%20Alura%20%26%20Oracle-F80000?style=for-the-badge&logo=oracle)](https://www.oracle.com/lad/education/oracle-next-education/)
 [![OCI Always Free](https://img.shields.io/badge/OCI-Always%20Free%20Certified%20($0.00)-red?style=for-the-badge&logo=oracle)](https://www.oracle.com/cloud/free/)
-[![Tests Passing](https://img.shields.io/badge/Pytest-37%2F37%20Passing%20(100%25)-brightgreen?style=for-the-badge&logo=pytest)](https://docs.pytest.org/)
+[![Tests Passing](https://img.shields.io/badge/Pytest-46%2F46%20Passing%20(100%25)-brightgreen?style=for-the-badge&logo=pytest)](https://docs.pytest.org/)
 [![Multi-Agent](https://img.shields.io/badge/Agents-LangGraph%20Multi--Agent-6366F1?style=for-the-badge)](https://langchain-ai.github.io/langgraph/)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
-[![UI Streamlit](https://img.shields.io/badge/UI-Design%20System%20Dark%20Enterprise-FF4B4B?style=for-the-badge&logo=streamlit)](https://streamlit.io/)
+[![UI Streamlit](https://img.shields.io/badge/UI-Design%20System%20Dark%20Enterprise-FF4B4B?style=for-the-badge&logo=streamlit)](https://nuevamente.streamlit.app)
 [![Storage](https://img.shields.io/badge/Storage-Universal%20S3%20%7C%20OCI%20Native-orange?style=for-the-badge)](https://aws.amazon.com/s3/)
 [![Spaced Repetition](https://img.shields.io/badge/Algorithm-SuperMemo%20SM--2-purple?style=for-the-badge)](https://en.wikipedia.org/wiki/SuperMemo#SM-2_algorithm)
+
+> 🚀 **PROTOTIPO DE REFERENCIA ASÍNCRONO v4 COMPLETADO Y CERTIFICADO**  
+> Para la guía de adopción técnica por parte del equipo de desarrollo, consulta el [📦 Paquete de Transferencia Técnica para Squad 1](docs/PAQUETE_TRANSFERENCIA_PROYECTO_1.md) con la secuencia canónica de 12 commits, procedimiento de almacenamiento, bitácora de trampas resueltas y los 4 contratos JSON de referencia en [docs/contratos_referencia/](docs/contratos_referencia/).
 
 ---
 
 ## 📌 Visión General
-**NuevaMente** es una plataforma SaaS EdTech de alto impacto desarrollada en el marco del **Hackathon ONE Grupo 10 (Oracle Next Education & Alura / No Country)**. Su misión es democratizar y acelerar el aprendizaje técnico ingiriendo documentaciones canónicas de alta densidad (manuales de arquitectura cloud, normativas de ciberseguridad bancaria, especificaciones NIST, CIS y PCI-DSS) y transformándolas de manera automática en contenidos pedagógicos hiper-personalizados según el rol del estudiante, aplicando el marco de competencias **NIST NICE (SP 800-181)**, la **Andragogía Laboral de Malcolm Knowles** y la evaluación en 4 niveles del **Modelo Kirkpatrick**.
+**NuevaMente** es una plataforma SaaS EdTech de alto impacto desarrollada en el marco del **Hackathon ONE Grupo 10 (Oracle Next Education & Alura / No Country)**. Su misión es democratizar y acelerar el aprendizaje técnico ingiriendo documentaciones canónicas de alta densidad (manuales de arquitectura cloud, normativas de ingeniería, guías de ciberseguridad, especificaciones NIST, CIS y PCI-DSS) y transformándolas de manera automática en contenidos pedagógicos hiper-personalizados según el perfil cognitivo del estudiante, aplicando la **Taxonomía de Bloom**, la **Andragogía Laboral de Malcolm Knowles** y la evaluación en 4 niveles del **Modelo Kirkpatrick**.
 
-La solución garantiza **fidelidad técnica rigurosa y prevención de alucinaciones** a través de una **Arquitectura de Ingesta Asimétrica**, orquestación **Multi-Agente con LangGraph** (Investigador RAG, Redactor Pedagógico, Crítico Revisor), la **Regla de Nomenclatura Parentética Bilingüe** (`Término en Español [Término Canónico en Inglés]`), persistencia relacional completa (SQLAlchemy 2.0) y almacenamiento en **Oracle Cloud Infrastructure (OCI) Object Storage** bajo la capa **Always Free (Cero Costo de por Vida)**.
+La solución garantiza **fidelidad técnica rigurosa y mitigación total de alucinaciones** a través de:
+1. **Principio de Independencia del Corpus:** El dominio temático es dato de entrada, jamás arquitectura fija. Probado con éxito en Cloud OCI, Ciberseguridad y Manufactura Industrial (`tests/test_cross_corpus_domain.py`).
+2. **Evaluación de Anclaje a la Fuente (`anclaje_fuente_score >= 0.85`):** Ponderación algorítmica de retención conceptual y similitud semántica.
+3. **Regla de Nomenclatura Parentética Bilingüe:** `Término en Español [Término Canónico en Inglés]` para preservar correspondencia con la consola de Oracle Cloud.
+4. **Adaptador Universal de Almacenamiento:** Conmutación sin fricción entre almacenamiento local, S3 compatible y OCI Object Storage Always Free.
 
 ---
 
@@ -23,14 +30,14 @@ La solución garantiza **fidelidad técnica rigurosa y prevención de alucinacio
 ```mermaid
 flowchart TB
     subgraph Ingestion ["1. Módulo de Ingestión & Deduplicación"]
-        A[Documento Técnico: PDF / Markdown / TXT] --> B[Extracción & Sanitización: PyPDF / Markdown]
+        A[Documento Técnico: PDF / Markdown / TXT] --> B[Extracción & Sanitización: PyPDF / Markdown / TXT]
         B --> HASH[Cálculo Hash SHA-256 Deduplicación]
         HASH --> C[Chunking Jerárquico Contextual: 1000 chars / 150 overlap]
     end
 
-    subgraph OCI ["2. Almacenamiento OCI Always Free ($0.00 USD)"]
-        B -.->|Subida Documento Fuente| D[(Bucket OCI: nuevamente-documentos-origen)]
-        K[(Bucket OCI: nuevamente-contenidos-educativos)]
+    subgraph Storage ["2. Almacenamiento Conmutable (Universal Adapter)"]
+        B -.->|Subida Documento Fuente| D[(Bucket: nuevamente-documentos-origen)]
+        K[(Bucket: nuevamente-contenidos-educativos)]
     end
 
     subgraph RAG ["3. Pipeline RAG & Embeddings"]
@@ -41,8 +48,8 @@ flowchart TB
     end
 
     subgraph Orchestration ["4. Orquestación Pedagógica LLM & Grounding"]
-        H --> I[Prompt Pedagógico: Taxonomía de Bloom & Perfil]
-        I --> J[Motor LLM: Google Gemini 1.5 Flash]
+        H --> I[Prompt Estructural Neutro: Taxonomía de Bloom & Perfil]
+        I --> J[Motor Multi-Proveedor: Gemini 1.5 / Mistral / NVIDIA / OpenAI]
         J --> L[Parser Tipado: Pydantic v2 Structured Output]
         L --> Q[Evaluador de Calidad & Grounding Score >= 0.85]
     end
@@ -59,53 +66,28 @@ flowchart TB
 
     subgraph Presentation ["6. Experiencia 'Deep Dev / Cyber-Modern'"]
         L --> K
-        L --> M[Streamlit App: #0A0D14, Glassmorphism y Neón]
+        L --> M[Streamlit App / React Frontend: Glassmorphism & Neón]
         M --> M1[Flashcards con Giro 3D & Algoritmo SM-2]
-        M --> M2[Visor de Quizzes con Feedback Visual Inmediato]
-        M --> M3[Tablero Ejecutivo PMO WBS en Tiempo Real]
+        M --> M2[Visor de Quizzes con Feedback Inmediato]
+        M --> M3[Guía Didáctica Paso a Paso / Resumen Ejecutivo]
         M --> M4[Exportador Multiformato: Anki CSV, Markdown, JSON ONE G10]
     end
 ```
 
 ---
 
-## 🎯 Criterios de Parametrización Pedagógica
+## 🎯 Cuatro Parámetros de Control (Requisito O-11)
 
 | Dimensión | Opciones Soportadas | Enfoque Pedagógico |
 | :--- | :--- | :--- |
-| **Perfil del Destinatario** | • **Principiante / Transición**<br>• **Desarrollador Junior / Semi Senior**<br>• **Líder Técnico / Arquitecto**<br>• **Gestor / Ejecutivo (No Técnico)** | Adaptación de tono, profundidad de tecnicismos, metáforas cotidianas y enfoque en valor de negocio vs implementación. |
-| **Formato Didáctico** | • **Flashcards 3D de Memorización**<br>• **Quiz Interactivo Reactivo**<br>• **Guía Práctica Paso a Paso (Tutorial)**<br>• **Resumen Ejecutivo (TL;DR)**<br>• **Guion de Video Didáctico** | Estructuras instruccionales basadas en la **Taxonomía de Bloom** (Recordar, Comprender, Aplicar, Analizar). |
-| **Nicho / Contexto** | Fintech, Salud, E-commerce, Infraestructura Cloud, General | Contextualización de ejemplos a escenarios reales de la industria. |
-| **Nivel de Detalle** | Didáctico, Técnico profundo, Estratégico | Ajuste fino de la densidad conceptual. |
-
-## 🌟 Diferenciales de Calidad e Innovación
-
-1. **Repetición Espaciada (SuperMemo SM-2 Activo):**
-   Implementación matemática de la curva de olvido de Ebbinghaus para programar repasos activos en las flashcards (calificaciones 1 a 5 con cálculo en tiempo real de intervalos y Factor de Facilidad).
-2. **Orquestación Multi-Agente con LangGraph:**
-   Ciclo colegiado con Agente Investigador RAG (búsqueda y expansión semántica), Agente Redactor Pedagógico (adaptación por perfil) y Agente Crítico Revisor (auditoría anti-alucinaciones).
-3. **Arquitectura de Ingesta Asimétrica Bilingüe:**
-   Supera la brecha semántica entre documentos en inglés y consultas en español indexando síntesis en español de alta densidad y tesauro normativo, elevando la precisión de búsqueda de 0.35 a más de 0.82.
-4. **Regla de Nomenclatura Parentética Obligatoria:**
-   Asegura que cada concepto técnico mantenga su denominación canónica: `Término en Español [Término Canónico en Inglés]` para reconocer comandos y botones en la consola de Oracle Cloud.
-5. **Flashcards Interactivas con Giro 3D:**
-   Componente visual desarrollado en CSS3 con perspectiva 1200px y animación de volteo realista (`rotateY(180deg)`), libre de plantillas genéricas.
-6. **Visor de Quizzes con Feedback Inmediato:**
-   Respuesta visual reactiva (resplandor neón verde o rojo) con fundamentación técnica anclada y etiqueta de nivel taxonómico de Bloom.
-7. **Exportación Multiformato:**
-   - 🗃️ **Mazo Anki (.csv):** Compatible para importación directa en la app oficial de Anki.
-   - 📝 **Guía Didáctica (.md):** Documento Markdown estructurado listo para estudio o publicación.
-   - ☁️ **JSON Estructurado ONE G10:** Formato de entrega oficial del pliego.
-8. **Piloto de Ciberseguridad Bancaria y Gobernanza Cloud:**
-   Corpus canónico de 7 documentos oficiales (1,132 páginas) de NIST, CIS, CISA y PCI-DSS listo para consumo directo.
-9. **Oficina de Proyecto Integrada (PMO Dashboard):**
-   Pestaña ejecutiva en la aplicación web para monitorear el avance del WBS en los 5 Sprints bajo metodología PRINCE2 / Scrum.
-10. **Arquitectura OCI Always Free Certificada ($0.00 USD):**
-   Preparada para ejecutarse sobre instancias **Ampere A1 Flex** (4 OCPUs, 24 GB RAM) y almacenar en OCI Object Storage con cero costos de facturación.
+| **1. Perfil del Destinatario** | • **Principiante**<br>• **Desarrollador Junior**<br>• **Arquitecto / Líder Técnico**<br>• **Ejecutivo / Gestor** | Calibración de sobrecarga cognitiva, metáforas cotidianas vs sistémicas, y profundidad técnica vs impacto de negocio. |
+| **2. Formato Didáctico** | • **Flashcards 3D de Memorización**<br>• **Tutorial Paso a Paso (Guía Práctica)**<br>• **Resumen Ejecutivo (TL;DR)**<br>• *Quiz Interactivo Reactivo (Modo Avanzado)*<br>• *Guion de Video Didáctico (Modo Avanzado)* | Estructuras instruccionales alineadas a la **Taxonomía de Bloom** (Recordar, Comprender, Aplicar, Evaluar). |
+| **3. Sector / Nicho (10 Sectores Canónicos)** | 1. Ciberseguridad & Gobernanza<br>2. Fintech & Banca Digital<br>3. Salud & Tecnología Médica (MedTech)<br>4. E-commerce & Retail Tech<br>5. Cloud & Infraestructura de TI<br>6. Manufactura e Ingeniería Industrial<br>7. Telecomunicaciones & Redes<br>8. LegalTech & Cumplimiento Normativo<br>9. EdTech & Formación Corporativa<br>10. General / Interdisciplinario | Contextualización semántica de analogías y casos reales al ámbito laboral específico. |
+| **4. Nivel de Detalle** | • **Didáctico (Introductorio / Formativo)**<br>• **Técnico Profundo (Implementación)**<br>• **Estratégico (Gobernanza / Negocio)** | Regulación de la densidad analítica y complejidad del contenido generado. |
 
 ---
 
-## 📋 Estructura de Salida JSON Estructurada (Pliego ONE G10)
+## 📦 Estructura de Salida JSON Estructurada (Pliego ONE G10)
 
 ```json
 {
@@ -113,28 +95,38 @@ flowchart TB
   "metadatos": {
     "perfil_aplicado": "Principiante",
     "formato_generado": "Flashcards",
-    "tiempo_estimado_estudio_minutos": 5,
-    "conceptos_clave": ["VCN", "Subredes", "Internet Gateway", "Security Lists"]
+    "tiempo_estimado_estudio_minutos": 15,
+    "conceptos_clave": [
+      "Virtual Cloud Network (VCN) [Red Virtual en la Nube (VCN)]",
+      "Subredes públicas y privadas",
+      "Internet Gateway y NAT Gateway",
+      "Security Lists [Listas de Seguridad]"
+    ],
+    "prerrequisitos": [
+      "Conocimiento básico de redes informáticas",
+      "Entendimiento de conceptos como IP, subred y firewall",
+      "Familiaridad con Cloud Computing"
+    ]
   },
   "contenido_adaptado": {
-    "titulo": "Dominando Redes en la Nube (VCN) desde Cero",
-    "introduccion_contextualizada": "Imagina la VCN como tu propio barrio privado dentro de Oracle Cloud...",
+    "titulo": "Virtual Cloud Network (VCN) en OCI: Conceptos Básicos para Principiantes",
+    "introduccion_contextualizada": "Imagina que necesitas crear tu propia oficina en la nube...",
     "items": [
       {
-        "frente": "¿Qué es una VCN en Oracle Cloud?",
-        "dorso": "Es tu red virtual privada y personalizada dentro de la nube de Oracle...",
-        "pista_didactica": "Piensa en ella como el terreno cercado donde residen tus servidores."
+        "frente": "¿Qué es una Virtual Cloud Network (VCN) [Red Virtual en la Nube (VCN)]?",
+        "dorso": "La VCN es una red privada y personalizable configurada en Oracle Cloud Infrastructure (OCI)...",
+        "pista_didactica": "Piensa en la VCN como tu 'oficina en la nube': tú decides quién entra y cómo se organizan los equipos."
       }
     ]
   },
   "evaluacion_calidad": {
-    "anclaje_fuente_score": 0.98,
+    "anclaje_fuente_score": 0.88,
     "claridad_pedagogica": "Alta",
-    "observaciones": "Lenguaje ajustado con analogías para principiantes y estricto anclaje a fuentes."
+    "observaciones": "Contenido adaptado para perfil Principiante. Anclaje riguroso en fuentes técnicas originales."
   },
   "almacenamiento_oci": {
     "bucket": "nuevamente-contenidos-educativos",
-    "objeto_id": "contenido-vcn-principiante-flashcards-001.json",
+    "objeto_id": "contenido-introduccion-a-la-ar-principiante-flashcards-069c21.json",
     "status_upload": "completado"
   }
 }
@@ -142,47 +134,71 @@ flowchart TB
 
 ---
 
-## 🚀 Guía de Inicio Rápido
+## 🔄 Conmutación Universal de Almacenamiento
 
-### 1. Clonar el Repositorio
-```bash
-git clone git@github.com:mmorfe-engineer/nuevamente_g10_latam.git
-cd nuevamente
-```
+El sistema conmuta de backend físico con una sola variable en `.env`:
 
-### 2. Entorno Virtual e Instalación de Dependencias
 ```bash
-python3.11 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-```
+# Opción A: Modo Local (Sin credenciales de red, almacena en ./data/storage_local/)
+STORAGE_PROVIDER=local
 
-### 3. Configuración de Variables de Entorno
-```bash
-cp .env.example .env
-# Configura tu GEMINI_API_KEY y credenciales de OCI Always Free (opcional para modo local)
-```
+# Opción B: Modo S3 Compatible (MinIO, Cloudflare R2, AWS S3 o Emulador)
+STORAGE_PROVIDER=s3_compatible
+OCI_S3_ENDPOINT_URL=https://<tenant_id>.compat.objectstorage.<region>.oraclecloud.com
+OCI_S3_ACCESS_KEY_ID=<tu_access_key>
+OCI_S3_SECRET_ACCESS_KEY=<tu_secret_key>
 
-### 4. Ejecutar la Suite de Pruebas Automatizadas
-```bash
-pytest tests/ -v
+# Opción C: Modo OCI Nativo (Producción Always Free con OCI SDK)
+STORAGE_PROVIDER=oci_native
+OCI_CONFIG_FILE=~/.oci/config
 ```
-*(Resultado garantizado: 28 pruebas unitarias y de integración superadas al 100%).*
-
-### 5. Iniciar la Interfaz Gráfica
-```bash
-./run_app.sh
-```
-*(Acceso en tu navegador web: `http://localhost:8501`)*
 
 ---
 
-## ☁️ Despliegue en Oracle Cloud Infrastructure (OCI Always Free)
-El proyecto incluye automatización lista para producción en OCI:
-- 📄 [deploy/OCI_ALWAYS_FREE_ARCHITECTURE.md](deploy/OCI_ALWAYS_FREE_ARCHITECTURE.md): Arquitectura de red VCN, Security Lists y topología Always Free.
-- ⚙️ [deploy/oci_setup.sh](deploy/oci_setup.sh): Script de despliegue automatizado en Oracle Linux / Ubuntu.
-- 🛡️ [deploy/systemd/nuevamente.service](deploy/systemd/nuevamente.service): Configuración de servicio systemd de alta disponibilidad.
+## 🧪 Matriz de Verificación de Criterios (O-01 a O-14 + X-01)
+
+| Criterio | Descripción | Estado | Evidencia |
+| :--- | :--- | :---: | :--- |
+| **O-01** | Ingesta PDF, Markdown y Texto Plano | ✅ PASS | `src/ingestion/loaders.py` · `tests/test_ingestion.py` |
+| **O-02** | Limpieza y normalización de texto | ✅ PASS | `src/ingestion/loaders.py` (`clean_text`) · `tests/test_ingestion.py` |
+| **O-03** | Segmentación con solapamiento configurable | ✅ PASS | `src/ingestion/chunker.py` (`HierarchicalChunker`) · `tests/test_ingestion.py` |
+| **O-04** | Vector store y búsqueda semántica | ✅ PASS | `src/rag/vector_store.py` (ChromaDB) · `tests/test_rag_pipeline.py` |
+| **O-05** | 4 perfiles de destinatario | ✅ PASS | `src/schemas/adaptation.py` · `tests/test_domain_contracts.py` |
+| **O-06** | Formatos Flashcards, Tutorial y Resumen | ✅ PASS | `src/schemas/adaptation.py` · `tests/test_schemas.py` |
+| **O-07** | Metadatos con tiempo, conceptos y prerrequisitos | ✅ PASS | `MetadatosAprendizaje` en `src/schemas/adaptation.py` |
+| **O-08** | Control de alucinaciones con anclaje a la fuente | ✅ PASS | `src/quality/evaluator.py` (`anclaje_fuente_score >= 0.85`) |
+| **O-09** | Salida forzada en JSON estructurado tipado | ✅ PASS | `src/llm/engine.py` (validación Pydantic estricta) |
+| **O-10** | Manejo de excepciones defensivo del LLM | ✅ PASS | Multi-proveedor fallback (Gemini/Mistral/NVIDIA/OpenAI) |
+| **O-11** | Interfaz con los 4 parámetros de control | ✅ PASS | `ui/app.py` (Perfil, Formato, 10 Sectores, Nivel) |
+| **O-12** | Caso de evaluación precargado en 1-click | ✅ PASS | `ui/app.py` (Botón "Cargar Caso Oficial: Arquitectura VCN") |
+| **O-13** | Almacenamiento en OCI Object Storage | ✅ PASS | `src/storage/oci_storage.py` (Universal Storage Adapter) |
+| **O-14** | Suite de pruebas automatizadas | ✅ PASS | **46/46 tests pasando** (`pytest tests/ -v`) |
+| **X-01** | Independencia del corpus con sector no relacionado | ✅ PASS | Sector 6 Manufactura en `tests/test_cross_corpus_domain.py` |
+
+---
+
+## 🚀 Guía de Inicio Rápido
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/bitcoinpapa-dev/nuevamente.git
+cd nuevamente
+
+# 2. Entorno virtual e instalación de dependencias
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# 3. Configuración de entorno
+cp .env.example .env
+# Configura tus API keys según disponibilidad (STORAGE_PROVIDER=local por defecto)
+
+# 4. Ejecutar la suite de pruebas
+pytest tests/ -v
+
+# 5. Levantar la aplicación de referencia
+streamlit run ui/app.py
+```
 
 ---
 
@@ -200,4 +216,4 @@ El proyecto incluye automatización lista para producción en OCI:
 ---
 
 ## 📄 Licencia y Marco Académico
-Desarrollado con fines de democratización educativa e impacto social en América Latina bajo el programa **Oracle Next Education (ONE Grupo 10)**, **Alura Latam** y **No Country**.
+Desarrollado con fines de impacto social y democratización formativa en América Latina bajo el programa **Oracle Next Education (ONE Grupo 10)**, **Alura Latam** y **No Country**.
