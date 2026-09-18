@@ -101,18 +101,20 @@ st.markdown("""
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
         <a href="https://github.com/mmorfe-engineer/nuevamente_g10_latam" target="_blank" style="text-decoration: none;">
-            <span class="nm-chip" style="color: var(--ink); border: 1px solid var(--line); font-weight: 600; cursor: pointer;">
-                📂 GitHub: nuevamente_g10_latam
+            <span class="nm-chip" style="color: var(--ink-muted); border: 1px solid var(--line); font-weight: 500; cursor: pointer;">
+                GitHub: nuevamente_g10_latam
             </span>
         </a>
-        <span class="nm-chip" style="color: var(--cyber); border: 1px solid var(--cyber);">🧪 Modo Piloto MVP</span>
-        <span class="nm-chip" style="color: var(--success); border: 1px solid var(--success);">OCI Always Free ($0.00)</span>
-        <span class="nm-chip" style="color: var(--quantum-soft); border: 1px solid var(--quantum-soft);">Adaptador S3 Universal</span>
+        <span class="nm-chip" style="color: var(--quantum-soft); border: 1px solid var(--quantum-soft); font-weight: 600;">Prototipo de Referencia v4</span>
+        <span class="nm-chip" style="color: var(--success); border: 1px solid var(--success); font-weight: 500;">
+            <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--success); margin-right: 5px;"></span>OCI Always Free ($0.00)
+        </span>
+        <span class="nm-chip" style="color: var(--ink-muted); border: 1px solid var(--line);">Adaptador S3 Universal</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-with st.expander("📖 Información del Proyecto No Country · Cronograma y Arquitectura OCI"):
+with st.expander("Información del Proyecto No Country · Cronograma y Arquitectura Cloud"):
     st.markdown("""
     **Proyecto 1: NuevaMente** · Hackathon No Country & Oracle Next Education (ONE G10)
     - **Coordinador General & PM:** Martin Morfe
@@ -123,116 +125,14 @@ with st.expander("📖 Información del Proyecto No Country · Cronograma y Arqu
       * **Cómputo:** Despliegue interactivo en Streamlit Cloud y preparado para migración a OCI Compute VM Ampere A1.
     """)
 
-# ==============================================================================
-# RUTAS DE APRENDIZAJE NIST NICE (Matriz Simétrica 2x2 de TrackCards)
-# ==============================================================================
-st.markdown("#### 🗺️ Rutas de Especialización y Certificación NIST NICE")
-track_f1_c1, track_f1_c2 = st.columns(2)
-with track_f1_c1:
-    st.markdown("""
-    <div class="nm-track nm-track--ops">
-      <div class="nm-track__head">
-        <span class="nm-track__tag">RUTA A · OPERATIVO</span>
-        <span class="nm-caption">Soporte, Taquilla & Helpdesk</span>
-      </div>
-      <h4 class="nm-track__title">Operaciones Seguras & Defensa Cotidiana</h4>
-      <div class="nm-track__skills">
-        <span class="nm-chip">Anti-Phishing FIDO2</span>
-        <span class="nm-chip">Ingeniería Social</span>
-        <span class="nm-chip">MFA Hardware</span>
-      </div>
-      <div class="nm-bar-container">
-        <div class="nm-bar-label">
-          <span>Competencia NIST NICE:</span>
-          <span style="color: var(--cyber); font-weight: 600;">85% (Nivel Avanzado)</span>
-        </div>
-        <div class="nm-bar"><i style="width: 85%;"></i></div>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with track_f1_c2:
-    st.markdown("""
-    <div class="nm-track nm-track--dev">
-      <div class="nm-track__head">
-        <span class="nm-track__tag">RUTA B · DESARROLLO</span>
-        <span class="nm-caption">Desarrollador Junior & Cloud Dev</span>
-      </div>
-      <h4 class="nm-track__title">Desarrollo Seguro en la Nube (DevSecOps)</h4>
-      <div class="nm-track__skills">
-        <span class="nm-chip">Hardening VCN</span>
-        <span class="nm-chip">Security Lists</span>
-        <span class="nm-chip">Tokenización PCI</span>
-      </div>
-      <div class="nm-bar-container">
-        <div class="nm-bar-label">
-          <span>Competencia NIST NICE:</span>
-          <span style="color: var(--quantum-soft); font-weight: 600;">65% (Nivel Intermedio)</span>
-        </div>
-        <div class="nm-bar"><i style="width: 65%;"></i></div>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
-
-track_f2_c1, track_f2_c2 = st.columns(2)
-with track_f2_c1:
-    st.markdown("""
-    <div class="nm-track nm-track--arch">
-      <div class="nm-track__head">
-        <span class="nm-track__tag">RUTA C · ARQUITECTURA</span>
-        <span class="nm-caption">Arquitecto Cloud & CISO</span>
-      </div>
-      <h4 class="nm-track__title">Arquitectura Zero Trust & Resiliencia</h4>
-      <div class="nm-track__skills">
-        <span class="nm-chip">Zero Trust (ZTA)</span>
-        <span class="nm-chip">Plan BCP / RTO</span>
-        <span class="nm-chip">Mitigación Ransomware</span>
-      </div>
-      <div class="nm-bar-container">
-        <div class="nm-bar-label">
-          <span>Competencia NIST NICE:</span>
-          <span style="color: var(--amber); font-weight: 600;">40% (En Progreso)</span>
-        </div>
-        <div class="nm-bar"><i style="width: 40%;"></i></div>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with track_f2_c2:
-    st.markdown("""
-    <div class="nm-track nm-track--audit">
-      <div class="nm-track__head">
-        <span class="nm-track__tag">RUTA D · GOBERNANZA</span>
-        <span class="nm-caption">Auditor, Compras & Compliance</span>
-      </div>
-      <h4 class="nm-track__title">Auditoría, SCRM & Marco Regulatorio</h4>
-      <div class="nm-track__skills">
-        <span class="nm-chip">C-SCRM NIST</span>
-        <span class="nm-chip">PCI DSS v4.0</span>
-        <span class="nm-chip">Contratos Cloud</span>
-      </div>
-      <div class="nm-bar-container">
-        <div class="nm-bar-label">
-          <span>Competencia NIST NICE:</span>
-          <span style="color: var(--oracle-text); font-weight: 600;">25% (Fase Inicial)</span>
-        </div>
-        <div class="nm-bar"><i style="width: 25%;"></i></div>
-      </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.markdown("<div style='height: 18px;'></div>", unsafe_allow_html=True)
-
 
 # ==============================================================================
 # SIDEBAR: Carga de Documentos y Parametrización
 # ==============================================================================
 with st.sidebar:
-    st.markdown("### ⚙️ Entrada de Documentos")
+    st.markdown("### Entrada de Documentos")
     
-    modo_entrada = st.radio(
+    modo_entrada = st.selectbox(
         "Modo de Ingesta:",
         [
             "⚡ Caso Oficial Oracle (Redes VCN en OCI)",
@@ -241,7 +141,8 @@ with st.sidebar:
             "✍️ Pegar Texto Técnico Libre",
             "📚 Explorar Corpus Canónico Precargado (SQL)"
         ],
-        index=0
+        index=0,
+        help="Selecciona la fuente documental técnica a procesar."
     )
 
     doc_titulo = ""
@@ -257,8 +158,7 @@ with st.sidebar:
             "incluyendo subredes publicas y privadas, tablas de enrutamiento, Internet Gateways, NAT Gateways y Security Lists "
             "para control de trafico mediante reglas de entrada (ingress) y salida (egress)."
         )
-        st.info("📋 **Caso Canónico de Evaluación (Pág. 4 del Pliego Oficial)**")
-        st.caption(f"Texto fuente oficial cargado ({len(doc_contenido)} caracteres). Listo para procesar con RAG.")
+        st.caption(f"Caso Canónico Oracle VCN (Pág. 4). {len(doc_contenido)} caracteres cargados.")
         perfil_default_idx = 0
         formato_default_idx = 0
 
@@ -283,28 +183,28 @@ with st.sidebar:
                 "formato_idx": 3
             }
         }
-        seleccion_escenario = st.selectbox("Selecciona un escenario oficial:", list(escenarios_disponibles.keys()))
+        seleccion_escenario = st.selectbox("Escenario oficial:", list(escenarios_disponibles.keys()))
         esc_info = escenarios_disponibles[seleccion_escenario]
         archivo_muestra = settings.SAMPLES_DIR / esc_info["archivo"]
         if archivo_muestra.exists():
             doc_titulo = esc_info["titulo"]
             doc_contenido = doc_loader.extract_from_file(archivo_muestra)
-            st.success(f"📄 Escenario Oficial Cargado: `{esc_info['archivo']}` ({len(doc_contenido):,} chars)")
+            st.caption(f"Cargado: `{esc_info['archivo']}` ({len(doc_contenido):,} chars)")
         perfil_default_idx = esc_info["perfil_idx"]
         formato_default_idx = esc_info["formato_idx"]
 
     elif modo_entrada == "📄 Subir Documento (PDF / MD / TXT)":
         doc_titulo_input = st.text_input("Título del Documento:", value="Guía Técnica de Operación")
-        archivo_subido = st.file_uploader("Arrastra tu documento técnico:", type=["pdf", "md", "txt", "markdown"])
+        archivo_subido = st.file_uploader("Arrastra tu documento:", type=["pdf", "md", "txt", "markdown"])
         if archivo_subido is not None:
             bytes_data = archivo_subido.read()
             doc_titulo = doc_titulo_input or archivo_subido.name
             doc_contenido = doc_loader.extract_from_bytes(archivo_subido.name, bytes_data)
-            st.success(f"📄 Procesado: `{archivo_subido.name}` ({len(doc_contenido):,} chars)")
+            st.caption(f"Procesado: `{archivo_subido.name}` ({len(doc_contenido):,} chars)")
 
     elif modo_entrada == "✍️ Pegar Texto Técnico Libre":
         doc_titulo = st.text_input("Título del Documento:", value="Procedimiento Técnico")
-        doc_contenido = st.text_area("Pega el texto técnico aquí:", height=180)
+        doc_contenido = st.text_area("Pega el texto técnico aquí:", height=120)
 
     else:
         casos_ciberseguridad = {
@@ -314,58 +214,67 @@ with st.sidebar:
             "CISA / FBI (StopRansomware & Continuidad de Negocio BCP)": "04_cisa_fbi_guia_stop_ransomware_bcp.pdf",
             "PCI-DSS v4.0 (Seguridad de Tarjetas y Tokenización PAN)": "05_pci_dss_v4_0_la_seguridad_bancaria.pdf"
         }
-        seleccion_caso = st.selectbox("Selecciona un documento del corpus:", list(casos_ciberseguridad.keys()))
+        seleccion_caso = st.selectbox("Documento del corpus:", list(casos_ciberseguridad.keys()))
         archivo_ciber = BASE_DIR / "data" / "fuentes_ciberseguridad" / casos_ciberseguridad[seleccion_caso]
         if archivo_ciber.exists():
             doc_titulo = seleccion_caso.split("(")[0].strip()
             doc_contenido = doc_loader.extract_from_file(archivo_ciber)
             if len(doc_contenido) > 30000:
                 doc_contenido = doc_contenido[:30000] + "\n\n... [Muestra del documento canónico]"
-            st.success(f"📄 Corpus Precargado: `{casos_ciberseguridad[seleccion_caso]}` ({len(doc_contenido):,} chars)")
+            st.caption(f"Corpus: `{casos_ciberseguridad[seleccion_caso]}` ({len(doc_contenido):,} chars)")
 
-    st.markdown("---")
-    st.markdown("### 🎯 Cuatro Parámetros de Adaptación (Pliego Oficial)")
+    st.markdown("### Parámetros de Adaptación (Pliego O-13)")
 
+    perfil_opciones = [p.value for p in PerfilDestinatario]
+    perfil_idx = perfil_default_idx if 0 <= perfil_default_idx < len(perfil_opciones) else 0
     perfil = st.selectbox(
         "1. Perfil del Destinatario:",
-        [p.value for p in PerfilDestinatario],
-        index=perfil_default_idx,
+        perfil_opciones,
+        index=perfil_idx,
         help="Adecúa el lenguaje y el nivel de abstracción a las competencias del perfil."
     )
 
+    formato_opciones = [f.value for f in FormatoSalida]
+    formato_idx = formato_default_idx if 0 <= formato_default_idx < len(formato_opciones) else 0
     formato = st.selectbox(
         "2. Formato Pedagógico de Salida:",
-        [f.value for f in FormatoSalida],
-        index=formato_default_idx,
+        formato_opciones,
+        index=formato_idx,
         help="Estructura didáctica generada por el orquestador."
     )
 
     col_side1, col_side2 = st.columns(2)
     with col_side1:
+        nicho_opciones = [n.value for n in NichoSector]
+        target_sector = "Cloud e infraestructura" if modo_entrada == "⚡ Caso Oficial Oracle (Redes VCN en OCI)" else "General"
+        try:
+            nicho_idx = nicho_opciones.index(target_sector)
+        except ValueError:
+            nicho_idx = 0
         nicho = st.selectbox(
             "3. Nicho / Sector:",
-            [n.value for n in NichoSector],
-            index=0 if modo_entrada != "⚡ Caso Oficial Oracle (Redes VCN en OCI)" else 6,
+            nicho_opciones,
+            index=nicho_idx,
             help="Contextualiza ejemplos y terminología al sector seleccionado (10 sectores disponibles)."
         )
     with col_side2:
+        detalle_opciones = [d.value for d in NivelDetalle]
         detalle = st.selectbox(
             "4. Nivel de Detalle:",
-            [d.value for d in NivelDetalle],
+            detalle_opciones,
             index=0,
             help="Profundidad didáctica de la explicación."
         )
 
-    st.markdown("---")
     modo_orquestacion = st.radio(
         "Orquestador Cognitivo:",
-        ["⚡ Motor RAG Directo", "🤖 Sistema Multi-Agente (LangGraph)"],
+        ["Motor RAG Directo", "Sistema Multi-Agente (LangGraph)"],
         index=1,
-        help="Multi-Agente activa: Agente Investigador RAG + Agente Redactor NIST + Agente Crítico Revisor."
+        horizontal=True,
+        help="Multi-Agente activa: Agente Investigador RAG + Agente Redactor Pedagógico + Agente Crítico Revisor."
     )
 
-    st.markdown("---")
-    btn_generar = st.button("⚡ Generar Adaptación Pedagógica", type="primary", use_container_width=True)
+    btn_generar = st.button("Generar Adaptación Pedagógica", type="primary", use_container_width=True)
 
 
 # ==============================================================================
@@ -409,13 +318,13 @@ if btn_generar:
     if not doc_contenido.strip():
         st.error("Por favor ingresa o selecciona un documento técnico antes de continuar.")
     else:
-        is_multi_agent = (modo_orquestacion == "🤖 Sistema Multi-Agente (LangGraph)")
+        is_multi_agent = ("Multi-Agente" in modo_orquestacion)
         progress_placeholder = st.empty()
         with progress_placeholder.container():
             msg = (
-                "🤖 **Ejecutando Grafo Multi-Agente LangGraph:** Investigador RAG ➔ Redactor Pedagógico NIST ➔ Crítico Revisor..."
+                "**Ejecutando Grafo Multi-Agente:** Investigador RAG ➔ Redactor Pedagógico ➔ Crítico Revisor..."
                 if is_multi_agent
-                else "🔄 **Ejecutando Pipeline RAG:** Ingesta Asimétrica, recuperación semántica y adaptación cognitiva..."
+                else "**Ejecutando Pipeline RAG:** Ingesta Asimétrica, recuperación semántica y adaptación cognitiva..."
             )
             st.info(msg)
 
@@ -449,15 +358,15 @@ if btn_generar:
 # PESTAÑAS PRINCIPALES DEL SISTEMA (Tablero NuevaMente)
 # ==============================================================================
 tab_estudio, tab_metricas, tab_corpus, tab_pmo_arq = st.tabs([
-    "🎓 Experiencia de Estudio (Flashcards · Quiz · Guías)",
-    "📊 Auditoría, Calidad & Grafo Multi-Agente",
-    "📚 Corpus Normativo & Glosario Canónico",
-    "🏢 Tablero PMO & Arquitectura Cloud"
+    "Experiencia de Aprendizaje",
+    "Auditoría y Métricas de Calidad",
+    "Base Documental y Glosario",
+    "Trazabilidad PMO y Arquitectura"
 ])
 
 
 # ------------------------------------------------------------------------------
-# TAB 1: EXPERIENCIA DE ESTUDIO INTERACTIVO (Flashcards 3D, Quiz, Guías)
+# TAB 1: EXPERIENCIA DE ESTUDIO INTERACTIVO (Flashcards, Quiz, Guías)
 # ------------------------------------------------------------------------------
 with tab_estudio:
     if "ultima_respuesta" in st.session_state:
@@ -480,27 +389,27 @@ with tab_estudio:
 
         col_m1, col_m2, col_m3, col_m4 = st.columns(4)
         with col_m1:
-            st.markdown(f"**👤 Perfil:** `{resp.metadatos.perfil_aplicado}`")
+            st.markdown(f"**Perfil:** `{resp.metadatos.perfil_aplicado}`")
         with col_m2:
-            st.markdown(f"**⏱️ Tiempo:** `{resp.metadatos.tiempo_estimado_estudio_minutos} min`")
+            st.markdown(f"**Tiempo Estimado:** `{resp.metadatos.tiempo_estimado_estudio_minutos} min`")
         with col_m3:
-            st.markdown(f"**🏷️ Conceptos:** {', '.join(resp.metadatos.conceptos_clave)}")
+            st.markdown(f"**Conceptos Clave:** {', '.join(resp.metadatos.conceptos_clave)}")
         with col_m4:
             prereqs = getattr(resp.metadatos, "prerrequisitos", []) or ["Lectura técnica básica"]
-            st.markdown(f"**📚 Prerrequisitos:** {', '.join(prereqs)}")
+            st.markdown(f"**Prerrequisitos:** {', '.join(prereqs)}")
 
         st.markdown("---")
         items = resp.contenido_adaptado.items
 
-        # --- CASO 1: FLASHCARDS 3D CON SUPERMEMO SM-2 ---
+        # --- CASO 1: FLASHCARDS CON SUPERMEMO SM-2 ---
         if req.formato_salida == FormatoSalida.FLASHCARDS:
             col_fc_title, col_fc_anki = st.columns([3, 1])
             with col_fc_title:
-                st.markdown("### 🗂️ Flashcards 3D con Repetición Espaciada SM-2")
-                st.caption("Pasa el cursor sobre la tarjeta o pulsa el botón 'Voltear' para ver el anverso. Incluye Términos Canónicos [EN/ES] y cita normativa.")
+                st.markdown("### Flashcards con Repetición Espaciada (Algoritmo SM-2)")
+                st.caption("Pasa el cursor sobre la tarjeta o pulsa 'Voltear' para ver la respuesta. Incluye Términos Canónicos [EN/ES] y cita del documento.")
             with col_fc_anki:
                 st.download_button(
-                    "🗃️ Exportar a Anki (.csv)",
+                    "Exportar a Anki (.csv)",
                     data=export_to_anki_csv(items),
                     file_name=f"anki_{resp.almacenamiento_oci.objeto_id.replace('.json', '.csv')}",
                     mime="text/csv",
@@ -602,10 +511,10 @@ with tab_estudio:
 
                 st.markdown("<hr style='border:0; border-top: 1px solid var(--line); margin: 1.25rem 0;'>", unsafe_allow_html=True)
 
-        # --- CASO 2: QUIZ INTERACTIVO NEÓN CON FEEDBACK FUNDAMENTADO ---
+        # --- CASO 2: QUIZ INTERACTIVO CON FEEDBACK FUNDAMENTADO ---
         elif req.formato_salida == FormatoSalida.QUIZ:
-            st.markdown("### ❓ Evaluación Diagnóstica de Retención")
-            st.caption("Cada pregunta valida competencias laborales NIST NICE con fundamentación técnica explícita y anclaje normativo.")
+            st.markdown("### Evaluación Diagnóstica de Retención")
+            st.caption("Validación de retención activa y comprensión conceptual con fundamentación técnica explícita.")
 
             for i, itm in enumerate(items):
                 pregunta = itm.get("pregunta", "Pregunta de evaluación")
@@ -615,7 +524,7 @@ with tab_estudio:
                     itm.get("justificacion_didactica")
                     or itm.get("explicacion")
                     or itm.get("pista_didactica")
-                    or "Fundamentación técnica verificada contra el marco normativo de ciberseguridad NIST NICE."
+                    or "Fundamentación técnica verificada contra el contenido del documento fuente."
                 )
 
                 st.markdown(f"#### {i+1}. {format_canonical_terms(pregunta)}", unsafe_allow_html=True)
@@ -655,7 +564,7 @@ with tab_estudio:
                                 <span class="nm-opt__note" style="display:block; margin-top: 6px;">
                                     <strong>Tu selección:</strong> {format_canonical_terms(opcion_seleccionada)}<br/>
                                     <strong>Respuesta Correcta:</strong> {format_canonical_terms(correcta)}<br/>
-                                    <strong>Fundamentación Normativa:</strong> {format_canonical_terms(explicacion)}
+                                    <strong>Fundamentación Técnica:</strong> {format_canonical_terms(explicacion)}
                                 </span>
                             </span>
                         </div>
@@ -667,11 +576,11 @@ with tab_estudio:
         elif req.formato_salida == FormatoSalida.TUTORIAL:
             col_tut_title, col_tut_dl = st.columns([3, 1])
             with col_tut_title:
-                st.markdown("### 📋 Guía Técnica de Aplicación Inmediata")
-                st.caption("Procedimiento estructurado con comandos de terminal, segmentación de privilegios y criterios de validación.")
+                st.markdown("### Guía Técnica de Aplicación Paso a Paso")
+                st.caption("Procedimiento estructurado con instrucciones secuenciales y criterios de verificación operativa.")
             with col_tut_dl:
                 st.download_button(
-                    "📝 Descargar Guía (.md)",
+                    "Descargar Guía (.md)",
                     data=export_to_markdown_guide(resp),
                     file_name=f"guia_{resp.almacenamiento_oci.objeto_id.replace('.json', '.md')}",
                     mime="text/markdown",
@@ -694,7 +603,7 @@ with tab_estudio:
 
         # --- CASO 4: SÍNTESIS EJECUTIVA / RESUMEN / CASOS ---
         else:
-            st.markdown("### 📝 Síntesis Andragógica & Ejecutiva")
+            st.markdown("### Síntesis Andragógica y Ejecutiva")
             for itm in items:
                 sec_title = itm.get("seccion") or itm.get("caso_estudio") or itm.get("titulo") or "Dimensión Clave"
                 sec_content = itm.get("contenido") or itm.get("descripcion") or str(itm)
@@ -703,19 +612,19 @@ with tab_estudio:
                 <div class="nm-glass" style="padding: 1.25rem 1.5rem; margin-bottom: 1rem; border-left: 4px solid var(--amber);">
                     <h4 style="margin: 0 0 0.5rem 0; color: var(--ink);">{format_canonical_terms(sec_title)}</h4>
                     <p style="color: var(--ink-muted); line-height: 1.6;">{format_canonical_terms(sec_content)}</p>
-                    {f'<div class="nm-flash__hint" style="margin-top: 8px;"><b>💡 Implicación Normativa:</b> {sec_hint}</div>' if sec_hint else ''}
+                    {f'<div class="nm-flash__hint" style="margin-top: 8px;"><b>Implicación Práctica:</b> {sec_hint}</div>' if sec_hint else ''}
                 </div>
                 """, unsafe_allow_html=True)
     else:
-        st.info("👈 Selecciona un documento en la barra lateral y presiona **'⚡ Generar Adaptación Pedagógica'** para explorar la experiencia interactiva.")
+        st.info("Selecciona o carga un documento técnico en la barra lateral y presiona **'Generar Adaptación Pedagógica'** para comenzar.")
 
 
 # ------------------------------------------------------------------------------
 # TAB 2: AUDITORÍA DE CALIDAD & TRAZA MULTI-AGENTE (LangGraph + Kirkpatrick)
 # ------------------------------------------------------------------------------
 with tab_metricas:
-    st.markdown("### 📊 Auditoría de Calidad y Traza del Grafo Multi-Agente")
-    st.caption("Verificación de cero alucinaciones normativas mediante orquestación LangGraph (3 Agentes Especializados).")
+    st.markdown("### Auditoría de Calidad y Traza del Grafo Multi-Agente")
+    st.caption("Verificación de cero alucinaciones mediante orquestación LangGraph (3 Agentes Especializados).")
 
     if "ultima_respuesta" in st.session_state:
         resp = st.session_state["ultima_respuesta"]
@@ -724,7 +633,18 @@ with tab_metricas:
         col_c1, col_c2, col_c3 = st.columns(3)
         with col_c1:
             score = resp.evaluacion_calidad.anclaje_fuente_score
-            st.metric("Puntuación de Anclaje (Grounding)", f"{int(score * 100)}%", help="Fidelidad verificable contra el documento técnico.")
+            score_pct = int(score * 100)
+            if score >= 0.85:
+                estado_grounding = "Excelente (Anclaje Óptimo)"
+            elif score >= 0.70:
+                estado_grounding = "Aceptable (Anclaje Parcial)"
+            else:
+                estado_grounding = "Alerta (Revisión Requerida)"
+            st.metric(
+                "Puntuación de Anclaje (Grounding)",
+                f"{score_pct}% · {estado_grounding}",
+                help="Fidelidad verificable contra el documento técnico sin alucinación."
+            )
             st.progress(score)
         with col_c2:
             st.metric("Claridad Andragógica", resp.evaluacion_calidad.claridad_pedagogica)
@@ -741,15 +661,15 @@ with tab_metricas:
 
         if trace.get("agent_logs"):
             st.markdown("---")
-            with st.expander("🤖 Traza Completa de Ejecución Multi-Agente (LangGraph)", expanded=True):
+            with st.expander("Traza Completa de Ejecución Multi-Agente (LangGraph)", expanded=True):
                 for log_line in trace["agent_logs"]:
                     st.markdown(f"- {log_line}")
     else:
-        st.info("Las métricas de anclaje y la traza de los 3 agentes se calculan en tiempo real al generar una adaptación.")
+        st.info("Las métricas de anclaje y la traza de los agentes se calculan en tiempo real al generar una adaptación.")
 
     st.markdown("---")
-    st.markdown("### 🎖️ Sistema de Insignias de Dominio (Modelo Kirkpatrick)")
-    st.caption("Evaluación progresiva basada en los 4 Niveles de Kirkpatrick y los roles ocupacionales NIST NICE.")
+    st.markdown("### Sistema de Insignias de Dominio Pedagógico (Modelo Kirkpatrick)")
+    st.caption("Evaluación progresiva basada en los 4 Niveles de Kirkpatrick (Reacción, Aprendizaje, Comportamiento y Resultados).")
 
     st.markdown("""
     <div class="nm-row" style="justify-content: space-around; margin-top: 1.5rem;">
@@ -759,7 +679,7 @@ with tab_metricas:
         </div></div>
         <span class="nm-badge__lvl">NIVEL 1 · CIAN</span>
         <div class="nm-badge__name">Iniciado</div>
-        <span class="nm-caption">Reacción: Ruta completada</span>
+        <span class="nm-caption">Reacción: Contenido completado</span>
       </div>
 
       <div class="nm-badge nm-badge--l2">
@@ -767,8 +687,8 @@ with tab_metricas:
           <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
         </div></div>
         <span class="nm-badge__lvl">NIVEL 2 · ESMERALDA</span>
-        <div class="nm-badge__name">Operador Seguro</div>
-        <span class="nm-caption">Aprendizaje: Quiz ≥80% y SM-2</span>
+        <div class="nm-badge__name">Practicante</div>
+        <span class="nm-caption">Aprendizaje: Evaluación formativa y SM-2</span>
       </div>
 
       <div class="nm-badge nm-badge--l3">
@@ -776,8 +696,8 @@ with tab_metricas:
           <svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>
         </div></div>
         <span class="nm-badge__lvl">NIVEL 3 · VIOLETA</span>
-        <div class="nm-badge__name">Guardián Cloud</div>
-        <span class="nm-caption">Comportamiento: Checklist en puesto</span>
+        <div class="nm-badge__name">Aplicador</div>
+        <span class="nm-caption">Comportamiento: Implementación en puesto</span>
       </div>
 
       <div class="nm-badge nm-badge--l4">
@@ -785,54 +705,77 @@ with tab_metricas:
           <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
         </div></div>
         <span class="nm-badge__lvl">NIVEL 4 · ÁMBAR</span>
-        <div class="nm-badge__name">Arquitecto Certificado</div>
-        <span class="nm-caption">Resultados: Auditoría Cero Brechas</span>
+        <div class="nm-badge__name">Especialista</div>
+        <span class="nm-caption">Resultados: Dominio técnico consolidado</span>
       </div>
     </div>
     """, unsafe_allow_html=True)
 
 
 # ------------------------------------------------------------------------------
-# TAB 3: CORPUS NORMATIVO SOBERANO & GLOSARIO CANÓNICO
+# TAB 3: BASE DOCUMENTAL & GLOSARIO CANÓNICO
 # ------------------------------------------------------------------------------
 with tab_corpus:
-    st.markdown("### 📚 Base Normativa Soberana (PostgreSQL 18.6 & ChromaDB)")
-    st.caption("3,020 fragmentos de estándares oficiales de ciberseguridad procesados bajo la arquitectura de Ingesta Asimétrica LexForja.")
+    st.markdown("### Base Documental y Segmentación Semántica")
+    st.caption("Fragmentos de estándares y manuales técnicos procesados bajo la arquitectura de Ingesta Asimétrica y Vector Store.")
 
     with get_db_session() as db:
-        docs_db = CorpusRepository.get_all_documents(db) if hasattr(CorpusRepository, "get_all_documents") else db.query(CorpusDocumentoModel).all()
-        
-    for d in docs_db:
-        with st.expander(f"📄 {d.titulo} ({d.idioma.upper()}) · Chunks: {len(d.chunks)}"):
-            st.markdown(f"**ID:** `{d.doc_id}` | **Versión Normativa:** `{d.version_normativa}`")
-            st.markdown(f"**Archivo Origen:** `{d.archivo_origen}` | **Hash SHA-256:** `{d.sha256_hash[:16]}...`")
-            if d.chunks:
-                st.markdown(f"**Muestra del Primer Fragmento ({d.chunks[0].chunk_id}):**")
-                st.caption(f"**Síntesis Canónica en Español:** {d.chunks[0].sintesis_espanol}")
-                st.text(d.chunks[0].contenido_original[:350] + "...")
+        docs_db = db.query(CorpusDocumentoModel).all()
+        docs_summary = []
+        for d in docs_db:
+            chunks = d.chunks
+            fc = chunks[0] if chunks else None
+            docs_summary.append({
+                "doc_id": d.doc_id,
+                "titulo": d.titulo,
+                "idioma": d.idioma or "es",
+                "chunks_count": len(chunks),
+                "version_normativa": d.version_normativa or "N/A",
+                "archivo_origen": d.archivo_origen,
+                "sha256_hash": d.sha256_hash,
+                "first_chunk_id": fc.chunk_id if fc else None,
+                "first_chunk_sintesis": fc.sintesis_espanol if fc else None,
+                "first_chunk_contenido": fc.contenido_original[:350] if fc else None,
+            })
+        glossary_items = GlosarioRepository.get_all(db)
+        glossary_data = [
+            {
+                "termino_es": g.termino_es,
+                "termino_en": g.termino_en,
+                "definicion": getattr(g, "definicion_didactica", "") or getattr(g, "definicion_operativa", ""),
+                "categoria": getattr(g, "categoria", "General")
+            }
+            for g in glossary_items
+        ]
+
+    for d in docs_summary:
+        with st.expander(f"{d['titulo']} ({d['idioma'].upper()}) · Fragmentos: {d['chunks_count']}"):
+            st.markdown(f"**ID:** `{d['doc_id']}` | **Versión:** `{d['version_normativa']}`")
+            st.markdown(f"**Archivo Origen:** `{d['archivo_origen']}` | **Hash SHA-256:** `{d['sha256_hash'][:16]}...`")
+            if d["first_chunk_id"]:
+                st.markdown(f"**Muestra del Primer Fragmento ({d['first_chunk_id']}):**")
+                st.caption(f"**Síntesis Canónica:** {d['first_chunk_sintesis']}")
+                st.text(d["first_chunk_contenido"] + "...")
 
     st.markdown("---")
-    st.markdown("### 🛡️ Glosario Canónico Bilingüe LexForja (Español [Canonical English])")
-    st.caption("Garantiza que ningún término crítico de ciberseguridad se pierda en traducciones ambiguas.")
+    st.markdown("### Glosario Canónico Bilingüe (Español [Canonical English])")
+    st.caption("Asegura preservación de terminología técnica original y elimina ambigüedades de traducción.")
 
-    with get_db_session() as db:
-        glossary_items = GlosarioRepository.get_all(db)
-
-    if glossary_items:
+    if glossary_data:
         cols_g = st.columns(2)
-        for idx, g in enumerate(glossary_items):
+        for idx, g in enumerate(glossary_data):
             target_col = cols_g[idx % 2]
             with target_col:
                 st.markdown(f"""
                 <div class="nm-glass" style="padding: 0.9rem 1.1rem; margin-bottom: 0.6rem;">
                     <span class="nm-term">
-                        <strong>{g.termino_es}</strong> <span class="nm-term__en">{g.termino_en}</span>
+                        <strong>{g['termino_es']}</strong> <span class="nm-term__en">{g['termino_en']}</span>
                     </span>
                     <p style="margin: 0.3rem 0 0 0; font-size: 13px; color: var(--ink-muted); line-height: 1.4;">
-                        {g.definicion_operativa}
+                        {g['definicion']}
                     </p>
                     <span class="nm-caption" style="display: block; margin-top: 4px; font-size: 11px; color: var(--quantum-soft);">
-                        Rol NIST: {g.rol_nist_nice} · Contexto: {g.contexto_uso}
+                        Categoría: {g['categoria']}
                     </span>
                 </div>
                 """, unsafe_allow_html=True)
@@ -845,12 +788,12 @@ with tab_pmo_arq:
     st.markdown("""
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
         <div>
-            <h2 style="margin:0;">🏢 Trazabilidad Técnica & Paquete de Transferencia</h2>
+            <h2 style="margin:0;">Trazabilidad Técnica y Paquete de Transferencia</h2>
             <div class="nm-caption">Evidencia Objetiva del Prototipo de Referencia para Squad 1 · <strong>Coordinador General & PM: Martin Morfe</strong></div>
         </div>
         <div>
             <a href="https://github.com/mmorfe-engineer/nuevamente_g10_latam" target="_blank" style="text-decoration: none;">
-                <span class="nm-chip" style="color: var(--ink); border: 1px solid var(--line); font-weight: 600;">📂 GitHub: nuevamente_g10_latam</span>
+                <span class="nm-chip" style="color: var(--ink); border: 1px solid var(--line); font-weight: 500;">GitHub: nuevamente_g10_latam</span>
             </a>
         </div>
     </div>
@@ -918,7 +861,7 @@ with tab_pmo_arq:
     # --------------------------------------------------------------------------
     # ELEMENTO 1 APROBADO: MATRIZ DE TRAZABILIDAD VISIBLE CON ESTADOS REALES
     # --------------------------------------------------------------------------
-    st.markdown("### 📋 1. Matriz de Trazabilidad del Pliego (15 Criterios Oficiales)")
+    st.markdown("### 1. Matriz de Trazabilidad del Pliego (15 Criterios Oficiales)")
     st.caption("Verificación con estados reales: 🟢 Verde = Evidencia comprobada (13) · 🟠 Naranja = Excepción técnica justificada (1, O-11) · 🟡 Ámbar = Pendiente de verificación (1, O-03).")
 
     matriz_criterios = [
@@ -963,7 +906,7 @@ with tab_pmo_arq:
     # --------------------------------------------------------------------------
     # ELEMENTO 2 APROBADO: CENTRO DE DESCARGAS DE CONTRATOS JSON DE REFERENCIA
     # --------------------------------------------------------------------------
-    st.markdown("### 🗂️ 2. Centro de Descargas: Contratos JSON de Referencia")
+    st.markdown("### 2. Centro de Descargas: Contratos JSON de Referencia")
     st.caption("Contratos de datos versionados y autovalidados para consumo de Squad 1 (directorio docs/contratos_referencia/).")
 
     contratos_files = [
@@ -978,14 +921,14 @@ with tab_pmo_arq:
         fpath = BASE_DIR / "docs" / "contratos_referencia" / filename
         col_c1, col_c2 = st.columns([3, 1])
         with col_c1:
-            st.markdown(f"**📄 {label}**")
+            st.markdown(f"**{label}**")
             st.caption(f"{desc} · Archivo: `{filename}`")
         with col_c2:
             if fpath.exists():
                 with open(fpath, "r", encoding="utf-8") as f:
                     data_str = f.read()
                 st.download_button(
-                    label=f"⬇️ Descargar",
+                    label="Descargar",
                     data=data_str,
                     file_name=filename,
                     mime="application/json",
@@ -1000,7 +943,7 @@ with tab_pmo_arq:
     # --------------------------------------------------------------------------
     # ELEMENTO 3 APROBADO: PAQUETE DE TRANSFERENCIA DESCARGABLE
     # --------------------------------------------------------------------------
-    st.markdown("### 📦 3. Paquete de Transferencia Técnica para Squad 1")
+    st.markdown("### 3. Paquete de Transferencia Técnica para Squad 1")
     st.caption("Documentos de ingeniería para adopción inmediata del equipo en la construcción con React + FastAPI.")
 
     docs_transferencia = [
@@ -1015,14 +958,14 @@ with tab_pmo_arq:
         doc_path = BASE_DIR / "docs" / doc_name
         col_t1, col_t2 = st.columns([3, 1])
         with col_t1:
-            st.markdown(f"**📑 {doc_label}**")
+            st.markdown(f"**{doc_label}**")
             st.caption(f"{doc_desc} · `{doc_name}`")
         with col_t2:
             if doc_path.exists():
                 with open(doc_path, "r", encoding="utf-8") as f:
                     doc_content = f.read()
                 st.download_button(
-                    label=f"⬇️ Descargar MD",
+                    label="Descargar MD",
                     data=doc_content,
                     file_name=doc_name,
                     mime="text/markdown",
@@ -1037,7 +980,7 @@ with tab_pmo_arq:
     # --------------------------------------------------------------------------
     # ELEMENTO 4 APROBADO: SECUENCIA DE LOS DOCE COMMITS CANÓNICOS
     # --------------------------------------------------------------------------
-    st.markdown("### 🌳 4. Secuencia Canónica de los 12 Commits (Activo Transferible)")
+    st.markdown("### 4. Secuencia Canónica de los 12 Commits (Activo Transferible)")
     st.caption("Orden estricto de precedencia técnica ejecutado para guiar a Squad 1 en el ciclo de desarrollo.")
 
     commits_list = [
@@ -1068,10 +1011,10 @@ with tab_pmo_arq:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### ☁️ Persistencia en OCI Object Storage & S3 Universal")
+    st.markdown("### Persistencia en OCI Object Storage y Adaptador S3")
     if "ultima_respuesta" in st.session_state:
         resp = st.session_state["ultima_respuesta"]
-        st.info(f"📦 **Bucket:** `{resp.almacenamiento_oci.bucket}` | **Objeto ID:** `{resp.almacenamiento_oci.objeto_id}`")
+        st.info(f"**Bucket:** `{resp.almacenamiento_oci.bucket}` | **Objeto ID:** `{resp.almacenamiento_oci.objeto_id}`")
         
         json_output = resp.model_dump()
         json_str = json.dumps(json_output, indent=2, ensure_ascii=False)
@@ -1079,7 +1022,7 @@ with tab_pmo_arq:
         col_d1, col_d2 = st.columns(2)
         with col_d1:
             st.download_button(
-                "⬇️ Descargar JSON Oficial (ONE G10)",
+                "Descargar JSON Oficial (ONE G10)",
                 data=json_str,
                 file_name=resp.almacenamiento_oci.objeto_id,
                 mime="application/json",
@@ -1087,14 +1030,14 @@ with tab_pmo_arq:
             )
         with col_d2:
             st.download_button(
-                "📝 Descargar Guía Didáctica Markdown",
+                "Descargar Guía Didáctica Markdown",
                 data=export_to_markdown_guide(resp),
                 file_name=resp.almacenamiento_oci.objeto_id.replace(".json", ".md"),
                 mime="text/markdown",
                 use_container_width=True
             )
 
-        with st.expander("👁️ Inspeccionar Payload JSON Persistido"):
+        with st.expander("Inspeccionar Payload JSON Persistido"):
             st.code(json_str, language="json")
     else:
         st.markdown("""
@@ -1110,7 +1053,7 @@ with tab_pmo_arq:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### 🚀 Alcance Fuera del Compromiso · [PRÓXIMAMENTE - ROADMAP v2.0]")
+    st.markdown("### Alcance Adicional · Roadmap Futuro")
     st.caption("Funcionalidades viables de nivel enterprise declaradas formalmente para fases de escalamiento post-MVP:")
     
     col_r1, col_r2 = st.columns(2)
@@ -1118,14 +1061,14 @@ with tab_pmo_arq:
         st.markdown("""
         <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--cyber);">
             <span class="nm-chip" style="font-size: 10px; color: var(--cyber);">PRÓXIMAMENTE</span>
-            <strong style="color: var(--ink); display: block; margin: 4px 0;">👁️ Ingestión Multimodal con Visión Computacional</strong>
+            <strong style="color: var(--ink); display: block; margin: 4px 0;">Ingestión Multimodal con Visión Computacional</strong>
             <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
                 Interpretación automatizada de diagramas de arquitectura, planos de planta y topologías de red en formato PNG/JPG vía Gemini Vision.
             </p>
         </div>
         <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--quantum);">
             <span class="nm-chip" style="font-size: 10px; color: var(--quantum);">PRÓXIMAMENTE</span>
-            <strong style="color: var(--ink); display: block; margin: 4px 0;">🎧 Podcast Educativo / Audio AI Bidireccional</strong>
+            <strong style="color: var(--ink); display: block; margin: 4px 0;">Podcast Educativo / Audio AI Bidireccional</strong>
             <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
                 Síntesis de voz para transformar cualquier guía técnica en un diálogo de audio explicativo interactivo (estilo NotebookLM).
             </p>
@@ -1135,14 +1078,14 @@ with tab_pmo_arq:
         st.markdown("""
         <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--amber);">
             <span class="nm-chip" style="font-size: 10px; color: var(--amber);">PRÓXIMAMENTE</span>
-            <strong style="color: var(--ink); display: block; margin: 4px 0;">🎓 Conectores LMS SCORM 2004 / LTI 1.3</strong>
+            <strong style="color: var(--ink); display: block; margin: 4px 0;">Conectores LMS SCORM 2004 / LTI 1.3</strong>
             <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
                 Empaquetado directo para integración sin fricción con plataformas corporativas Moodle, Canvas LMS y Blackboard.
             </p>
         </div>
         <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--success);">
             <span class="nm-chip" style="font-size: 10px; color: var(--success);">PRÓXIMAMENTE</span>
-            <strong style="color: var(--ink); display: block; margin: 4px 0;">🛡️ Insignias Verificables & Certificación Blockchain</strong>
+            <strong style="color: var(--ink); display: block; margin: 4px 0;">Insignias Verificables & Certificación Blockchain</strong>
             <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
                 Emisión de credenciales verificables W3C ancladas en blockchain al superar los quizzes diagnósticos de competencia.
             </p>
@@ -1150,7 +1093,7 @@ with tab_pmo_arq:
         """, unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("### 👥 Squad de Ingeniería — Proyecto NuevaMente")
+    st.markdown("### Equipo de Ingeniería — Proyecto NuevaMente")
     st.markdown("""
     - **Project Manager & Coordinador General:** Martin Morfe
     - **Software & Solution Architect (@Lead-Architect):** Esteban Guillermo Morales Velazquez

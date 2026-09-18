@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-18 13:05:13 UTC",
-  "total_tests": 46,
-  "passed": 46,
+  "timestamp": "2026-09-18 14:40:12 UTC",
+  "total_tests": 49,
+  "passed": 49,
   "failed": 0,
-  "duration_seconds": 4.79,
+  "duration_seconds": 9.09,
   "exit_code": 0,
   "details": [
     {
@@ -188,6 +188,18 @@
     },
     {
       "name": "tests/test_spaced_repetition.py::test_sm2_failed_review_resets",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_ui_smoke.py::test_ui_smoke_startup_and_four_parameters",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_ui_smoke.py::test_ui_smoke_all_ingestion_modes_do_not_throw_out_of_range",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_ui_smoke.py::test_ui_no_static_sector_blocks_on_main_screen",
       "status": "PASSED"
     }
   ]
