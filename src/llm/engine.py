@@ -195,7 +195,41 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
         gemini_key = os.environ.get("GEMINI_API_KEY") or settings.GEMINI_API_KEY or self.gemini_key
         openai_key = os.environ.get("OPENAI_API_KEY") or settings.OPENAI_API_KEY or self.openai_key
 
-        # 1. Intento con Mistral AI primero si está disponible (baja latencia y modo JSON nativo)
+        # 1. Intento con Google GenAI (SDK oficial google-genai para Gemini - Motor Primario ONE/Squad 1)
+        if gemini_key:
+            try:
+                from google import genai
+                from google.genai import types
+
+                client = genai.Client(api_key=gemini_key)
+                config = types.GenerateContentConfig(
+                    system_instruction=system_prompt,
+                    response_mime_type="application/json",
+                    temperature=0.2,
+                )
+                # Intentar gemini-2.5-flash y fallback a gemini-1.5-flash
+                try:
+                    response = client.models.generate_content(
+                        model="gemini-2.5-flash",
+                        contents=user_prompt,
+                        config=config
+                    )
+                except Exception:
+                    response = client.models.generate_content(
+                        model="gemini-1.5-flash",
+                        contents=user_prompt,
+                        config=config
+                    )
+
+                if response and response.text:
+                    parsed = self._parse_llm_json(response.text)
+                    if parsed and parsed.get("items"):
+                        logger.info("Respuesta generada exitosamente con Google GenAI (Gemini).")
+                        return parsed
+            except Exception as e:
+                logger.warning(f"Error llamando a Google GenAI API: {e}. Probando siguiente proveedor.")
+
+        # 2. Intento con Mistral AI (baja latencia y modo JSON nativo)
         if mistral_key:
             try:
                 from openai import OpenAI
@@ -224,7 +258,7 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
             except Exception as e:
                 logger.warning(f"Error llamando a Mistral AI API: {e}. Probando siguiente proveedor.")
 
-        # 2. Intento con NVIDIA NIM (DeepSeek)
+        # 3. Intento con NVIDIA NIM (DeepSeek)
         if nvidia_key:
             try:
                 from openai import OpenAI
@@ -252,23 +286,6 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
                             return parsed
             except Exception as e:
                 logger.warning(f"Error llamando a NVIDIA NIM API: {e}. Probando siguiente proveedor.")
-
-        # 3. Intento con Gemini
-        if gemini_key:
-            try:
-                import google.generativeai as genai
-                genai.configure(api_key=gemini_key)
-                model = genai.GenerativeModel(
-                    model_name="gemini-1.5-flash",
-                    system_instruction=system_prompt,
-                    generation_config={"response_mime_type": "application/json"}
-                )
-                response = model.generate_content(user_prompt)
-                parsed = json.loads(response.text)
-                if parsed and parsed.get("items"):
-                    return parsed
-            except Exception as e:
-                logger.warning(f"Error llamando a Gemini API: {e}. Probando siguiente proveedor.")
 
         # 4. Intento con OpenAI
         if openai_key:

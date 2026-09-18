@@ -1,0 +1,62 @@
+{
+  "status": "exito",
+  "motor_ia": "Google Gemini 2.5 Flash (via google-genai SDK >= 2.0.0)",
+  "metadatos": {
+    "perfil_aplicado": "Desarrollador Junior",
+    "formato_generado": "Quiz",
+    "tiempo_estimado_estudio_minutos": 10,
+    "conceptos_clave": [
+      "Virtual Cloud Network (VCN) [Red Virtual en la Nube (VCN)]",
+      "Subredes Públicas y Privadas [Public and Private Subnets]",
+      "Internet Gateway [Puerta de Enlace a Internet]",
+      "Security Lists [Listas de Seguridad]"
+    ],
+    "prerrequisitos": [
+      "Conceptos básicos de direccionamiento IP y máscaras CIDR",
+      "Modelo cliente-servidor y protocolos HTTP/TCP",
+      "Fundamentos de computación en la nube"
+    ]
+  },
+  "contenido_adaptado": {
+    "titulo": "Evaluación Diagnóstica: Topologías de Red VCN en Oracle Cloud Infrastructure",
+    "introduccion_contextualizada": "Cuestionario interactivo con retroalimentación explicativa inmediata fundamentado en el manual de arquitectura de Oracle Cloud. Evalúa la comprensión operativa de segmentación de subredes, tablas de ruteo y filtrado de paquetes mediante Security Lists.",
+    "items": [
+      {
+        "pregunta": "¿Cuál es la función principal de un Internet Gateway en una arquitectura VCN de OCI?",
+        "opciones": {
+          "A": "Proporcionar traducción de direcciones de red exclusivamente para subredes privadas sin IP pública.",
+          "B": "Habilitar conectividad bidireccional directa entre recursos con IP pública en una subred pública e Internet.",
+          "C": "Encriptar el túnel IPSec entre el centro de datos local y la región de Oracle Cloud.",
+          "D": "Distribuir el tráfico entrante uniformemente entre un pool de instancias de cómputo."
+        },
+        "respuesta_correcta": "B",
+        "explicacion": "El Internet Gateway [Puerta de Enlace a Internet] es un componente de software administrado que permite el tráfico entrante y saliente hacia Internet para instancias con direcciones IPv4 públicas asignadas dentro de subredes públicas.",
+        "pista_didactica": "Analogía: Es la puerta exterior del edificio. Si una oficina no tiene ventanas hacia la calle (subred privada), requiere un NAT Gateway, no un Internet Gateway.",
+        "nivel_taxonomia_bloom": "Comprender / Aplicar"
+      },
+      {
+        "pregunta": "¿Cómo operan las Security Lists [Listas de Seguridad] para el control de tráfico en OCI?",
+        "opciones": {
+          "A": "Actúan como firewalls virtuales a nivel de subred con inspección de estado (stateful) para reglas de entrada y salida.",
+          "B": "Operan únicamente a nivel de tarjeta de red virtual (VNIC) sin recordar el estado de la conexión.",
+          "C": "Reemplazan por completo las tablas de enrutamiento de la VCN.",
+          "D": "Bloquean todo el tráfico UDP sin permitir excepciones configurables."
+        },
+        "respuesta_correcta": "A",
+        "explicacion": "Las Security Lists son reglas de firewall con estado aplicadas a todas las VNICs dentro de una subred. Al ser stateful, si se permite una conexión de entrada (ingress), la respuesta de salida (egress) se permite automáticamente.",
+        "pista_didactica": "Recuerda: Si la regla es con estado, la respuesta saliente se rastrea sin necesidad de crear una regla de salida simétrica.",
+        "nivel_taxonomia_bloom": "Analizar"
+      }
+    ]
+  },
+  "evaluacion_calidad": {
+    "anclaje_fuente_score": 0.92,
+    "claridad_pedagogica": "Alta",
+    "observaciones": "Generación validada contra el esquema formal del pliego ONE G10 mediante el SDK google-genai. Cumplimiento estricto de la regla parentética y tipado Pydantic."
+  },
+  "almacenamiento_oci": {
+    "bucket": "nuevamente-contenidos-educativos",
+    "objeto_id": "contenido-evaluacion-vcn-junior-quiz-gemini.json",
+    "status_upload": "completado (local/emulado)"
+  }
+}

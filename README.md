@@ -30,47 +30,47 @@ La solución garantiza **fidelidad técnica rigurosa y mitigación total de aluc
 ```mermaid
 flowchart TB
     subgraph Ingestion ["1. Módulo de Ingestión & Deduplicación"]
-        A[Documento Técnico: PDF / Markdown / TXT] --> B[Extracción & Sanitización: PyPDF / Markdown / TXT]
-        B --> HASH[Cálculo Hash SHA-256 Deduplicación]
-        HASH --> C[Chunking Jerárquico Contextual: 1000 chars / 150 overlap]
+        A["Documento Técnico: PDF / Markdown / TXT"] --> B["Extracción & Sanitización: PyPDF / Markdown / TXT"]
+        B --> HASH["Cálculo Hash SHA-256 Deduplicación"]
+        HASH --> C["Chunking Jerárquico Contextual: 1000 chars / 150 overlap"]
     end
 
     subgraph Storage ["2. Almacenamiento Conmutable (Universal Adapter)"]
-        B -.->|Subida Documento Fuente| D[(Bucket: nuevamente-documentos-origen)]
-        K[(Bucket: nuevamente-contenidos-educativos)]
+        B -.->|Subida Documento Fuente| D[("Bucket: nuevamente-documentos-origen")]
+        K[("Bucket: nuevamente-contenidos-educativos")]
     end
 
     subgraph RAG ["3. Pipeline RAG & Embeddings"]
-        C --> E[Generación de Embeddings: all-MiniLM-L6-v2]
-        E --> F[(Vector Store: ChromaDB Persistente)]
-        G[Parámetros del Estudiante & Consulta] --> H[Retriever de Contexto Semántico]
+        C --> E["Generación de Embeddings: all-MiniLM-L6-v2"]
+        E --> F[("Vector Store: ChromaDB Persistente")]
+        G["Parámetros del Estudiante & Consulta"] --> H["Retriever de Contexto Semántico"]
         F --> H
     end
 
     subgraph Orchestration ["4. Orquestación Pedagógica LLM & Grounding"]
-        H --> I[Prompt Estructural Neutro: Taxonomía de Bloom & Perfil]
-        I --> J[Motor Multi-Proveedor: Gemini 1.5 / Mistral / NVIDIA / OpenAI]
-        J --> L[Parser Tipado: Pydantic v2 Structured Output]
-        L --> Q[Evaluador de Calidad & Grounding Score >= 0.85]
+        H --> I["Prompt Estructural Neutro: Taxonomía de Bloom & Perfil"]
+        I --> J["Motor Multi-Proveedor: Google GenAI / Mistral / NVIDIA / OpenAI"]
+        J --> L["Parser Tipado: Pydantic v2 Structured Output"]
+        L --> Q["Evaluador de Calidad & Grounding Score"]
     end
 
     subgraph DB ["5. Persistencia Relacional SaaS (SQLAlchemy 2.0)"]
-        L --> DB_ENG[(SQLite WAL / OCI Autonomous DB)]
-        DB_ENG --- U[users]
-        DB_ENG --- TD[technical_documents]
-        DB_ENG --- KB[rag_knowledge_bases]
-        DB_ENG --- LS[learning_sessions]
-        DB_ENG --- FC[flashcards con SM-2]
-        DB_ENG --- QZ[quizzes y preguntas]
+        L --> DB_ENG[("SQLite WAL / OCI Autonomous DB")]
+        DB_ENG --- U["users"]
+        DB_ENG --- TD["technical_documents"]
+        DB_ENG --- KB["rag_knowledge_bases"]
+        DB_ENG --- LS["learning_sessions"]
+        DB_ENG --- FC["flashcards con SM-2"]
+        DB_ENG --- QZ["quizzes y preguntas"]
     end
 
     subgraph Presentation ["6. Experiencia 'Deep Dev / Cyber-Modern'"]
         L --> K
-        L --> M[Streamlit App / React Frontend: Glassmorphism & Neón]
-        M --> M1[Flashcards con Giro 3D & Algoritmo SM-2]
-        M --> M2[Visor de Quizzes con Feedback Inmediato]
-        M --> M3[Guía Didáctica Paso a Paso / Resumen Ejecutivo]
-        M --> M4[Exportador Multiformato: Anki CSV, Markdown, JSON ONE G10]
+        L --> M["Streamlit App / React Frontend: Glassmorphism & Neón"]
+        M --> M1["Flashcards con Giro 3D & Algoritmo SM-2"]
+        M --> M2["Visor de Quizzes con Feedback Inmediato"]
+        M --> M3["Guía Didáctica Paso a Paso / Resumen Ejecutivo"]
+        M --> M4["Exportador Multiformato: Anki CSV, Markdown, JSON ONE G10"]
     end
 ```
 

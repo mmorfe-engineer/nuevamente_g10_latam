@@ -1,0 +1,194 @@
+{
+  "timestamp": "2026-09-18 12:33:18 UTC",
+  "total_tests": 46,
+  "passed": 46,
+  "failed": 0,
+  "duration_seconds": 6.25,
+  "exit_code": 0,
+  "details": [
+    {
+      "name": "tests/test_adaptation_service.py::test_adaptation_service_flashcards_flow",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_adaptation_service.py::test_adaptation_service_quiz_flow",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_adaptation_service.py::test_document_deduplication_in_service",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_cross_corpus_domain.py::test_cross_corpus_manufacturing_adaptation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_db_persistence.py::test_user_repository_crud",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_db_persistence.py::test_technical_document_and_deduplication",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_db_persistence.py::test_rag_knowledge_base_persistence",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_db_persistence.py::test_learning_session_and_flashcards",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_db_persistence.py::test_quiz_and_questions_persistence",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_db_persistence.py::test_oci_storage_interaction_with_db",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_domain_contracts.py::test_user_schema_validation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_domain_contracts.py::test_technical_document_schema_validation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_domain_contracts.py::test_rag_knowledge_base_schema_validation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_domain_contracts.py::test_learning_session_schema_validation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_domain_contracts.py::test_flashcard_schema_and_mastery",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_domain_contracts.py::test_quiz_and_question_schemas",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_exporters.py::test_export_to_anki_csv",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_exporters.py::test_export_to_markdown_guide",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_ingestion.py::test_chunker_segmentation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_ingestion.py::test_loader_extract_bytes",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_ingestion.py::test_loader_extract_txt_and_cleaning",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_ingestion.py::test_chunker_overlap_retention",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_lexforja_architecture.py::test_glosario_seed_and_search",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_lexforja_architecture.py::test_corpus_document_and_chunks_persistence",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_lexforja_architecture.py::test_lexforja_deterministic_precedence_rule",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_lexforja_architecture.py::test_parenthetical_nomenclature_validator",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_lexforja_architecture.py::test_parenthetical_nomenclature_enforcement",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_llm_engine.py::test_adapt_content_vcn_flashcards",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_multi_agent_graph.py::test_multi_agent_graph_execution",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_oci_storage.py::test_upload_raw_document",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_oci_storage.py::test_upload_educational_json",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_oci_storage.py::test_storage_health_check",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_oci_storage.py::test_s3_compatible_mock_upload",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_oci_storage.py::test_get_object_retrieval",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_oci_storage.py::test_storage_commutation_and_fallback",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_quality.py::test_grounding_score_calculation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_quality.py::test_pedagogical_clarity_evaluation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_quality.py::test_build_quality_evaluation",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_rag_pipeline.py::test_vector_store_indexing_and_retrieval",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_schemas.py::test_solicitud_adaptacion_valida",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_schemas.py::test_respuesta_adaptacion_valida",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_schemas.py::test_diez_sectores_canonicos_y_reexportacion",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_spaced_repetition.py::test_sm2_first_successful_review",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_spaced_repetition.py::test_sm2_second_successful_review",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_spaced_repetition.py::test_sm2_subsequent_review",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_spaced_repetition.py::test_sm2_failed_review_resets",
+      "status": "PASSED"
+    }
+  ]
+}
