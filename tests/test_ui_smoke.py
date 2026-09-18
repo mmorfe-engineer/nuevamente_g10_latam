@@ -29,7 +29,7 @@ def test_ui_smoke_startup_and_four_parameters():
 
     labels = [sb.label for sb in selectboxes]
     assert any("Perfil del Destinatario" in l for l in labels), "Falta parámetro 1: Perfil del Destinatario"
-    assert any("Formato Pedagógico" in l for l in labels), "Falta parámetro 2: Formato Pedagógico"
+    assert any("Formato Didáctico" in l for l in labels), "Falta parámetro 2: Formato Didáctico"
     assert any("Nicho / Sector" in l for l in labels), "Falta parámetro 3: Nicho / Sector"
     assert any("Nivel de Detalle" in l for l in labels), "Falta parámetro 4: Nivel de Detalle"
 
@@ -80,23 +80,22 @@ def test_ui_no_static_sector_blocks_on_main_screen():
 
 
 def test_ui_smoke_welcome_station_and_canonical_demo_button():
-    """Verifica que la estación de ingesta O-01, los KPIs honestos y las 3 muestras canónicas O-12 funcionan."""
+    """Verifica que la estación de ingesta, los KPIs honestos y las 3 muestras canónicas funcionan."""
     at = AppTest.from_file(APP_PATH, default_timeout=30)
     at.run()
     assert not at.exception
 
     # 1. Comprobar que los KPIs de motor muestran 'Aún sin medir' en frío
     all_markdown = " ".join([m.value for m in at.markdown])
-    assert "Puntaje de Anclaje (O-08)" in all_markdown
+    assert "Puntaje de Anclaje" in all_markdown
     assert "Aún sin medir" in all_markdown, "El KPI inicial debe mostrar honestamente 'Aún sin medir'"
-    assert "Formatos Interactivos (O-06)" in all_markdown
     assert "3 Formatos" in all_markdown
     assert "Corpus SQL" not in all_markdown, "El KPI de biblioteca 'Corpus SQL' no debe estar en el banner superior"
 
-    # 2. Comprobar la presencia de la Estación de Ingesta O-01
-    assert "Estación de Ingesta y Transformación Documental (Pliego O-01)" in all_markdown
+    # 2. Comprobar la presencia de la Estación de Ingesta
+    assert "Estación de Ingesta y Transformación Documental" in all_markdown
 
-    # 3. Comprobar exactamente las 3 muestras oficiales (O-12)
+    # 3. Comprobar exactamente las 3 muestras oficiales
     btn_canonico = [b for b in at.button if "Caso Canónico Oracle" in b.label]
     assert len(btn_canonico) == 1, "No se encontró el botón del caso canónico de Oracle VCN"
     btn_m2 = [b for b in at.button if "Muestra 2: VCN Arquitecto" in b.label]
@@ -107,4 +106,51 @@ def test_ui_smoke_welcome_station_and_canonical_demo_button():
     # 4. Probar clic en el caso canónico
     btn_canonico[0].click().run()
     assert not at.exception
+
+
+def test_ui_grading_flow_sm2():
+    """Valida el flujo de estudio interactivo, volteo de tarjetas y calificación SM-2 en 3 niveles sin DetachedInstanceError."""
+    at = AppTest.from_file(APP_PATH, default_timeout=45)
+    at.run()
+    assert not at.exception
+
+    # 1. Cargar el caso canónico
+    btn_canonico = [b for b in at.button if "Caso Canónico Oracle" in b.label][0]
+    btn_canonico.click().run()
+    assert not at.exception
+
+    # 2. Pulsar botón principal de generación
+    btn_generar = [b for b in at.button if "Generar Material Didáctico" in b.label][0]
+    btn_generar.click().run()
+    assert not at.exception
+
+    all_text = " ".join([m.value for m in at.markdown] + [c.value for c in at.caption])
+    # Anuncio de resultados listo
+    assert "¡Material Didáctico Listo!" in all_text, "Debe mostrarse el banner anunciador de resultados"
+    # Nota de representatividad pedagógica
+    assert "muestra representativa de 4 tarjetas" in all_text, "Falta nota de control de carga cognitiva"
+
+    # 3. Probar volteo de la primera tarjeta
+    btn_flip = [b for b in at.button if "Voltear Tarjeta" in b.label or "Ver Frente" in b.label]
+    assert len(btn_flip) >= 1, "Debe existir al menos un botón de volteo"
+    btn_flip[0].click().run()
+    assert not at.exception
+
+    # 4. Probar los 3 botones de asimilación por competencia (SM-2)
+    btn_no = [b for b in at.button if "No alcanzado" in b.label]
+    btn_dev = [b for b in at.button if "En desarrollo" in b.label]
+    btn_alc = [b for b in at.button if "Alcanzado" in b.label]
+
+    assert len(btn_no) >= 1, "Debe existir botón 🔴 No alcanzado"
+    assert len(btn_dev) >= 1, "Debe existir botón 🟡 En desarrollo"
+    assert len(btn_alc) >= 1, "Debe existir botón 🟢 Alcanzado"
+
+    # Ejecutar clic en 'Alcanzado' y validar que no arroja DetachedInstanceError ni excepción
+    btn_alc[0].click().run()
+    assert not at.exception, f"Error al calificar SM-2: {[e.message for e in at.exception]}"
+
+    # Verificar que el retorno del cronograma de repaso quedó renderizado
+    markdown_after_grade = " ".join([m.value for m in at.markdown])
+    assert "Próximo repaso:" in markdown_after_grade, "El cronograma de repaso debe persistir visible en la tarjeta"
+    assert "Alcanzado" in markdown_after_grade
 

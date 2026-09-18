@@ -94,11 +94,11 @@ def run():
     print("Navigating to http://localhost:8501 ...")
     time.sleep(4)
     
-    # 1. Capture Pantalla de Bienvenida (Estación de Ingesta O-01 + 3 Muestras O-12 + KPIs Aún sin medir)
+    # 1. Capture Pantalla de Bienvenida (Estación de Ingesta + 3 Muestras + KPIs Compactos en Frío)
     f1 = SCREENSHOT_DIR / "01_pantalla_bienvenida.png"
     client.capture_screenshot(f1)
     
-    # Also capture lower half showing uploader & 4 parameters
+    # Also capture lower half showing Step 1, Step 2 (4 clean selectboxes) and Step 3 (Prominent Generate button)
     client.scroll_to(450)
     time.sleep(1)
     f1_params = SCREENSHOT_DIR / "01_pantalla_bienvenida_parametros.png"
@@ -110,8 +110,10 @@ def run():
     client.click_at_text("Caso Canónico Oracle")
     time.sleep(3)
     
-    # 3. Click Generar Material Didáctico
+    # 3. Click Generar Material Didáctico Adaptado
     print("Clicking generate button...")
+    client.scroll_to(650)
+    time.sleep(1)
     client.click_at_text("Generar Material Didáctico")
     
     # Wait for generation to finish
@@ -126,13 +128,24 @@ def run():
     time.sleep(2)
     client.scroll_to(0)
     
-    # 4. Capture Pantalla 2: Flashcards Generadas (con sector dinámico, sin NIST, KPIs actualizados en vivo)
+    # 4. Capture Pantalla 2: Flashcards Generadas (con banner de notificación, nota de 4 tarjetas, KPIs en vivo)
     f2 = SCREENSHOT_DIR / "02_flashcards_generadas.png"
     client.capture_screenshot(f2)
     
-    # Scroll slightly down to show flashcard body and rating bar
-    client.scroll_to(420)
+    # Scroll to show flashcard body and rating bar
+    client.scroll_to(800)
     time.sleep(1)
+    
+    # Click Flip button
+    print("Clicking flip button on card 1...")
+    client.click_at_text("Voltear Tarjeta")
+    time.sleep(1.5)
+    
+    # Click '🟢 Alcanzado' rating button
+    print("Clicking '🟢 Alcanzado' button...")
+    client.click_at_text("Alcanzado")
+    time.sleep(2)
+    
     f2_card = SCREENSHOT_DIR / "02_flashcard_detalle_sm2.png"
     client.capture_screenshot(f2_card)
     

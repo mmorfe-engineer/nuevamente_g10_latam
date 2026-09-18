@@ -105,28 +105,14 @@ st.markdown("""
                 GitHub: nuevamente_g10_latam
             </span>
         </a>
-        <span class="nm-chip" style="color: var(--quantum-soft); border: 1px solid var(--quantum-soft); font-weight: 600;">Prototipo de Referencia v4</span>
         <span class="nm-chip" style="color: var(--success); border: 1px solid var(--success); font-weight: 500;">
             <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--success); margin-right: 5px;"></span>OCI Always Free ($0.00)
         </span>
-        <span class="nm-chip" style="color: var(--ink-muted); border: 1px solid var(--line);">Adaptador S3 Universal</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-with st.expander("Información del Proyecto No Country · Cronograma y Arquitectura Cloud"):
-    st.markdown("""
-    **Proyecto 1: NuevaMente** · Hackathon No Country & Oracle Next Education (ONE G10)
-    - **Coordinador General & PM:** Martin Morfe
-    - **Alcance Temporal:** 5 Semanas de Desarrollo Ágil (Lunes Planning Meet · Jueves Demo Meet) ➔ Pre-Demo 22 Oct ➔ Demo Day Latam 27/29 Octubre 2026.
-    - **Arquitectura Cloud (OCI Always Free):**
-      * **Persistencia de Objetos:** Buckets `nuevamente-documentos-origen` y `nuevamente-contenidos-educativos` sobre OCI Object Storage Always Free.
-      * **Adaptador S3 Universal:** Construido con `boto3`, conmutable de forma transparente entre el piloto actual (Cloudflare R2 / Supabase S3 / Local) y Oracle Cloud Infrastructure en producción modificando exclusivamente tres variables en `.env`.
-      * **Cómputo:** Despliegue interactivo en Streamlit Cloud y preparado para migración a OCI Compute VM Ampere A1.
-    """)
 
-
-# ==============================================================================
 # ==============================================================================
 # SIDEBAR: Arquitectura Cloud y Trazabilidad (Solo Lectura · Cero Duplicación)
 # ==============================================================================
@@ -136,7 +122,7 @@ with st.sidebar:
     <div class="nm-glass" style="padding: 1rem; margin-bottom: 1.2rem; border-left: 3px solid var(--quantum);">
         <span class="nm-overline" style="color: var(--quantum-soft);">Arquitectura del Motor</span>
         <p style="font-size: 13px; color: var(--ink); margin: 4px 0 0 0; line-height: 1.45;">
-            Pipeline RAG Asimétrico con Ingesta de Documentos Universales y Generación Didáctica Estructurada (Pliego O-01 y O-13).
+            Pipeline RAG Asimétrico con Ingesta de Documentos Universales y Generación Didáctica Estructurada.
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -187,47 +173,51 @@ if "ultima_respuesta" in st.session_state:
     duracion = trace_kpi.get("duracion_segundos", 0.0)
     tiempo_val = f"{duracion:.1f}s" if duracion > 0 else "< 3.0s"
     tiempo_foot = "Medición en última ejecución"
+
+    st.markdown(f"""
+    <div class="nm-row" style="margin-bottom: 1.5rem; justify-content: space-between;">
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; border-left: 3px solid var(--quantum);" title="Mide la retención de conceptos clave del documento fuente frente a una base mínima del 85%. Garantiza la ausencia de alucinaciones técnicas sobre el material original.">
+        <span class="nm-overline" style="color: var(--quantum-soft);">Puntaje de Anclaje</span>
+        <span class="nm-kpi__val" style="color: var(--quantum);">{grounding_val}</span>
+        <span class="nm-kpi__foot"><span class="nm-dot" style="background: var(--quantum);"></span>{grounding_foot}</span>
+      </div>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
+        <span class="nm-overline">Tiempo de Adaptación</span>
+        <span class="nm-kpi__val">{tiempo_val}</span>
+        <span class="nm-kpi__foot"><span class="nm-dot"></span>{tiempo_foot}</span>
+      </div>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
+        <span class="nm-overline">Formatos Interactivos</span>
+        <span class="nm-kpi__val" style="white-space: nowrap;">3 Formatos</span>
+        <span class="nm-kpi__foot">Flashcards, Guía Práctica, Resumen</span>
+      </div>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
+        <span class="nm-overline">Costo Cloud / mes</span>
+        <span class="nm-kpi__val">$0.00</span>
+        <span class="nm-kpi__foot"><span class="nm-oci">Always Free</span> Certificado</span>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
 else:
-    grounding_val = "--"
-    grounding_foot = "Aún sin medir · Se calcula al procesar"
-    tiempo_val = "--"
-    tiempo_foot = "Aún sin medir · Medición en vivo"
-
-st.markdown(f"""
-<div class="nm-row" style="margin-bottom: 1.5rem; justify-content: space-between;">
-  <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; border-left: 3px solid var(--quantum);" title="Mide la retención de conceptos clave del documento fuente frente a una base mínima del 85%. Garantiza la ausencia de alucinaciones técnicas sobre el material original.">
-    <span class="nm-overline" style="color: var(--quantum-soft);">Puntaje de Anclaje (O-08)</span>
-    <span class="nm-kpi__val" style="color: var(--quantum);">{grounding_val}</span>
-    <span class="nm-kpi__foot"><span class="nm-dot" style="background: var(--quantum);"></span>{grounding_foot}</span>
-  </div>
-  <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
-    <span class="nm-overline">Tiempo de Adaptación</span>
-    <span class="nm-kpi__val">{tiempo_val}</span>
-    <span class="nm-kpi__foot"><span class="nm-dot"></span>{tiempo_foot}</span>
-  </div>
-  <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
-    <span class="nm-overline">Formatos Interactivos (O-06)</span>
-    <span class="nm-kpi__val">3 Formatos</span>
-    <span class="nm-kpi__foot">Flashcards, Guía Práctica, Resumen</span>
-  </div>
-  <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
-    <span class="nm-overline">Costo Cloud / mes (O-11)</span>
-    <span class="nm-kpi__val">$0.00</span>
-    <span class="nm-kpi__foot"><span class="nm-oci">Always Free</span> Certificado</span>
-  </div>
-</div>
-""", unsafe_allow_html=True)
-
-
-
+    # Estado frío: Barra compacta de una sola línea para maximizar espacio útil
+    st.markdown("""
+    <div class="nm-glass" style="padding: 0.65rem 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; border-left: 3px solid var(--quantum);">
+        <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 13px; color: var(--ink);"><strong style="color: var(--quantum-soft);">Puntaje de Anclaje:</strong> <span style="color: var(--ink-muted);">-- · Aún sin medir</span></span>
+            <span style="font-size: 13px; color: var(--ink);"><strong style="color: var(--quantum-soft);">Formatos Didácticos:</strong> <span style="white-space: nowrap; color: var(--ink-muted);">3 Formatos (Flashcards, Guía, Resumen)</span></span>
+            <span style="font-size: 13px; color: var(--ink);"><strong style="color: var(--quantum-soft);">Costo Cloud / mes:</strong> <span style="color: var(--ink);">$0.00</span> <span class="nm-oci" style="font-size: 11px; padding: 2px 6px;">Always Free</span></span>
+        </div>
+        <span class="nm-caption" style="color: var(--ink-muted);">Sesión Fría · Se calcula al procesar</span>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 # ==============================================================================
 # PESTAÑAS PRINCIPALES DEL SISTEMA (Tablero NuevaMente)
 # ==============================================================================
 tab_estudio, tab_metricas, tab_pmo_arq = st.tabs([
-    "Experiencia de Aprendizaje",
-    "Auditoría y Métricas de Calidad",
+    "🎓 Experiencia de Aprendizaje",
+    "Auditoría de Calidad",
     "Trazabilidad PMO y Arquitectura"
 ])
 
@@ -240,6 +230,19 @@ with tab_estudio:
         resp = st.session_state["ultima_respuesta"]
         req = st.session_state["ultimo_request"]
         trace = st.session_state.get("ultimo_trace", {})
+
+        # Banner de notificación de resultados listos
+        st.markdown("""
+        <div class="nm-glass" style="padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; border: 1px solid rgba(16, 217, 138, 0.4); border-left: 4px solid var(--success); display: flex; align-items: center; justify-content: space-between; border-radius: 8px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.3rem;">✅</span>
+                <div>
+                    <strong style="color: var(--success);">¡Material Didáctico Listo!</strong>
+                    <span style="color: var(--ink-muted); font-size: 13px; margin-left: 8px;">Tu contenido adaptado ha sido generado y anclado al documento fuente.</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
         col_hdr1, col_hdr2 = st.columns([3, 1])
         with col_hdr1:
@@ -276,33 +279,44 @@ with tab_estudio:
 
         # --- CASO 1: FLASHCARDS CON SUPERMEMO SM-2 ---
         if req.formato_salida == FormatoSalida.FLASHCARDS:
-            col_fc_title, col_fc_anki = st.columns([3, 1])
+            col_fc_title, col_fc_btns = st.columns([2.5, 1.5])
             with col_fc_title:
                 st.markdown("### Flashcards con Repetición Espaciada (Algoritmo SM-2)")
-                st.caption("Pasa el cursor sobre la tarjeta o pulsa 'Voltear' para ver la respuesta. Incluye Términos Canónicos [EN/ES] y cita del documento.")
-            with col_fc_anki:
-                st.download_button(
-                    "Exportar a Anki (.csv)",
-                    data=export_to_anki_csv(items),
-                    file_name=f"anki_{resp.almacenamiento_oci.objeto_id.replace('.json', '.csv')}",
-                    mime="text/csv",
-                    use_container_width=True
-                )
+                st.caption("El prototipo genera una muestra representativa de 4 tarjetas para control de carga cognitiva según diseño andragógico. Para documentos extensos, la partición completa se indexa en la base vectorial.")
+            with col_fc_btns:
+                col_b1, col_b2 = st.columns(2)
+                with col_b1:
+                    st.download_button(
+                        "Exportar Anki",
+                        data=export_to_anki_csv(items),
+                        file_name=f"anki_{resp.almacenamiento_oci.objeto_id.replace('.json', '.csv')}",
+                        mime="text/csv",
+                        use_container_width=True
+                    )
+                with col_b2:
+                    if st.button("➕ Lote Adicional", use_container_width=True, key="btn_lote_adicional", help="Generar siguiente lote de 4 tarjetas"):
+                        st.info("Generación de lote adicional de tarjetas en cola (máximo 4 tarjetas por lote para retención óptima).")
 
             session_id_str = trace.get("session_id")
-            saved_cards_db = []
+            saved_card_ids = []
             if session_id_str:
-                with get_db_session() as db:
-                    saved_cards_db = FlashcardRepository.get_by_session(db, uuid.UUID(session_id_str))
+                try:
+                    with get_db_session() as db:
+                        cards_found = FlashcardRepository.get_by_session(db, uuid.UUID(session_id_str))
+                        saved_card_ids = [c.id for c in cards_found]
+                except Exception:
+                    saved_card_ids = []
 
             for i, itm in enumerate(items):
                 frente = itm.get("frente", "Concepto Clave")
                 dorso = itm.get("dorso", "Explicación Técnica")
                 pista = itm.get("pista_didactica", "")
                 fuente = itm.get("fuente", req.documento_titulo)
-                card_db = saved_cards_db[i] if i < len(saved_cards_db) else None
+                card_id = saved_card_ids[i] if i < len(saved_card_ids) else None
 
-                frente_html = format_canonical_terms(frente)
+                # Evitar saltos de línea huérfanos antes del signo de interrogación
+                frente_clean = re.sub(r'\s*\?\s*$', '?', frente.strip())
+                frente_html = format_canonical_terms(frente_clean)
                 dorso_html = format_canonical_terms(dorso)
 
                 # Control de volteo híbrido (Hover CSS + Toggle Button)
@@ -335,7 +349,7 @@ with tab_estudio:
                 """
                 st.markdown(card_html, unsafe_allow_html=True)
 
-                col_flip, col_sm2 = st.columns([1, 4])
+                col_flip, col_sm2 = st.columns([1.2, 3.8])
                 with col_flip:
                     flip_label = "↩️ Ver Frente" if is_flipped else "🔄 Voltear Tarjeta"
                     if st.button(flip_label, key=f"btn_flip_{i}", use_container_width=True):
@@ -344,43 +358,75 @@ with tab_estudio:
 
                 with col_sm2:
                     st.markdown("<span class='nm-overline' style='font-size:11px;'>Calificar Asimilación (SuperMemo SM-2):</span>", unsafe_allow_html=True)
-                    c0, c1, c2, c3, c4, c5 = st.columns(6)
+                    c_no, c_dev, c_alc = st.columns(3)
                     
-                    with c0:
-                        if st.button("0 Nada", key=f"q0_{i}", use_container_width=True):
-                            reps, iv, ef, next_rev = calculate_sm2(quality=0)
-                            if card_db:
-                                with get_db_session() as db:
-                                    FlashcardRepository.update_mastery(db, card_db.id, FlashcardUpdateMastery(mastery_level=0, next_review_at=next_rev))
-                            st.toast(f"SM-2: Olvido total. Intervalo reseteado a 1 día.", icon="⏳")
-
-                    with c1:
-                        if st.button("1 Vago", key=f"q1_{i}", use_container_width=True):
+                    with c_no:
+                        if st.button("🔴 No alcanzado", key=f"q_no_{i}", use_container_width=True, help="Dificultad alta · Repaso programado para mañana (+1 día)"):
                             reps, iv, ef, next_rev = calculate_sm2(quality=1)
-                            if card_db:
-                                with get_db_session() as db:
-                                    FlashcardRepository.update_mastery(db, card_db.id, FlashcardUpdateMastery(mastery_level=1, next_review_at=next_rev))
-                            st.toast(f"SM-2: Repaso programado para mañana (+1 día).", icon="⏳")
+                            if card_id:
+                                try:
+                                    with get_db_session() as db:
+                                        FlashcardRepository.update_mastery(db, card_id, FlashcardUpdateMastery(mastery_level=1, next_review_at=next_rev))
+                                except Exception:
+                                    pass
+                            st.session_state[f"card_graded_{i}"] = {
+                                "status": "No alcanzado",
+                                "badge_color": "var(--danger)",
+                                "days": iv,
+                                "date_str": next_rev.strftime("%d/%m"),
+                                "quality": 1
+                            }
+                            st.toast("SM-2: Nivel No alcanzado. Próximo repaso programado para mañana (+1 día).", icon="🔴")
+                            st.rerun()
 
-                    with c2:
-                        if st.button("2 Casi", key=f"q2_{i}", use_container_width=True):
-                            reps, iv, ef, next_rev = calculate_sm2(quality=2)
-                            st.toast(f"SM-2: Repaso mañana (+1 día).", icon="⏳")
-
-                    with c3:
-                        if st.button("3 Bien", key=f"q3_{i}", use_container_width=True):
+                    with c_dev:
+                        if st.button("🟡 En desarrollo", key=f"q_dev_{i}", use_container_width=True, help="Asimilación parcial · Próximo repaso en 1 a 6 días"):
                             reps, iv, ef, next_rev = calculate_sm2(quality=3, repetitions=1)
-                            st.toast(f"SM-2: Próximo repaso en {iv} días ({next_rev.strftime('%d/%m')})", icon="👍")
+                            if card_id:
+                                try:
+                                    with get_db_session() as db:
+                                        FlashcardRepository.update_mastery(db, card_id, FlashcardUpdateMastery(mastery_level=3, next_review_at=next_rev))
+                                except Exception:
+                                    pass
+                            st.session_state[f"card_graded_{i}"] = {
+                                "status": "En desarrollo",
+                                "badge_color": "var(--amber)",
+                                "days": iv,
+                                "date_str": next_rev.strftime("%d/%m"),
+                                "quality": 3
+                            }
+                            st.toast(f"SM-2: Nivel En desarrollo. Próximo repaso en {iv} día(s) ({next_rev.strftime('%d/%m')}).", icon="🟡")
+                            st.rerun()
 
-                    with c4:
-                        if st.button("4 Pro", key=f"q4_{i}", use_container_width=True):
-                            reps, iv, ef, next_rev = calculate_sm2(quality=4, repetitions=2, previous_interval=1)
-                            st.toast(f"SM-2: Asimilación sólida (+{iv} días).", icon="🌟")
+                    with c_alc:
+                        if st.button("🟢 Alcanzado", key=f"q_alc_{i}", use_container_width=True, help="Concepto dominado · Próximo repaso espaciado en 6+ días"):
+                            reps, iv, ef, next_rev = calculate_sm2(quality=5, repetitions=2, previous_interval=6)
+                            if card_id:
+                                try:
+                                    with get_db_session() as db:
+                                        FlashcardRepository.update_mastery(db, card_id, FlashcardUpdateMastery(mastery_level=5, next_review_at=next_rev))
+                                except Exception:
+                                    pass
+                            st.session_state[f"card_graded_{i}"] = {
+                                "status": "Alcanzado",
+                                "badge_color": "var(--success)",
+                                "days": iv,
+                                "date_str": next_rev.strftime("%d/%m"),
+                                "quality": 5
+                            }
+                            st.toast(f"SM-2: Nivel Alcanzado. Próximo repaso en {iv} días ({next_rev.strftime('%d/%m')}).", icon="🟢")
+                            st.rerun()
 
-                    with c5:
-                        if st.button("5 Crack", key=f"q5_{i}", use_container_width=True):
-                            reps, iv, ef, next_rev = calculate_sm2(quality=5, repetitions=3, previous_interval=6)
-                            st.toast(f"SM-2: Concepto dominado (+{iv} días, EF {ef:.2f}).", icon="🔥")
+                    grade_info = st.session_state.get(f"card_graded_{i}")
+                    if grade_info:
+                        st.markdown(f"""
+                        <div class="nm-glass" style="padding: 0.35rem 0.8rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; border: 1px solid var(--line); margin-top: 6px;">
+                            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: {grade_info['badge_color']};"></span>
+                            <span style="color: var(--ink);"><strong>Estado:</strong> {grade_info['status']}</span>
+                            <span style="color: var(--line);">|</span>
+                            <span style="color: var(--ink-muted);">📅 <strong>Próximo repaso:</strong> en {grade_info['days']} día(s) ({grade_info['date_str']})</span>
+                        </div>
+                        """, unsafe_allow_html=True)
 
                 st.markdown("<hr style='border:0; border-top: 1px solid var(--line); margin: 1.25rem 0;'>", unsafe_allow_html=True)
 
@@ -490,23 +536,23 @@ with tab_estudio:
                 """, unsafe_allow_html=True)
     else:
         # ======================================================================
-        # PANTALLA DE BIENVENIDA / ESTACIÓN DE INGESTA DOCUMENTAL PRINCIPAL (O-01)
+        # PANTALLA DE BIENVENIDA / ESTACIÓN DE INGESTA DOCUMENTAL PRINCIPAL
         # ======================================================================
         st.markdown("""
         <div class="nm-glass" style="padding: 1.5rem 2rem; margin-bottom: 1.5rem; border-left: 4px solid var(--quantum);">
-            <span class="nm-overline" style="color: var(--quantum-soft);">Estación de Ingesta y Transformación Documental (Pliego O-01)</span>
+            <span class="nm-overline" style="color: var(--quantum-soft);">Estación de Ingesta y Transformación Documental</span>
             <h2 style="margin: 0.35rem 0 0.6rem 0; color: var(--ink); font-size: 1.65rem;">
                 Transforma cualquier Documento Técnico en Material Didáctico Adaptado
             </h2>
             <p style="color: var(--ink-muted); margin: 0; font-size: 0.95rem; line-height: 1.55;">
-                NuevaMente recibe cualquier documento técnico (PDF, Markdown o Texto Plano) o texto libre y sintetiza material didáctico interactivo adaptado y anclado a la fuente, en los formatos canónicos del pliego (Flashcards, Guía Práctica y Resumen Ejecutivo).
+                NuevaMente recibe cualquier documento técnico (PDF, Markdown o Texto Plano) o texto libre y sintetiza material didáctico interactivo adaptado y anclado a la fuente, en los formatos canónicos (Flashcards, Guía Práctica y Resumen Ejecutivo).
             </p>
         </div>
         """, unsafe_allow_html=True)
 
-        # SECCIÓN AUXILIAR: EXACTAMENTE 3 MUESTRAS OFICIALES DE DEMOSTRACIÓN (PLIEGO O-12)
-        st.markdown("### Muestras de Demostración y Evaluación (Pliego O-12)")
-        st.caption("Acceso auxiliar de un solo clic para certificar los casos canónicos del pliego en la evaluación:")
+        # SECCIÓN AUXILIAR: MUESTRAS DE DEMOSTRACIÓN
+        st.markdown("### Muestras de Demostración y Evaluación")
+        st.caption("Acceso auxiliar de un solo clic para cargar casos canónicos de prueba:")
 
         col_dem1, col_dem2, col_dem3 = st.columns([1.6, 1.2, 1.2])
         with col_dem1:
@@ -552,12 +598,12 @@ with tab_estudio:
                 st.rerun()
 
         st.markdown("---")
-        # 1. INGESTA DE DOCUMENTO TÉCNICO (O-01)
-        st.markdown("### 1. Ingesta de Documento Fuente (Pliego O-01)")
+        # PASO 1 · DOCUMENTO FUENTE
+        st.markdown("### Paso 1 · Documento Fuente")
 
         modo_idx = 1 if st.session_state.get("input_modo") == "Pegar Texto Libre" else 0
         modo_ingesta = st.radio(
-            "Método de Entrada del Documento (O-01):",
+            "Método de Entrada:",
             ["Subir Archivo (.pdf, .md, .txt)", "Pegar Texto Libre"],
             index=modo_idx,
             horizontal=True,
@@ -572,7 +618,7 @@ with tab_estudio:
             uploaded_file = st.file_uploader(
                 "Cargar archivo técnico para procesamiento RAG:",
                 type=["pdf", "md", "txt"],
-                help="Soporta documentos técnicos arbitrarios en PDF, Markdown o Texto Plano (Pliego O-01)."
+                help="Soporta documentos técnicos en PDF, Markdown o Texto Plano."
             )
             if uploaded_file is not None:
                 doc_titulo = uploaded_file.name
@@ -620,8 +666,8 @@ with tab_estudio:
                 st.text(doc_contenido[:1200] + ("..." if len(doc_contenido) > 1200 else ""))
 
         st.markdown("---")
-        # 2. PARÁMETROS DE CONTROL REQUERIDOS (O-13)
-        st.markdown("### 2. Parámetros de Control Pedagógico (Pliego O-13)")
+        # PASO 2 · AUDIENCIA Y FORMATO DIDÁCTICO
+        st.markdown("### Paso 2 · Audiencia y Formato Didáctico")
 
         perfiles = [p.value for p in PerfilDestinatario]
         formatos = [
@@ -646,7 +692,7 @@ with tab_estudio:
         col_p1, col_p2, col_p3, col_p4 = st.columns(4)
         with col_p1:
             sel_perfil = st.selectbox(
-                "Perfil del Destinatario (O-13)",
+                "Perfil del Destinatario",
                 perfiles,
                 index=p_idx,
                 key="select_perfil"
@@ -654,7 +700,7 @@ with tab_estudio:
             st.session_state["sel_perfil"] = sel_perfil
         with col_p2:
             sel_formato = st.selectbox(
-                "Formato Pedagógico (O-06/ADR-005)",
+                "Formato Didáctico",
                 formatos,
                 index=f_idx,
                 key="select_formato"
@@ -662,28 +708,25 @@ with tab_estudio:
             st.session_state["sel_formato"] = sel_formato
         with col_p3:
             sel_nicho = st.selectbox(
-                "Nicho / Sector (O-08/O-13)",
+                "Nicho / Sector",
                 nichos,
                 index=n_idx,
-                help="Requerido por O-08 para anclar la adaptación al dominio específico del documento.",
+                help="Contextualiza y ancla los ejemplos y terminología al dominio sectorial.",
                 key="select_nicho"
             )
             st.session_state["sel_nicho"] = sel_nicho
         with col_p4:
             sel_detalle = st.selectbox(
-                "Nivel de Detalle (O-13)",
+                "Nivel de Detalle",
                 detalles,
                 index=d_idx,
                 key="select_detalle"
             )
             st.session_state["sel_detalle"] = sel_detalle
 
-        st.markdown("---")
-        # 3. MOTOR Y GENERACIÓN
-        col_o1, col_o2 = st.columns([2.5, 1.5])
-        with col_o1:
+        with st.expander("⚙️ Opciones Avanzadas de Inferencia", expanded=False):
             orquestador_modo = st.radio(
-                "Orquestador Cognitivo (O-03):",
+                "Orquestador Cognitivo:",
                 ["Pipeline RAG Asimétrico Directo (Baja Latencia)", "Grafo Multi-Agente LangGraph (3 Agentes: Didáctico, Calidad, Formato)"],
                 index=0,
                 horizontal=True,
@@ -691,15 +734,21 @@ with tab_estudio:
             )
             use_langgraph = "LangGraph" in orquestador_modo
 
-        with col_o2:
-            st.markdown("<div style='height: 24px;'></div>", unsafe_allow_html=True)
-            btn_generar = st.button("🚀 Generar Material Didáctico", type="primary", use_container_width=True, key="btn_generar_principal")
+        st.markdown("---")
+        # PASO 3 · GENERACIÓN DEL MATERIAL
+        st.markdown("### Paso 3 · Generación del Material")
+
+        col_g1, col_g2, col_g3 = st.columns([1, 2, 1])
+        with col_g2:
+            btn_generar = st.button("🚀 Generar Material Didáctico Adaptado", type="primary", use_container_width=True, key="btn_generar_principal")
 
         if btn_generar:
             if not doc_contenido or not doc_contenido.strip():
                 st.warning("⚠️ Debes proporcionar o cargar un documento técnico antes de generar.")
             else:
-                with st.spinner("Procesando documento técnico y generando material didáctico adaptado..."):
+                with st.status("🚀 Procesando documento técnico...", expanded=True) as status_box:
+                    st.write("📖 **Fase 1/4:** Lectura y normalización del documento técnico...")
+                    
                     perfil_enum = PerfilDestinatario(sel_perfil)
                     formato_enum = FormatoSalida(sel_formato)
                     nicho_enum = NichoSector(sel_nicho)
@@ -714,20 +763,26 @@ with tab_estudio:
                         nivel_detalle=detalle_enum
                     )
 
+                    st.write("🧩 **Fase 2/4:** Segmentación semántica y extracción de conceptos clave...")
+                    st.write("🎯 **Fase 3/4:** Recuperación contextual y anclaje normativo...")
+                    
                     t_start = datetime.now()
+                    st.write("✨ **Fase 4/4:** Síntesis didáctica adaptada al perfil...")
                     with get_db_session() as db:
                         resp, trace = adaptation_service.process_adaptation(solicitud, db=db, use_multi_agent=use_langgraph)
                     duracion_total = (datetime.now() - t_start).total_seconds()
 
-                    trace = trace or {}
-                    trace["metodo"] = "LangGraph (Multi-Agente)" if use_langgraph else "RAG Asimétrico Directo"
-                    trace["duracion_segundos"] = duracion_total
-                    trace["timestamp"] = datetime.now().isoformat()
+                    status_box.update(label="✅ Material didáctico generado con éxito", state="complete", expanded=False)
 
-                    st.session_state["ultima_respuesta"] = resp
-                    st.session_state["ultimo_request"] = solicitud
-                    st.session_state["ultimo_trace"] = trace
-                    st.rerun()
+                trace = trace or {}
+                trace["metodo"] = "LangGraph (Multi-Agente)" if use_langgraph else "RAG Asimétrico Directo"
+                trace["duracion_segundos"] = duracion_total
+                trace["timestamp"] = datetime.now().isoformat()
+
+                st.session_state["ultima_respuesta"] = resp
+                st.session_state["ultimo_request"] = solicitud
+                st.session_state["ultimo_trace"] = trace
+                st.rerun()
 
 
 # ------------------------------------------------------------------------------
@@ -779,14 +834,14 @@ with tab_metricas:
         st.info("Las métricas de anclaje y la traza de los agentes se calculan en tiempo real al generar una adaptación.")
 
     st.markdown("---")
-    st.markdown("### Fundamento Metodológico del Puntaje de Anclaje (Pliego O-08)")
+    st.markdown("### Fundamento Metodológico del Puntaje de Anclaje")
     st.markdown("""
     <div class="nm-glass" style="padding: 1.25rem 1.5rem; border-left: 4px solid var(--quantum);">
         <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--ink);">
-            <strong>Definición Canónica (O-08):</strong> El Puntaje de Anclaje mide la fidelidad técnica del contenido adaptado contrastando la retención de terminología y conceptos clave del documento fuente frente a una base mínima del 85%. No evalúa satisfacción subjetiva ni niveles de impacto organizacional, sino la estricta ausencia de alucinaciones técnicas sobre el material original.
+            <strong>Definición Canónica:</strong> El Puntaje de Anclaje mide la fidelidad técnica del contenido adaptado contrastando la retención de terminología y conceptos clave del documento fuente frente a una base mínima del 85%. No evalúa satisfacción subjetiva ni niveles de impacto organizacional, sino la estricta ausencia de alucinaciones técnicas sobre el material original.
         </p>
         <div style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5;">
-            <strong>Delimitación de Alcance Técnico (ADR-006):</strong> Modelos organizacionales externos (como Kirkpatrick) quedan formalmente excluidos del alcance del prototipo para concentrar la verificación en la rúbrica objetiva del pliego (ingestión O-01, perfiles O-02/O-05, formatos interactivos O-06 con retención SM-2 y anclaje verificable a la fuente O-08).
+            <strong>Delimitación de Alcance Técnico (ADR-006):</strong> Modelos organizacionales externos (como Kirkpatrick) quedan formalmente excluidos del alcance del prototipo para concentrar los esfuerzos en la calidad técnica objetiva: ingestión documental, adaptación por perfil, formatos interactivos con retención SM-2 y anclaje verificable a la fuente original.
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -809,6 +864,17 @@ with tab_pmo_arq:
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+    with st.expander("📌 Información del Proyecto No Country · Cronograma y Arquitectura Cloud", expanded=True):
+        st.markdown("""
+        **Proyecto 1: NuevaMente** · Hackathon No Country & Oracle Next Education (ONE G10)
+        - **Coordinador General & PM:** Martin Morfe
+        - **Alcance Temporal:** 5 Semanas de Desarrollo Ágil (Lunes Planning Meet · Jueves Demo Meet) ➔ Pre-Demo 22 Oct ➔ Demo Day Latam 27/29 Octubre 2026.
+        - **Arquitectura Cloud (OCI Always Free):**
+          * **Persistencia de Objetos:** Buckets `nuevamente-documentos-origen` y `nuevamente-contenidos-educativos` sobre OCI Object Storage Always Free.
+          * **Adaptador S3 Universal:** Construido con `boto3`, conmutable de forma transparente entre el piloto actual (Cloudflare R2 / Supabase S3 / Local) y Oracle Cloud Infrastructure en producción modificando exclusivamente tres variables en `.env`.
+          * **Cómputo:** Despliegue interactivo en Streamlit Cloud y preparado para migración a OCI Compute VM Ampere A1.
+        """)
 
     # Lectura dinámica de reporte real de pruebas automatizadas
     test_report_file = BASE_DIR / "data" / "test_execution_report.json"

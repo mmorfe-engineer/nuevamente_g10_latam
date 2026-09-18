@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-18 20:03:24 UTC",
-  "total_tests": 50,
-  "passed": 50,
+  "timestamp": "2026-09-18 21:18:00 UTC",
+  "total_tests": 51,
+  "passed": 51,
   "failed": 0,
-  "duration_seconds": 7.22,
+  "duration_seconds": 7.89,
   "exit_code": 0,
   "details": [
     {
@@ -204,6 +204,10 @@
     },
     {
       "name": "tests/test_ui_smoke.py::test_ui_smoke_welcome_station_and_canonical_demo_button",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_ui_smoke.py::test_ui_grading_flow_sm2",
       "status": "PASSED"
     }
   ]
