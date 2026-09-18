@@ -90,13 +90,13 @@ def format_canonical_terms(text: str) -> str:
 # ENCABEZADO OFICIAL DE MARCA (Wordmark & Tagline Oficial)
 # ==============================================================================
 st.markdown("""
-<div class="nm-glass" style="padding: 1.25rem 2rem; margin-bottom: 1.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+<div class="nm-glass" style="padding: 1.25rem 2rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
     <div>
         <div style="font-family: var(--font-display); font-size: 2.3rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;">
             <span style="color: var(--ink);">Nueva</span><span style="color: var(--quantum-soft);">Mente</span>
         </div>
         <div class="nm-caption" style="margin-top: 4px;">
-            Del manual de mil páginas al equipo que cumple · <span style="color: var(--quantum-soft); font-weight: 600;">Normativa densa, mente nueva.</span>
+            Sistema Inteligente de Adaptación y Generación de Contenido Educativo · <span style="color: var(--quantum-soft); font-weight: 600;">Hackathon ONE G10 (Oracle & Alura)</span>
         </div>
     </div>
     <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
@@ -105,12 +105,23 @@ st.markdown("""
                 📂 GitHub: nuevamente_g10_latam
             </span>
         </a>
-        <span class="nm-chip" style="color: var(--cyber); border: 1px solid var(--cyber);">NIST NICE Framework</span>
-        <span class="nm-chip" style="color: var(--success); border: 1px solid var(--success);">SuperMemo SM-2</span>
-        <span class="nm-chip" style="color: var(--quantum-soft); border: 1px solid var(--quantum-soft);">Universal S3 Storage</span>
+        <span class="nm-chip" style="color: var(--cyber); border: 1px solid var(--cyber);">🧪 Modo Piloto MVP</span>
+        <span class="nm-chip" style="color: var(--success); border: 1px solid var(--success);">OCI Always Free ($0.00)</span>
+        <span class="nm-chip" style="color: var(--quantum-soft); border: 1px solid var(--quantum-soft);">Adaptador S3 Universal</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
+
+with st.expander("📖 Información del Proyecto No Country · Cronograma y Arquitectura OCI"):
+    st.markdown("""
+    **Proyecto 1: NuevaMente** · Hackathon No Country & Oracle Next Education (ONE G10)
+    - **Coordinador General & PM:** Martin Morfe
+    - **Alcance Temporal:** 5 Semanas de Desarrollo Ágil (Lunes Planning Meet · Jueves Demo Meet) ➔ Pre-Demo 22 Oct ➔ Demo Day Latam 27/29 Octubre 2026.
+    - **Arquitectura Cloud (OCI Always Free):**
+      * **Persistencia de Objetos:** Buckets `nuevamente-documentos-origen` y `nuevamente-contenidos-educativos` sobre OCI Object Storage Always Free.
+      * **Adaptador S3 Universal:** Construido con `boto3`, conmutable de forma transparente entre el piloto actual (Cloudflare R2 / Supabase S3 / Local) y Oracle Cloud Infrastructure en producción modificando exclusivamente tres variables en `.env`.
+      * **Cómputo:** Despliegue interactivo en Streamlit Cloud y preparado para migración a OCI Compute VM Ampere A1.
+    """)
 
 # ==============================================================================
 # RUTAS DE APRENDIZAJE NIST NICE (Matriz Simétrica 2x2 de TrackCards)
@@ -224,111 +235,126 @@ with st.sidebar:
     modo_entrada = st.radio(
         "Modo de Ingesta:",
         [
-            "🛡️ Corpus Real de Ciberseguridad (3,020 Chunks en SQL)",
-            "Escenarios Rápidos de Prueba (Demo ONE)",
-            "Subir Documento (PDF / MD / TXT)",
-            "Pegar Texto Técnico Libre"
+            "⚡ Caso Oficial Oracle (Redes VCN en OCI)",
+            "🎯 3 Escenarios Oficiales de Evaluación (Pág. 6)",
+            "📄 Subir Documento (PDF / MD / TXT)",
+            "✍️ Pegar Texto Técnico Libre",
+            "📚 Explorar Corpus Canónico Precargado (SQL)"
         ],
         index=0
     )
 
     doc_titulo = ""
     doc_contenido = ""
+    perfil_default_idx = 0
+    formato_default_idx = 0
 
-    if modo_entrada == "🛡️ Corpus Real de Ciberseguridad (3,020 Chunks en SQL)":
-        casos_ciberseguridad = {
-            "NIST SP 800-161r1 (Riesgo en Proveedores TI / SCRM)": {
-                "file": "01_nist_sp_800_161r1_riesgo_proveedores_ti.pdf",
-                "perfil_defecto": PerfilDestinatario.EJECUTIVO,
-                "formato_defecto": FormatoSalida.RESUMEN
+    if modo_entrada == "⚡ Caso Oficial Oracle (Redes VCN en OCI)":
+        doc_titulo = "Introduccion a la Arquitectura de Redes VCN en OCI"
+        doc_contenido = (
+            "La Virtual Cloud Network (VCN) es una red privada y personalizable configurada en Oracle Cloud Infrastructure. "
+            "Similar a una red de centro de datos tradicional, la VCN ofrece control total sobre su entorno de red, "
+            "incluyendo subredes publicas y privadas, tablas de enrutamiento, Internet Gateways, NAT Gateways y Security Lists "
+            "para control de trafico mediante reglas de entrada (ingress) y salida (egress)."
+        )
+        st.info("📋 **Caso Canónico de Evaluación (Pág. 4 del Pliego Oficial)**")
+        st.caption(f"Texto fuente oficial cargado ({len(doc_contenido)} caracteres). Listo para procesar con RAG.")
+        perfil_default_idx = 0
+        formato_default_idx = 0
+
+    elif modo_entrada == "🎯 3 Escenarios Oficiales de Evaluación (Pág. 6)":
+        escenarios_disponibles = {
+            "Escenario 1: Redes VCN ➔ Principiante ➔ Flashcards": {
+                "titulo": "Arquitectura de Redes VCN en OCI",
+                "archivo": "01_oci_vcn_redes.md",
+                "perfil_idx": 0,
+                "formato_idx": 0
             },
-            "CISA / NSA (Guía de Phishing y Autenticación FIDO2)": {
-                "file": "02_cisa_nsa_guia_phishing_antifraude.pdf",
-                "perfil_defecto": PerfilDestinatario.PRINCIPIANTE,
-                "formato_defecto": FormatoSalida.FLASHCARDS
+            "Escenario 2: Redes VCN ➔ Arquitecto ➔ Tutorial": {
+                "titulo": "Arquitectura de Redes VCN en OCI",
+                "archivo": "01_oci_vcn_redes.md",
+                "perfil_idx": 2,
+                "formato_idx": 2
             },
-            "CIS Oracle Cloud Infrastructure v3.1.1 (Hardening VCN & IAM)": {
-                "file": "03_cis_oracle_cloud_infrastructure_v3_1_1.pdf",
-                "perfil_defecto": PerfilDestinatario.JUNIOR_MID,
-                "formato_defecto": FormatoSalida.TUTORIAL
-            },
-            "CISA / FBI (StopRansomware & Continuidad de Negocio BCP)": {
-                "file": "04_cisa_fbi_guia_stop_ransomware_bcp.pdf",
-                "perfil_defecto": PerfilDestinatario.ARQUITECTO,
-                "formato_defecto": FormatoSalida.FLASHCARDS
-            },
-            "PCI-DSS v4.0 (Seguridad de Tarjetas y Tokenización PAN)": {
-                "file": "05_pci_dss_v4_0_la_seguridad_bancaria.pdf",
-                "perfil_defecto": PerfilDestinatario.JUNIOR_MID,
-                "formato_defecto": FormatoSalida.QUIZ
+            "Escenario 3: Seguridad Cloud e IAM ➔ Ejecutivo ➔ Resumen": {
+                "titulo": "Gobernanza y Seguridad en la Nube",
+                "archivo": "03_seguridad_cloud_iam.txt",
+                "perfil_idx": 3,
+                "formato_idx": 3
             }
         }
-        
-        seleccion_caso = st.selectbox("Selecciona un documento del corpus:", list(casos_ciberseguridad.keys()))
-        info_caso = casos_ciberseguridad[seleccion_caso]
-        archivo_ciber = BASE_DIR / "data" / "fuentes_ciberseguridad" / info_caso["file"]
-        
-        if archivo_ciber.exists():
-            doc_titulo = seleccion_caso.split("(")[0].strip()
-            doc_contenido = doc_loader.extract_from_file(archivo_ciber)
-            if len(doc_contenido) > 30000:
-                doc_contenido = doc_contenido[:30000] + "\n\n... [Muestra del documento canónico]"
-            st.success(f"📄 Corpus Oficial: `{info_caso['file']}` ({len(doc_contenido):,} chars)")
-
-    elif modo_entrada == "Escenarios Rápidos de Prueba (Demo ONE)":
-        escenarios_disponibles = {
-            "Escenario 1: Redes VCN en OCI (Principiante / Flashcards)": "01_oci_vcn_redes.md",
-            "Escenario 2: Arquitectura Microservicios (Arquitecto / Tutorial)": "02_arquitectura_microservicios.md",
-            "Escenario 3: Gobernanza IAM y Seguridad (Ejecutivo / Resumen)": "03_seguridad_cloud_iam.txt"
-        }
-        seleccion_escenario = st.selectbox("Selecciona un escenario de prueba:", list(escenarios_disponibles.keys()))
-        archivo_muestra = settings.SAMPLES_DIR / escenarios_disponibles[seleccion_escenario]
+        seleccion_escenario = st.selectbox("Selecciona un escenario oficial:", list(escenarios_disponibles.keys()))
+        esc_info = escenarios_disponibles[seleccion_escenario]
+        archivo_muestra = settings.SAMPLES_DIR / esc_info["archivo"]
         if archivo_muestra.exists():
-            doc_titulo = seleccion_escenario.split(":")[1].split("(")[0].strip()
+            doc_titulo = esc_info["titulo"]
             doc_contenido = doc_loader.extract_from_file(archivo_muestra)
-            st.success(f"📄 Cargado: `{escenarios_disponibles[seleccion_escenario]}`")
+            st.success(f"📄 Escenario Oficial Cargado: `{esc_info['archivo']}` ({len(doc_contenido):,} chars)")
+        perfil_default_idx = esc_info["perfil_idx"]
+        formato_default_idx = esc_info["formato_idx"]
 
-    elif modo_entrada == "Subir Documento (PDF / MD / TXT)":
-        doc_titulo_input = st.text_input("Título del Documento:", value="Guía Técnica Interna")
-        archivo_subido = st.file_uploader("Arrastra tu documento:", type=["pdf", "md", "txt", "markdown"])
+    elif modo_entrada == "📄 Subir Documento (PDF / MD / TXT)":
+        doc_titulo_input = st.text_input("Título del Documento:", value="Guía Técnica de Operación")
+        archivo_subido = st.file_uploader("Arrastra tu documento técnico:", type=["pdf", "md", "txt", "markdown"])
         if archivo_subido is not None:
             bytes_data = archivo_subido.read()
             doc_titulo = doc_titulo_input or archivo_subido.name
             doc_contenido = doc_loader.extract_from_bytes(archivo_subido.name, bytes_data)
             st.success(f"📄 Procesado: `{archivo_subido.name}` ({len(doc_contenido):,} chars)")
 
-    else:
-        doc_titulo = st.text_input("Título del Documento:", value="Procedimiento de Seguridad")
+    elif modo_entrada == "✍️ Pegar Texto Técnico Libre":
+        doc_titulo = st.text_input("Título del Documento:", value="Procedimiento Técnico")
         doc_contenido = st.text_area("Pega el texto técnico aquí:", height=180)
 
-    st.markdown("""
-    <div style="margin-top: 10px; margin-bottom: 12px; padding: 10px 12px; border-radius: 8px; background: rgba(116, 86, 247, 0.12); border: 1px solid rgba(116, 86, 247, 0.3); font-size: 12px; line-height: 16px; color: #E6EDF3;">
-        🛡️ <strong>Base Normativa Soberana:</strong> Cualquier documento propio o fragmento que ingreses se procesa y se cruza con los 3,020 fragmentos canónicos (NIST, CIS, CISA, ISO) para certificar su anclaje técnico.
-    </div>
-    """, unsafe_allow_html=True)
+    else:
+        casos_ciberseguridad = {
+            "NIST SP 800-161r1 (Riesgo en Proveedores TI / SCRM)": "01_nist_sp_800_161r1_riesgo_proveedores_ti.pdf",
+            "CISA / NSA (Guía de Phishing y Autenticación FIDO2)": "02_cisa_nsa_guia_phishing_antifraude.pdf",
+            "CIS Oracle Cloud Infrastructure v3.1.1 (Hardening VCN & IAM)": "03_cis_oracle_cloud_infrastructure_v3_1_1.pdf",
+            "CISA / FBI (StopRansomware & Continuidad de Negocio BCP)": "04_cisa_fbi_guia_stop_ransomware_bcp.pdf",
+            "PCI-DSS v4.0 (Seguridad de Tarjetas y Tokenización PAN)": "05_pci_dss_v4_0_la_seguridad_bancaria.pdf"
+        }
+        seleccion_caso = st.selectbox("Selecciona un documento del corpus:", list(casos_ciberseguridad.keys()))
+        archivo_ciber = BASE_DIR / "data" / "fuentes_ciberseguridad" / casos_ciberseguridad[seleccion_caso]
+        if archivo_ciber.exists():
+            doc_titulo = seleccion_caso.split("(")[0].strip()
+            doc_contenido = doc_loader.extract_from_file(archivo_ciber)
+            if len(doc_contenido) > 30000:
+                doc_contenido = doc_contenido[:30000] + "\n\n... [Muestra del documento canónico]"
+            st.success(f"📄 Corpus Precargado: `{casos_ciberseguridad[seleccion_caso]}` ({len(doc_contenido):,} chars)")
 
     st.markdown("---")
-    st.markdown("### 🎯 Adaptación Pedagógica (NIST NICE)")
+    st.markdown("### 🎯 Cuatro Parámetros de Adaptación (Pliego Oficial)")
 
     perfil = st.selectbox(
-        "Perfil del Destinatario (NICE Work Role):",
+        "1. Perfil del Destinatario:",
         [p.value for p in PerfilDestinatario],
-        index=1 if "JUNIOR_MID" in dir(PerfilDestinatario) else 0,
-        help="Adecúa el lenguaje y el nivel de abstracción a las competencias del puesto laboral."
+        index=perfil_default_idx,
+        help="Adecúa el lenguaje y el nivel de abstracción a las competencias del perfil."
     )
 
     formato = st.selectbox(
-        "Formato Andragógico de Salida:",
+        "2. Formato Pedagógico de Salida:",
         [f.value for f in FormatoSalida],
-        index=0,
+        index=formato_default_idx,
         help="Estructura didáctica generada por el orquestador."
     )
 
     col_side1, col_side2 = st.columns(2)
     with col_side1:
-        nicho = st.selectbox("Sector / Industria:", [n.value for n in NichoSector], index=0)
+        nicho = st.selectbox(
+            "3. Nicho / Sector:",
+            [n.value for n in NichoSector],
+            index=0 if modo_entrada != "⚡ Caso Oficial Oracle (Redes VCN en OCI)" else 6,
+            help="Contextualiza ejemplos y terminología al sector seleccionado (10 sectores disponibles)."
+        )
     with col_side2:
-        detalle = st.selectbox("Nivel de Detalle:", [d.value for d in NivelDetalle], index=1)
+        detalle = st.selectbox(
+            "4. Nivel de Detalle:",
+            [d.value for d in NivelDetalle],
+            index=0,
+            help="Profundidad didáctica de la explicación."
+        )
 
     st.markdown("---")
     modo_orquestacion = st.radio(
@@ -452,13 +478,16 @@ with tab_estudio:
         </div>
         """, unsafe_allow_html=True)
 
-        col_m1, col_m2, col_m3 = st.columns(3)
+        col_m1, col_m2, col_m3, col_m4 = st.columns(4)
         with col_m1:
             st.markdown(f"**👤 Perfil:** `{resp.metadatos.perfil_aplicado}`")
         with col_m2:
-            st.markdown(f"**⏱️ Tiempo Estimado:** `{resp.metadatos.tiempo_estimado_estudio_minutos} min`")
+            st.markdown(f"**⏱️ Tiempo:** `{resp.metadatos.tiempo_estimado_estudio_minutos} min`")
         with col_m3:
-            st.markdown(f"**🏷️ Conceptos Clave:** {', '.join(resp.metadatos.conceptos_clave)}")
+            st.markdown(f"**🏷️ Conceptos:** {', '.join(resp.metadatos.conceptos_clave)}")
+        with col_m4:
+            prereqs = getattr(resp.metadatos, "prerrequisitos", []) or ["Lectura técnica básica"]
+            st.markdown(f"**📚 Prerrequisitos:** {', '.join(prereqs)}")
 
         st.markdown("---")
         items = resp.contenido_adaptado.items
@@ -910,6 +939,46 @@ with tab_pmo_arq:
                 <li><strong>Cuota Permanente:</strong> 10 GB de almacenamiento gratuito de por vida ($0.00 USD)</li>
                 <li><strong>Adaptador S3 Universal:</strong> Compatible con OCI, Cloudflare R2, MinIO y AWS S3</li>
             </ul>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("---")
+    st.markdown("### 🚀 Alcance Fuera del Compromiso · [PRÓXIMAMENTE - ROADMAP v2.0]")
+    st.caption("Funcionalidades viables de nivel enterprise declaradas formalmente para fases de escalamiento post-MVP:")
+    
+    col_r1, col_r2 = st.columns(2)
+    with col_r1:
+        st.markdown("""
+        <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--cyber);">
+            <span class="nm-chip" style="font-size: 10px; color: var(--cyber);">PRÓXIMAMENTE</span>
+            <strong style="color: var(--ink); display: block; margin: 4px 0;">👁️ Ingestión Multimodal con Visión Computacional</strong>
+            <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
+                Interpretación automatizada de diagramas de arquitectura, planos de planta y topologías de red en formato PNG/JPG vía Gemini Vision.
+            </p>
+        </div>
+        <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--quantum);">
+            <span class="nm-chip" style="font-size: 10px; color: var(--quantum);">PRÓXIMAMENTE</span>
+            <strong style="color: var(--ink); display: block; margin: 4px 0;">🎧 Podcast Educativo / Audio AI Bidireccional</strong>
+            <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
+                Síntesis de voz para transformar cualquier guía técnica en un diálogo de audio explicativo interactivo (estilo NotebookLM).
+            </p>
+        </div>
+        """, unsafe_allow_html=True)
+    with col_r2:
+        st.markdown("""
+        <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--amber);">
+            <span class="nm-chip" style="font-size: 10px; color: var(--amber);">PRÓXIMAMENTE</span>
+            <strong style="color: var(--ink); display: block; margin: 4px 0;">🎓 Conectores LMS SCORM 2004 / LTI 1.3</strong>
+            <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
+                Empaquetado directo para integración sin fricción con plataformas corporativas Moodle, Canvas LMS y Blackboard.
+            </p>
+        </div>
+        <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--success);">
+            <span class="nm-chip" style="font-size: 10px; color: var(--success);">PRÓXIMAMENTE</span>
+            <strong style="color: var(--ink); display: block; margin: 4px 0;">🛡️ Insignias Verificables & Certificación Blockchain</strong>
+            <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
+                Emisión de credenciales verificables W3C ancladas en blockchain al superar los quizzes diagnósticos de competencia.
+            </p>
         </div>
         """, unsafe_allow_html=True)
 
