@@ -9,18 +9,29 @@ from typing import Union
 
 class DocumentLoader:
     @staticmethod
+    def clean_text(text: str) -> str:
+        """Limpia y normaliza el texto extraído eliminando artefactos y saltos redundantes."""
+        if not text:
+            return ""
+        import re
+        text = text.replace("\r\n", "\n").replace("\r", "\n")
+        text = re.sub(r"\n{3,}", "\n\n", text)
+        text = re.sub(r"[ \t]+", " ", text)
+        return text.strip()
+
+    @staticmethod
     def extract_from_bytes(filename: str, content: bytes) -> str:
         """Extrae texto a partir de un flujo de bytes según su extensión."""
         ext = Path(filename).suffix.lower()
         if ext == ".pdf":
-            return DocumentLoader._extract_from_pdf_bytes(content)
+            raw = DocumentLoader._extract_from_pdf_bytes(content)
         elif ext in [".md", ".markdown"]:
-            return content.decode("utf-8", errors="replace")
+            raw = content.decode("utf-8", errors="replace")
         elif ext in [".txt", ".rst", ".json"]:
-            return content.decode("utf-8", errors="replace")
+            raw = content.decode("utf-8", errors="replace")
         else:
-            # Intentar decodificar como texto plano
-            return content.decode("utf-8", errors="replace")
+            raw = content.decode("utf-8", errors="replace")
+        return DocumentLoader.clean_text(raw)
 
     @staticmethod
     def extract_from_file(file_path: Union[str, Path]) -> str:

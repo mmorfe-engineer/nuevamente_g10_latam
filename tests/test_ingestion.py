@@ -15,3 +15,9 @@ def test_loader_extract_bytes():
     text = doc_loader.extract_from_bytes("test.md", content)
     assert "Documento Markdown" in text
     assert "parrafo de prueba" in text
+
+def test_loader_extract_txt_and_cleaning():
+    content = b"Encabezado\r\n\r\n\r\n\r\nLinea con   espacios   multiples.\r\n"
+    text = doc_loader.extract_from_bytes("test.txt", content)
+    assert "Encabezado\n\nLinea con espacios multiples." == text
+
