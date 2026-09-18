@@ -49,3 +49,25 @@ def test_get_object_retrieval():
     retrieved = oci_storage.get_object(oci_storage.bucket_docs, "retrieval_test.bin")
     assert retrieved == content
 
+def test_storage_commutation_and_fallback():
+    """Valida la conmutación entre proveedor S3 alternativo y fallback local seguro."""
+    client = OCIStorageClient()
+    # Simular conmutación a un S3 alternativo (Cloudflare R2 / MinIO)
+    alt_s3 = MagicMock()
+    alt_s3.put_object.return_value = {"ETag": '"r2_minio_hash_778"'}
+    client.s3_client = alt_s3
+    client.mode = "s3_compatible"
+    client.bucket_outputs = "bucket-alternativo-r2"
+
+    res = client.upload_educational_json("alt_dest.json", {"modulo": "prueba"})
+    assert res.bucket == "bucket-alternativo-r2"
+    assert "s3_compatible" in res.status_upload
+
+    # Simular conmutación a modo emulado local
+    client.s3_client = None
+    client.mode = "emulated"
+    res_local = client.upload_educational_json("local_dest.json", {"modulo": "local"})
+    assert "emulado" in res_local.status_upload
+    assert res_local.objeto_id == "local_dest.json"
+
+
