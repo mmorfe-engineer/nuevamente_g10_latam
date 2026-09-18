@@ -15,7 +15,7 @@
 ---
 
 ## 📌 Visión General
-**NuevaMente** es una plataforma SaaS EdTech de alto impacto desarrollada en el marco del **Hackathon ONE Grupo 10 (Oracle Next Education & Alura / No Country)**. Su misión es democratizar y acelerar el aprendizaje técnico ingiriendo documentaciones canónicas de alta densidad (manuales de arquitectura cloud, normativas de ingeniería, guías de ciberseguridad, especificaciones NIST, CIS y PCI-DSS) y transformándolas de manera automática en contenidos pedagógicos hiper-personalizados según el perfil cognitivo del estudiante, aplicando la **Taxonomía de Bloom**, la **Andragogía Laboral de Malcolm Knowles** y la evaluación en 4 niveles del **Modelo Kirkpatrick**.
+**NuevaMente** es una plataforma SaaS EdTech de alto impacto desarrollada en el marco del **Hackathon ONE Grupo 10 (Oracle Next Education & Alura / No Country)**. Su misión es democratizar y acelerar el aprendizaje técnico ingiriendo documentaciones canónicas de alta densidad (manuales de arquitectura cloud, normativas de ingeniería, guías de ciberseguridad, especificaciones NIST, CIS y PCI-DSS) y transformándolas de manera automática en contenidos pedagógicos hiper-personalizados según el perfil cognitivo del estudiante, aplicando la **Taxonomía de Bloom**, la **Andragogía Laboral de Malcolm Knowles** y retención activa medible mediante el algoritmo **SuperMemo SM-2**.
 
 La solución garantiza **fidelidad técnica rigurosa y mitigación total de alucinaciones** a través de:
 1. **Principio de Independencia del Corpus:** El dominio temático es dato de entrada, jamás arquitectura fija. Probado con éxito en Cloud OCI, Ciberseguridad y Manufactura Industrial (`tests/test_cross_corpus_domain.py`).

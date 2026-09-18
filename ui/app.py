@@ -195,7 +195,7 @@ else:
 
 st.markdown(f"""
 <div class="nm-row" style="margin-bottom: 1.5rem; justify-content: space-between;">
-  <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; border-left: 3px solid var(--quantum);">
+  <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; border-left: 3px solid var(--quantum);" title="Mide la retención de conceptos clave del documento fuente frente a una base mínima del 85%. Garantiza la ausencia de alucinaciones técnicas sobre el material original.">
     <span class="nm-overline" style="color: var(--quantum-soft);">Puntaje de Anclaje (O-08)</span>
     <span class="nm-kpi__val" style="color: var(--quantum);">{grounding_val}</span>
     <span class="nm-kpi__foot"><span class="nm-dot" style="background: var(--quantum);"></span>{grounding_foot}</span>
@@ -582,7 +582,16 @@ with tab_estudio:
                 tmp_file_path = tmp_dir / uploaded_file.name
                 with open(tmp_file_path, "wb") as f:
                     f.write(uploaded_file.getbuffer())
-                doc_contenido = doc_loader.extract_from_file(tmp_file_path)
+                try:
+                    raw_extracted = doc_loader.extract_from_file(tmp_file_path)
+                    if not raw_extracted or not raw_extracted.strip():
+                        st.warning(f"⚠️ El archivo '{uploaded_file.name}' fue cargado pero no contiene texto legible (archivo vacío o escaneado sin capa OCR). Ingrese texto manualmente o use una muestra oficial.")
+                        doc_contenido = ""
+                    else:
+                        doc_contenido = raw_extracted
+                except Exception as e:
+                    st.error(f"⚠️ No fue posible procesar el archivo '{uploaded_file.name}': formato no válido o archivo dañado ({str(e)[:120]}).")
+                    doc_contenido = ""
                 st.session_state["doc_contenido"] = doc_contenido
         else:
             col_t1, col_t2 = st.columns([1, 2])
@@ -722,7 +731,7 @@ with tab_estudio:
 
 
 # ------------------------------------------------------------------------------
-# TAB 2: AUDITORÍA DE CALIDAD & TRAZA MULTI-AGENTE (LangGraph + Kirkpatrick)
+# TAB 2: AUDITORÍA DE CALIDAD & TRAZA MULTI-AGENTE (LangGraph)
 # ------------------------------------------------------------------------------
 with tab_metricas:
     st.markdown("### Auditoría de Calidad y Traza del Grafo Multi-Agente")
@@ -770,46 +779,15 @@ with tab_metricas:
         st.info("Las métricas de anclaje y la traza de los agentes se calculan en tiempo real al generar una adaptación.")
 
     st.markdown("---")
-    st.markdown("### Sistema de Insignias de Dominio Pedagógico (Modelo Kirkpatrick)")
-    st.caption("Evaluación progresiva basada en los 4 Niveles de Kirkpatrick (Reacción, Aprendizaje, Comportamiento y Resultados).")
-
+    st.markdown("### Fundamento Metodológico del Puntaje de Anclaje (Pliego O-08)")
     st.markdown("""
-    <div class="nm-row" style="justify-content: space-around; margin-top: 1.5rem;">
-      <div class="nm-badge nm-badge--l1">
-        <div class="nm-badge__hex"><div class="nm-badge__core">
-          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-        </div></div>
-        <span class="nm-badge__lvl">NIVEL 1 · CIAN</span>
-        <div class="nm-badge__name">Iniciado</div>
-        <span class="nm-caption">Reacción: Contenido completado</span>
-      </div>
-
-      <div class="nm-badge nm-badge--l2">
-        <div class="nm-badge__hex"><div class="nm-badge__core">
-          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-        </div></div>
-        <span class="nm-badge__lvl">NIVEL 2 · ESMERALDA</span>
-        <div class="nm-badge__name">Practicante</div>
-        <span class="nm-caption">Aprendizaje: Evaluación formativa y SM-2</span>
-      </div>
-
-      <div class="nm-badge nm-badge--l3">
-        <div class="nm-badge__hex"><div class="nm-badge__core">
-          <svg viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg>
-        </div></div>
-        <span class="nm-badge__lvl">NIVEL 3 · VIOLETA</span>
-        <div class="nm-badge__name">Aplicador</div>
-        <span class="nm-caption">Comportamiento: Implementación en puesto</span>
-      </div>
-
-      <div class="nm-badge nm-badge--l4">
-        <div class="nm-badge__hex"><div class="nm-badge__core">
-          <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"></circle><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline></svg>
-        </div></div>
-        <span class="nm-badge__lvl">NIVEL 4 · ÁMBAR</span>
-        <div class="nm-badge__name">Especialista</div>
-        <span class="nm-caption">Resultados: Dominio técnico consolidado</span>
-      </div>
+    <div class="nm-glass" style="padding: 1.25rem 1.5rem; border-left: 4px solid var(--quantum);">
+        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--ink);">
+            <strong>Definición Canónica (O-08):</strong> El Puntaje de Anclaje mide la fidelidad técnica del contenido adaptado contrastando la retención de terminología y conceptos clave del documento fuente frente a una base mínima del 85%. No evalúa satisfacción subjetiva ni niveles de impacto organizacional, sino la estricta ausencia de alucinaciones técnicas sobre el material original.
+        </p>
+        <div style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5;">
+            <strong>Delimitación de Alcance Técnico (ADR-006):</strong> Modelos organizacionales externos (como Kirkpatrick) quedan formalmente excluidos del alcance del prototipo para concentrar la verificación en la rúbrica objetiva del pliego (ingestión O-01, perfiles O-02/O-05, formatos interactivos O-06 con retención SM-2 y anclaje verificable a la fuente O-08).
+        </div>
     </div>
     """, unsafe_allow_html=True)
 

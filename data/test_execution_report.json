@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-18 15:55:27 UTC",
+  "timestamp": "2026-09-18 20:03:24 UTC",
   "total_tests": 50,
   "passed": 50,
   "failed": 0,
-  "duration_seconds": 9.14,
+  "duration_seconds": 7.22,
   "exit_code": 0,
   "details": [
     {

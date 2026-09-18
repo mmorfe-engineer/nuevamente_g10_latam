@@ -43,41 +43,23 @@ class CDPClient:
         print(f"Saved: {filepath} ({len(data)} bytes)")
 
     def click_at_text(self, text, tag="button"):
-        box = self.evaluate(f"""
+        js = f"""
         (() => {{
             const elements = Array.from(document.querySelectorAll('{tag}'));
             const target = elements.find(el => el.innerText.includes('{text}'));
-            if (!target) return null;
-            target.scrollIntoView({{behavior: 'instant', block: 'center'}});
-            const rect = target.getBoundingClientRect();
-            return {{ x: Math.round(rect.left + rect.width / 2), y: Math.round(rect.top + rect.height / 2) }};
+            if (!target) return false;
+            target.click();
+            return true;
         }})()
-        """)
-        if not box:
-            print(f"Could not find element with text '{text}'")
-            return False
-        
-        time.sleep(0.3)
-        box = self.evaluate(f"""
-        (() => {{
-            const elements = Array.from(document.querySelectorAll('{tag}'));
-            const target = elements.find(el => el.innerText.includes('{text}'));
-            if (!target) return null;
-            const rect = target.getBoundingClientRect();
-            return {{ x: Math.round(rect.left + rect.width / 2), y: Math.round(rect.top + rect.height / 2) }};
-        }})()
-        """)
-        x, y = box["x"], box["y"]
-        self.send("Input.dispatchMouseEvent", {"type": "mouseMoved", "x": x, "y": y})
-        self.send("Input.dispatchMouseEvent", {"type": "mousePressed", "x": x, "y": y, "button": "left", "clickCount": 1})
-        self.send("Input.dispatchMouseEvent", {"type": "mouseReleased", "x": x, "y": y, "button": "left", "clickCount": 1})
-        print(f"Dispatched click on '{text}' at ({x}, {y})")
-        return True
+        """
+        res = self.evaluate(js)
+        print(f"Clicked on '{text}': {res}")
+        return res
 
     def click_tab(self, tab_index):
         click_script = f"""
         (() => {{
-            const tabs = Array.from(document.querySelectorAll('button[data-baseweb="tab"]'));
+            const tabs = Array.from(document.querySelectorAll('div[role="tab"]'));
             if (tabs[{tab_index}]) {{
                 tabs[{tab_index}].click();
                 return true;
@@ -87,10 +69,17 @@ class CDPClient:
         """
         res = self.evaluate(click_script)
         print(f"Clicked tab {tab_index}: {res}")
+        time.sleep(1)
         return res
 
     def scroll_to(self, y=0):
-        self.evaluate(f"window.scrollTo(0, {y});")
+        self.evaluate(f"""
+        (() => {{
+            const main = document.querySelector('.stMain') || document.querySelector('section[data-testid="stMain"]');
+            if (main) main.scrollTop = {y};
+            window.scrollTo(0, {y});
+        }})()
+        """)
         time.sleep(0.5)
 
     def close(self):

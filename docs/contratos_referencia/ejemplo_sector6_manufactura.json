@@ -49,13 +49,13 @@
     ]
   },
   "evaluacion_calidad": {
-    "anclaje_fuente_score": 0.85,
+    "anclaje_fuente_score": 0.86,
     "claridad_pedagogica": "Alta",
     "observaciones": "Contenido adaptado para perfil Principiante. Anclaje riguroso en fuentes técnicas originales sin alucinaciones detectadas."
   },
   "almacenamiento_oci": {
     "bucket": "nuevamente-contenidos-educativos",
-    "objeto_id": "contenido-manual-de-compresore-principiante-tutorial-7d0d73.json",
+    "objeto_id": "contenido-manual-de-compresore-principiante-tutorial-8213e2.json",
     "status_upload": "completado (local/emulado)"
   }
 }
