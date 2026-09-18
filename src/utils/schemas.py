@@ -23,9 +23,16 @@ class FormatoSalida(str, Enum):
     GUION = "Guion de Clase / Video"
 
 class NichoSector(str, Enum):
-    FINTECH = "Fintech"
+    CIBERSEGURIDAD = "Ciberseguridad"
+    AGROINDUSTRIA = "Agroindustria"
+    COMMODITIES_ENERGIA = "Commodities y energía"
+    FINTECH = "Banca y fintech"
     SALUD = "Salud"
-    ECOMMERCE = "E-commerce"
+    MANUFACTURA = "Manufactura e ingeniería"
+    CLOUD_INFRAESTRUCTURA = "Cloud e infraestructura"
+    LOGISTICA = "Logística y comercio exterior"
+    ADMINISTRACION_PUBLICA = "Administración pública"
+    TELECOMUNICACIONES = "Telecomunicaciones"
     GENERAL = "General"
 
 class NivelDetalle(str, Enum):
@@ -68,6 +75,7 @@ class MetadatosAprendizaje(BaseModel):
     formato_generado: str = Field(..., description="Formato pedagógico generado")
     tiempo_estimado_estudio_minutos: int = Field(..., description="Tiempo estimado en minutos")
     conceptos_clave: List[str] = Field(..., description="Conceptos clave extraídos")
+    prerrequisitos: List[str] = Field(default_factory=list, description="Conocimientos previos recomendados para abordar este material")
 
 class ContenidoAdaptado(BaseModel):
     titulo: str = Field(..., description="Título pedagógico adaptado")

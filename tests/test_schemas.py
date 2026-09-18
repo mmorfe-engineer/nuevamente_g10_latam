@@ -28,7 +28,8 @@ def test_respuesta_adaptacion_valida():
             perfil_aplicado="Principiante",
             formato_generado="Flashcards",
             tiempo_estimado_estudio_minutos=5,
-            conceptos_clave=["VCN", "Subredes"]
+            conceptos_clave=["VCN", "Subredes"],
+            prerrequisitos=["Conceptos básicos de IP", "Navegación web"]
         ),
         contenido_adaptado=ContenidoAdaptado(
             titulo="Redes desde Cero",
@@ -48,4 +49,24 @@ def test_respuesta_adaptacion_valida():
     )
     assert resp.status == "exito"
     assert resp.metadatos.tiempo_estimado_estudio_minutos == 5
+    assert len(resp.metadatos.prerrequisitos) == 2
     assert resp.evaluacion_calidad.anclaje_fuente_score == 0.98
+
+def test_diez_sectores_canonicos_y_reexportacion():
+    from src.schemas.adaptation import NichoSector, SolicitudAdaptacion as SolicitudCanonical
+    sectores_esperados = [
+        "Ciberseguridad", "Agroindustria", "Commodities y energía",
+        "Banca y fintech", "Salud", "Manufactura e ingeniería",
+        "Cloud e infraestructura", "Logística y comercio exterior",
+        "Administración pública", "Telecomunicaciones"
+    ]
+    for s in sectores_esperados:
+        assert any(n.value == s for n in NichoSector)
+    
+    req = SolicitudCanonical(
+        documento_titulo="Manual de Compresor",
+        documento_contenido="Mantenimiento preventivo",
+        nicho_sector=NichoSector.MANUFACTURA
+    )
+    assert req.nicho_sector.value == "Manufactura e ingeniería"
+
