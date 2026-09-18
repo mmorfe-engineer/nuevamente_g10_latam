@@ -66,12 +66,13 @@ Genera entre 3 y 4 items pedagógicos concisos pero rigurosos. Responde ÚNICAME
 
         generated_raw = self._call_llm(system_prompt, user_content, request)
 
-        # 3. Construcción del objeto de calidad y metadatos
-        grounding_score = max(0.85, round(avg_similarity if avg_similarity > 0 else 0.95, 2))
-        calidad = EvaluacionCalidad(
-            anclaje_fuente_score=grounding_score,
-            claridad_pedagogica="Alta",
-            observaciones=f"Contenido adaptado para perfil {request.perfil_destinatario.value} con anclaje riguroso en fuentes técnicas."
+        # 3. Construcción del objeto de calidad y metadatos con cálculo de anclaje
+        from src.quality.evaluator import quality_evaluator
+        calidad = quality_evaluator.build_quality_evaluation(
+            source_text=context_text,
+            generated_items=generated_raw.get("items", []),
+            perfil_destinatario=request.perfil_destinatario.value,
+            vector_similarity=avg_similarity
         )
 
         metadatos = MetadatosAprendizaje(
