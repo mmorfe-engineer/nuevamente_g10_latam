@@ -127,158 +127,51 @@ with st.expander("Información del Proyecto No Country · Cronograma y Arquitect
 
 
 # ==============================================================================
-# SIDEBAR: Carga de Documentos y Parametrización
+# ==============================================================================
+# SIDEBAR: Arquitectura Cloud y Trazabilidad (Solo Lectura · Cero Duplicación)
 # ==============================================================================
 with st.sidebar:
-    st.markdown("### Entrada de Documentos")
-    
-    opciones_ingesta = [
-        "📄 Subir Documento (PDF / MD / TXT)",
-        "✍️ Pegar Texto Técnico Libre",
-        "⚡ Muestra: Caso Canónico Oracle (VCN)",
-        "🎯 Muestras: 3 Escenarios de Evaluación"
-    ]
-    
-    # Sincronización con session_state si se cargó una muestra
-    modo_default_idx = st.session_state.get("modo_entrada_idx", 0)
-    if not (0 <= modo_default_idx < len(opciones_ingesta)):
-        modo_default_idx = 0
+    st.markdown("### NuevaMente · Motor RAG")
+    st.markdown("""
+    <div class="nm-glass" style="padding: 1rem; margin-bottom: 1.2rem; border-left: 3px solid var(--quantum);">
+        <span class="nm-overline" style="color: var(--quantum-soft);">Arquitectura del Motor</span>
+        <p style="font-size: 13px; color: var(--ink); margin: 4px 0 0 0; line-height: 1.45;">
+            Pipeline RAG Asimétrico con Ingesta de Documentos Universales y Generación Didáctica Estructurada (Pliego O-01 y O-13).
+        </p>
+    </div>
+    """, unsafe_allow_html=True)
 
-    modo_entrada = st.selectbox(
-        "Modo de Ingesta:",
-        opciones_ingesta,
-        index=modo_default_idx,
-        help="Selecciona la fuente documental técnica a procesar (Pliego O-01)."
-    )
+    if "ultima_respuesta" in st.session_state:
+        st.markdown("#### Documento en Estudio")
+        req_act = st.session_state.get("ultimo_request")
+        if req_act:
+            st.markdown(f"- **Título:** `{req_act.documento_titulo}`")
+            st.markdown(f"- **Perfil:** `{req_act.perfil_destinatario.value}`")
+            st.markdown(f"- **Formato:** `{req_act.formato_salida.value}`")
+            st.markdown(f"- **Sector:** `{req_act.nicho_sector.value}`")
+        
+        st.markdown("<br/>", unsafe_allow_html=True)
+        if st.button("🔄 Cargar Nuevo Documento", type="primary", use_container_width=True, key="btn_sidebar_reset"):
+            del st.session_state["ultima_respuesta"]
+            st.rerun()
 
-    doc_titulo = st.session_state.get("doc_titulo", "")
-    doc_contenido = st.session_state.get("doc_contenido", "")
-    perfil_default_idx = st.session_state.get("perfil_default_idx", 0)
-    formato_default_idx = st.session_state.get("formato_default_idx", 0)
+    st.markdown("#### Infraestructura Cloud")
+    st.markdown("""
+    - **Cómputo:** Python 3.11 / Streamlit Cloud
+    - **Nube:** Oracle Cloud Infrastructure (OCI)
+    - **Costo:** $0.00 / mes (Always Free Certificado)
+    - **Almacenamiento:** Bucket S3 Universal (boto3)
+    - **Persistencia:** SQLite / Neon PostgreSQL
+    - **Orquestador:** Pipeline RAG / LangGraph
+    """)
 
-    if modo_entrada == "📄 Subir Documento (PDF / MD / TXT)":
-        doc_titulo_input = st.text_input("Título del Documento:", value=doc_titulo or "Manual Técnico de Operación")
-        archivo_subido = st.file_uploader("Arrastra tu documento:", type=["pdf", "md", "txt", "markdown"])
-        if archivo_subido is not None:
-            bytes_data = archivo_subido.read()
-            doc_titulo = doc_titulo_input or archivo_subido.name
-            doc_contenido = doc_loader.extract_from_bytes(archivo_subido.name, bytes_data)
-            st.session_state["doc_titulo"] = doc_titulo
-            st.session_state["doc_contenido"] = doc_contenido
-            st.caption(f"Procesado: `{archivo_subido.name}` ({len(doc_contenido):,} chars)")
-        elif doc_contenido:
-            doc_titulo = doc_titulo_input
-            st.caption(f"Documento en memoria: `{doc_titulo}` ({len(doc_contenido):,} chars)")
-
-    elif modo_entrada == "✍️ Pegar Texto Técnico Libre":
-        doc_titulo_input = st.text_input("Título del Documento:", value=doc_titulo or "Procedimiento Técnico")
-        doc_contenido_input = st.text_area("Pega el texto técnico aquí:", value=doc_contenido, height=140)
-        doc_titulo = doc_titulo_input
-        doc_contenido = doc_contenido_input
-        st.session_state["doc_titulo"] = doc_titulo
-        st.session_state["doc_contenido"] = doc_contenido
-
-    elif modo_entrada == "⚡ Muestra: Caso Canónico Oracle (VCN)":
-        doc_titulo = "Introduccion a la Arquitectura de Redes VCN en OCI"
-        doc_contenido = (
-            "La Virtual Cloud Network (VCN) es una red privada y personalizable configurada en Oracle Cloud Infrastructure. "
-            "Similar a una red de centro de datos tradicional, la VCN ofrece control total sobre su entorno de red, "
-            "incluyendo subredes publicas y privadas, tablas de enrutamiento, Internet Gateways, NAT Gateways y Security Lists "
-            "para control de trafico mediante reglas de entrada (ingress) y salida (egress)."
-        )
-        st.session_state["doc_titulo"] = doc_titulo
-        st.session_state["doc_contenido"] = doc_contenido
-        st.session_state["target_sector"] = "Cloud e infraestructura"
-        st.caption(f"Muestra Canónica Oracle VCN (Pág. 4). {len(doc_contenido)} caracteres.")
-
-    elif modo_entrada == "🎯 Muestras: 3 Escenarios de Evaluación":
-        escenarios_disponibles = {
-            "Escenario 1: Redes VCN ➔ Principiante ➔ Flashcards": {
-                "titulo": "Arquitectura de Redes VCN en OCI",
-                "archivo": "01_oci_vcn_redes.md",
-                "perfil_idx": 0,
-                "formato_idx": 0
-            },
-            "Escenario 2: Redes VCN ➔ Arquitecto ➔ Tutorial": {
-                "titulo": "Arquitectura de Redes VCN en OCI",
-                "archivo": "01_oci_vcn_redes.md",
-                "perfil_idx": 2,
-                "formato_idx": 2
-            },
-            "Escenario 3: Seguridad Cloud e IAM ➔ Ejecutivo ➔ Resumen": {
-                "titulo": "Gobernanza y Seguridad en la Nube",
-                "archivo": "03_seguridad_cloud_iam.txt",
-                "perfil_idx": 3,
-                "formato_idx": 3
-            }
-        }
-        seleccion_escenario = st.selectbox("Escenario oficial:", list(escenarios_disponibles.keys()))
-        esc_info = escenarios_disponibles[seleccion_escenario]
-        archivo_muestra = settings.SAMPLES_DIR / esc_info["archivo"]
-        if archivo_muestra.exists():
-            doc_titulo = esc_info["titulo"]
-            doc_contenido = doc_loader.extract_from_file(archivo_muestra)
-            st.session_state["doc_titulo"] = doc_titulo
-            st.session_state["doc_contenido"] = doc_contenido
-            st.caption(f"Cargado: `{esc_info['archivo']}` ({len(doc_contenido):,} chars)")
-        perfil_default_idx = esc_info["perfil_idx"]
-        formato_default_idx = esc_info["formato_idx"]
-        st.session_state["target_sector"] = "Cloud e infraestructura"
-
-    st.markdown("### Parámetros de Adaptación (Pliego O-13)")
-
-    perfil_opciones = [p.value for p in PerfilDestinatario]
-    perfil_idx = perfil_default_idx if 0 <= perfil_default_idx < len(perfil_opciones) else 0
-    perfil = st.selectbox(
-        "1. Perfil del Destinatario:",
-        perfil_opciones,
-        index=perfil_idx,
-        help="Adecúa el lenguaje y el nivel de abstracción a las competencias del perfil."
-    )
-
-    formato_opciones = [f.value for f in FormatoSalida]
-    formato_idx = formato_default_idx if 0 <= formato_default_idx < len(formato_opciones) else 0
-    formato = st.selectbox(
-        "2. Formato Pedagógico de Salida:",
-        formato_opciones,
-        index=formato_idx,
-        help="Estructura didáctica generada por el orquestador."
-    )
-
-    col_side1, col_side2 = st.columns(2)
-    with col_side1:
-        nicho_opciones = [n.value for n in NichoSector]
-        target_sector = st.session_state.get("target_sector", "General")
-        if target_sector not in nicho_opciones:
-            target_sector = "General"
-        try:
-            nicho_idx = nicho_opciones.index(target_sector)
-        except ValueError:
-            nicho_idx = 0
-        nicho = st.selectbox(
-            "3. Nicho / Sector:",
-            nicho_opciones,
-            index=nicho_idx,
-            help="Modificador cognitivo (Pliego O-08): Adapta analogías, metáforas y terminología al sector de la audiencia destinataria (ej. banca, salud, manufactura), anclando el contenido exclusivamente en el documento provisto sin consultar bases de datos externas."
-        )
-    with col_side2:
-        detalle_opciones = [d.value for d in NivelDetalle]
-        detalle = st.selectbox(
-            "4. Nivel de Detalle:",
-            detalle_opciones,
-            index=0,
-            help="Profundidad didáctica de la explicación."
-        )
-
-    modo_orquestacion = st.radio(
-        "Orquestador Cognitivo:",
-        ["Motor RAG Directo", "Sistema Multi-Agente (LangGraph)"],
-        index=1,
-        horizontal=True,
-        help="Multi-Agente activa: Agente Investigador RAG + Agente Redactor Pedagógico + Agente Crítico Revisor."
-    )
-
-    btn_generar = st.button("Generar Adaptación Pedagógica", type="primary", use_container_width=True)
+    st.markdown("---")
+    st.markdown("#### Repositorio & PMO")
+    st.markdown("""
+    - **PM & Coordinador:** Martin Morfe
+    - **Hackathon:** ONE G10 (Oracle & Alura) / No Country
+    - **Código:** [GitHub nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)
+    """)
 
 
 # ==============================================================================
@@ -291,14 +184,14 @@ if "ultima_respuesta" in st.session_state:
     grounding_val = f"{grounding_pct}%"
     grounding_foot = "Anclaje Óptimo en Documento" if grounding_score >= 0.85 else "Anclaje Parcial"
     trace_kpi = st.session_state.get("ultimo_trace", {})
-    duracion = trace_kpi.get("duracion_segundos", 2.8)
-    tiempo_val = f"{duracion:.1f}s"
-    tiempo_foot = "Tiempo de Procesamiento RAG"
+    duracion = trace_kpi.get("duracion_segundos", 0.0)
+    tiempo_val = f"{duracion:.1f}s" if duracion > 0 else "< 3.0s"
+    tiempo_foot = "Medición en última ejecución"
 else:
-    grounding_val = "94%"
-    grounding_foot = "Control Anti-Alucinación (O-08)"
-    tiempo_val = "~2.8s"
-    tiempo_foot = "Ingesta Asimétrica en Tiempo Real"
+    grounding_val = "--"
+    grounding_foot = "Aún sin medir · Se calcula al procesar"
+    tiempo_val = "--"
+    tiempo_foot = "Aún sin medir · Medición en vivo"
 
 st.markdown(f"""
 <div class="nm-row" style="margin-bottom: 1.5rem; justify-content: space-between;">
@@ -314,8 +207,8 @@ st.markdown(f"""
   </div>
   <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
     <span class="nm-overline">Formatos Interactivos (O-06)</span>
-    <span class="nm-kpi__val">4 Formatos</span>
-    <span class="nm-kpi__foot">Flashcards SM-2, Quiz, Guía, Resumen</span>
+    <span class="nm-kpi__val">3 Formatos</span>
+    <span class="nm-kpi__foot">Flashcards, Guía Práctica, Resumen</span>
   </div>
   <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
     <span class="nm-overline">Costo Cloud / mes (O-11)</span>
@@ -326,48 +219,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-# ==============================================================================
-# PROCESAMIENTO AL PRESIONAR EL BOTÓN GENERAR
-# ==============================================================================
-if btn_generar or st.session_state.get("trigger_generar"):
-    st.session_state["trigger_generar"] = False
-    if not doc_contenido.strip():
-        st.error("Por favor ingresa o selecciona un documento técnico antes de continuar.")
-    else:
-        is_multi_agent = ("Multi-Agente" in modo_orquestacion)
-        progress_placeholder = st.empty()
-        with progress_placeholder.container():
-            msg = (
-                "**Ejecutando Grafo Multi-Agente:** Investigador RAG ➔ Redactor Pedagógico ➔ Crítico Revisor..."
-                if is_multi_agent
-                else "**Ejecutando Pipeline RAG:** Ingesta Asimétrica, recuperación semántica y adaptación cognitiva..."
-            )
-            st.info(msg)
 
-        try:
-            req = SolicitudAdaptacion(
-                documento_titulo=doc_titulo,
-                documento_contenido=doc_contenido,
-                perfil_destinatario=PerfilDestinatario(perfil),
-                formato_salida=FormatoSalida(formato),
-                nicho_sector=NichoSector(nicho),
-                nivel_detalle=NivelDetalle(detalle)
-            )
-
-            with get_db_session() as db:
-                respuesta, trace = adaptation_service.process_adaptation(
-                    req, db=db, use_multi_agent=is_multi_agent
-                )
-
-            st.session_state["ultima_respuesta"] = respuesta
-            st.session_state["ultimo_request"] = req
-            st.session_state["ultimo_trace"] = trace
-            progress_placeholder.empty()
-            st.success("✅ ¡Adaptación pedagógica completada y persistida en base de datos relacional y OCI Object Storage!")
-
-        except Exception as e:
-            progress_placeholder.empty()
-            st.error(f"❌ Error durante el procesamiento: {str(e)}")
 
 
 # ==============================================================================
@@ -389,7 +241,13 @@ with tab_estudio:
         req = st.session_state["ultimo_request"]
         trace = st.session_state.get("ultimo_trace", {})
 
-        st.markdown(f"## {resp.contenido_adaptado.titulo}")
+        col_hdr1, col_hdr2 = st.columns([3, 1])
+        with col_hdr1:
+            st.markdown(f"## {resp.contenido_adaptado.titulo}")
+        with col_hdr2:
+            if st.button("🔄 Cargar Nuevo Documento", key="btn_tab1_reset", use_container_width=True):
+                del st.session_state["ultima_respuesta"]
+                st.rerun()
         
         # Apertura didáctica con estilo glass
         intro_formateada = format_canonical_terms(resp.contenido_adaptado.introduccion_contextualizada)
@@ -438,7 +296,7 @@ with tab_estudio:
                     saved_cards_db = FlashcardRepository.get_by_session(db, uuid.UUID(session_id_str))
 
             for i, itm in enumerate(items):
-                frente = itm.get("frente", "Concepto de Seguridad")
+                frente = itm.get("frente", "Concepto Clave")
                 dorso = itm.get("dorso", "Explicación Técnica")
                 pista = itm.get("pista_didactica", "")
                 fuente = itm.get("fuente", req.documento_titulo)
@@ -458,7 +316,7 @@ with tab_estudio:
                       <div class="nm-flash__face">
                         <div class="nm-flash__meta">
                           <span class="nm-overline">Tarjeta #{i+1} · {req.perfil_destinatario.value}</span>
-                          <span class="nm-chip" style="color: var(--cyber); border: 1px solid var(--cyber); font-size: 11px;">NIST NICE</span>
+                          <span class="nm-chip" style="color: var(--cyber); border: 1px solid var(--cyber); font-size: 11px;">{req.nicho_sector.value}</span>
                         </div>
                         <p class="nm-flash__q" style="margin-top: 0.85rem;">{frente_html}</p>
                         {f'<div class="nm-flash__hint"><b>Pista Didáctica:</b> {pista}</div>' if pista else ''}
@@ -638,83 +496,227 @@ with tab_estudio:
         <div class="nm-glass" style="padding: 1.5rem 2rem; margin-bottom: 1.5rem; border-left: 4px solid var(--quantum);">
             <span class="nm-overline" style="color: var(--quantum-soft);">Estación de Ingesta y Transformación Documental (Pliego O-01)</span>
             <h2 style="margin: 0.35rem 0 0.6rem 0; color: var(--ink); font-size: 1.65rem;">
-                Transforma cualquier Documento Técnico en Material Educativo Interactivo
+                Transforma cualquier Documento Técnico en Material Didáctico Adaptado
             </h2>
             <p style="color: var(--ink-muted); margin: 0; font-size: 0.95rem; line-height: 1.55;">
-                Ingesta manuales de operación, arquitecturas o procedimientos en formato <b>PDF, Markdown o Texto Plano</b>. El motor RAG asimétrico procesa la fuente, ancla la terminología canónica y sintetiza Flashcards con algoritmo SuperMemo SM-2, Quizzes diagnósticos, Guías paso a paso o Síntesis ejecutivas adaptadas al perfil de la audiencia.
+                NuevaMente recibe cualquier documento técnico (PDF, Markdown o Texto Plano) o texto libre y sintetiza material didáctico interactivo adaptado y anclado a la fuente, en los formatos canónicos del pliego (Flashcards, Guía Práctica y Resumen Ejecutivo).
             </p>
         </div>
         """, unsafe_allow_html=True)
 
-        # SECCIÓN AUXILIAR: MUESTRAS OFICIALES DE DEMOSTRACIÓN (PLIEGO O-12)
-        st.markdown("### Muestras Oficiales de Demostración y Evaluación (Pliego O-12)")
+        # SECCIÓN AUXILIAR: EXACTAMENTE 3 MUESTRAS OFICIALES DE DEMOSTRACIÓN (PLIEGO O-12)
+        st.markdown("### Muestras de Demostración y Evaluación (Pliego O-12)")
         st.caption("Acceso auxiliar de un solo clic para certificar los casos canónicos del pliego en la evaluación:")
 
-        col_dem1, col_dem2 = st.columns([1.8, 2.2])
+        col_dem1, col_dem2, col_dem3 = st.columns([1.6, 1.2, 1.2])
         with col_dem1:
-            if st.button("⚡ Cargar Caso Canónico Oracle: Redes VCN (Pág. 4)", type="primary", use_container_width=True, key="btn_demo_canonico"):
-                st.session_state["doc_titulo"] = "Introduccion a la Arquitectura de Redes VCN en OCI"
+            if st.button("⚡ Caso Canónico Oracle: Redes VCN (Pág. 4)", type="primary", use_container_width=True, key="btn_demo_canonico"):
+                st.session_state["doc_titulo"] = "Introducción a la Arquitectura de Redes VCN en OCI"
                 st.session_state["doc_contenido"] = (
                     "La Virtual Cloud Network (VCN) es una red privada y personalizable configurada en Oracle Cloud Infrastructure. "
                     "Similar a una red de centro de datos tradicional, la VCN ofrece control total sobre su entorno de red, "
-                    "incluyendo subredes publicas y privadas, tablas de enrutamiento, Internet Gateways, NAT Gateways y Security Lists "
-                    "para control de trafico mediante reglas de entrada (ingress) y salida (egress)."
+                    "incluyendo subredes públicas y privadas, tablas de enrutamiento, Internet Gateways, NAT Gateways y Security Lists "
+                    "para control de tráfico mediante reglas de entrada (ingress) y salida (egress)."
                 )
-                st.session_state["perfil_default_idx"] = 0
-                st.session_state["formato_default_idx"] = 0
-                st.session_state["target_sector"] = "Cloud e infraestructura"
-                st.session_state["modo_entrada_idx"] = 2
+                st.session_state["sel_perfil"] = PerfilDestinatario.PRINCIPIANTE.value
+                st.session_state["sel_formato"] = FormatoSalida.FLASHCARDS.value
+                st.session_state["sel_nicho"] = NichoSector.CLOUD_INFRAESTRUCTURA.value
+                st.session_state["sel_detalle"] = NivelDetalle.DIDACTICO.value
+                st.session_state["input_modo"] = "Pegar Texto Libre"
                 st.rerun()
 
         with col_dem2:
-            c_m1, c_m2, c_m3 = st.columns(3)
-            with c_m1:
-                if st.button("Muestra 1: VCN Flashcards", use_container_width=True, key="btn_demo_m1"):
-                    archivo_m1 = settings.SAMPLES_DIR / "01_oci_vcn_redes.md"
-                    if archivo_m1.exists():
-                        st.session_state["doc_titulo"] = "Arquitectura de Redes VCN en OCI"
-                        st.session_state["doc_contenido"] = doc_loader.extract_from_file(archivo_m1)
-                    st.session_state["perfil_default_idx"] = 0
-                    st.session_state["formato_default_idx"] = 0
-                    st.session_state["target_sector"] = "Cloud e infraestructura"
-                    st.session_state["modo_entrada_idx"] = 3
-                    st.rerun()
-            with c_m2:
-                if st.button("Muestra 2: VCN Tutorial", use_container_width=True, key="btn_demo_m2"):
-                    archivo_m2 = settings.SAMPLES_DIR / "01_oci_vcn_redes.md"
-                    if archivo_m2.exists():
-                        st.session_state["doc_titulo"] = "Arquitectura de Redes VCN en OCI"
-                        st.session_state["doc_contenido"] = doc_loader.extract_from_file(archivo_m2)
-                    st.session_state["perfil_default_idx"] = 2
-                    st.session_state["formato_default_idx"] = 2
-                    st.session_state["target_sector"] = "Cloud e infraestructura"
-                    st.session_state["modo_entrada_idx"] = 3
-                    st.rerun()
-            with c_m3:
-                if st.button("Muestra 3: IAM Resumen", use_container_width=True, key="btn_demo_m3"):
-                    archivo_m3 = settings.SAMPLES_DIR / "03_seguridad_cloud_iam.txt"
-                    if archivo_m3.exists():
-                        st.session_state["doc_titulo"] = "Gobernanza y Seguridad en la Nube"
-                        st.session_state["doc_contenido"] = doc_loader.extract_from_file(archivo_m3)
-                    st.session_state["perfil_default_idx"] = 3
-                    st.session_state["formato_default_idx"] = 3
-                    st.session_state["target_sector"] = "Cloud e infraestructura"
-                    st.session_state["modo_entrada_idx"] = 3
-                    st.rerun()
+            if st.button("Muestra 2: VCN Arquitecto — Guía", use_container_width=True, key="btn_demo_m2"):
+                archivo_m2 = settings.SAMPLES_DIR / "01_oci_vcn_redes.md"
+                if archivo_m2.exists():
+                    st.session_state["doc_titulo"] = "Arquitectura de Redes VCN en OCI"
+                    st.session_state["doc_contenido"] = doc_loader.extract_from_file(archivo_m2)
+                st.session_state["sel_perfil"] = PerfilDestinatario.ARQUITECTO.value
+                st.session_state["sel_formato"] = FormatoSalida.TUTORIAL.value
+                st.session_state["sel_nicho"] = NichoSector.CLOUD_INFRAESTRUCTURA.value
+                st.session_state["sel_detalle"] = NivelDetalle.TECNICO.value
+                st.session_state["input_modo"] = "Pegar Texto Libre"
+                st.rerun()
+
+        with col_dem3:
+            if st.button("Muestra 3: Seguridad IAM — Resumen", use_container_width=True, key="btn_demo_m3"):
+                archivo_m3 = settings.SAMPLES_DIR / "03_seguridad_cloud_iam.txt"
+                if archivo_m3.exists():
+                    st.session_state["doc_titulo"] = "Gobernanza y Seguridad en la Nube"
+                    st.session_state["doc_contenido"] = doc_loader.extract_from_file(archivo_m3)
+                st.session_state["sel_perfil"] = PerfilDestinatario.EJECUTIVO.value
+                st.session_state["sel_formato"] = FormatoSalida.RESUMEN.value
+                st.session_state["sel_nicho"] = NichoSector.CLOUD_INFRAESTRUCTURA.value
+                st.session_state["sel_detalle"] = NivelDetalle.EJECUTIVO.value
+                st.session_state["input_modo"] = "Pegar Texto Libre"
+                st.rerun()
 
         st.markdown("---")
-        st.markdown("### Estado del Documento Técnico Activo")
-        
-        if doc_contenido.strip():
-            st.success(f"Documento Cargado: **{doc_titulo}** ({len(doc_contenido):,} caracteres listos para procesar)")
-            with st.expander("Inspeccionar Muestra del Documento en Memoria", expanded=False):
-                st.text(doc_contenido[:1200] + ("..." if len(doc_contenido) > 1200 else ""))
-            
-            if st.button("Transformar Documento en Material Interactivo", type="primary", use_container_width=True, key="btn_center_gen"):
-                st.session_state["trigger_generar"] = True
-                st.rerun()
+        # 1. INGESTA DE DOCUMENTO TÉCNICO (O-01)
+        st.markdown("### 1. Ingesta de Documento Fuente (Pliego O-01)")
+
+        modo_idx = 1 if st.session_state.get("input_modo") == "Pegar Texto Libre" else 0
+        modo_ingesta = st.radio(
+            "Método de Entrada del Documento (O-01):",
+            ["Subir Archivo (.pdf, .md, .txt)", "Pegar Texto Libre"],
+            index=modo_idx,
+            horizontal=True,
+            key="radio_modo_ingesta"
+        )
+        st.session_state["input_modo"] = modo_ingesta
+
+        doc_titulo = st.session_state.get("doc_titulo", "")
+        doc_contenido = st.session_state.get("doc_contenido", "")
+
+        if modo_ingesta == "Subir Archivo (.pdf, .md, .txt)":
+            uploaded_file = st.file_uploader(
+                "Cargar archivo técnico para procesamiento RAG:",
+                type=["pdf", "md", "txt"],
+                help="Soporta documentos técnicos arbitrarios en PDF, Markdown o Texto Plano (Pliego O-01)."
+            )
+            if uploaded_file is not None:
+                doc_titulo = uploaded_file.name
+                st.session_state["doc_titulo"] = doc_titulo
+                tmp_dir = BASE_DIR / "data" / "uploads"
+                tmp_dir.mkdir(parents=True, exist_ok=True)
+                tmp_file_path = tmp_dir / uploaded_file.name
+                with open(tmp_file_path, "wb") as f:
+                    f.write(uploaded_file.getbuffer())
+                doc_contenido = doc_loader.extract_from_file(tmp_file_path)
+                st.session_state["doc_contenido"] = doc_contenido
         else:
-            st.info("Para comenzar, carga un archivo técnico (.pdf, .md, .txt) o pega texto en el panel lateral, o haz clic en cualquiera de las Muestras Oficiales de arriba.")
+            col_t1, col_t2 = st.columns([1, 2])
+            with col_t1:
+                doc_titulo = st.text_input(
+                    "Título del Documento:",
+                    value=doc_titulo or "Documento Técnico",
+                    key="input_doc_titulo"
+                )
+                st.session_state["doc_titulo"] = doc_titulo
+            with col_t2:
+                st.caption("Pega cualquier manual, especificación o procedimiento técnico:")
+
+            doc_contenido = st.text_area(
+                "Contenido Técnico del Documento:",
+                value=doc_contenido,
+                height=180,
+                placeholder="Pega aquí el contenido técnico del documento a adaptar...",
+                key="input_doc_contenido"
+            )
+            st.session_state["doc_contenido"] = doc_contenido
+
+        if doc_contenido.strip():
+            st.success(f"📄 Documento Listo: **{doc_titulo or 'Documento Técnico'}** — {len(doc_contenido):,} caracteres listos para procesar.")
+            with st.expander("Inspeccionar Vista Previa del Documento en Memoria", expanded=False):
+                st.text(doc_contenido[:1200] + ("..." if len(doc_contenido) > 1200 else ""))
+
+        st.markdown("---")
+        # 2. PARÁMETROS DE CONTROL REQUERIDOS (O-13)
+        st.markdown("### 2. Parámetros de Control Pedagógico (Pliego O-13)")
+
+        perfiles = [p.value for p in PerfilDestinatario]
+        formatos = [
+            FormatoSalida.FLASHCARDS.value,
+            FormatoSalida.TUTORIAL.value,
+            FormatoSalida.RESUMEN.value,
+            FormatoSalida.QUIZ.value
+        ]
+        nichos = [s.value for s in NichoSector]
+        detalles = [d.value for d in NivelDetalle]
+
+        def get_safe_index(options, target_val, default=0):
+            if target_val in options:
+                return options.index(target_val)
+            return default
+
+        p_idx = get_safe_index(perfiles, st.session_state.get("sel_perfil"), 0)
+        f_idx = get_safe_index(formatos, st.session_state.get("sel_formato"), 0)
+        n_idx = get_safe_index(nichos, st.session_state.get("sel_nicho"), 0)
+        d_idx = get_safe_index(detalles, st.session_state.get("sel_detalle"), 0)
+
+        col_p1, col_p2, col_p3, col_p4 = st.columns(4)
+        with col_p1:
+            sel_perfil = st.selectbox(
+                "Perfil del Destinatario (O-13)",
+                perfiles,
+                index=p_idx,
+                key="select_perfil"
+            )
+            st.session_state["sel_perfil"] = sel_perfil
+        with col_p2:
+            sel_formato = st.selectbox(
+                "Formato Pedagógico (O-06/ADR-005)",
+                formatos,
+                index=f_idx,
+                key="select_formato"
+            )
+            st.session_state["sel_formato"] = sel_formato
+        with col_p3:
+            sel_nicho = st.selectbox(
+                "Nicho / Sector (O-08/O-13)",
+                nichos,
+                index=n_idx,
+                help="Requerido por O-08 para anclar la adaptación al dominio específico del documento.",
+                key="select_nicho"
+            )
+            st.session_state["sel_nicho"] = sel_nicho
+        with col_p4:
+            sel_detalle = st.selectbox(
+                "Nivel de Detalle (O-13)",
+                detalles,
+                index=d_idx,
+                key="select_detalle"
+            )
+            st.session_state["sel_detalle"] = sel_detalle
+
+        st.markdown("---")
+        # 3. MOTOR Y GENERACIÓN
+        col_o1, col_o2 = st.columns([2.5, 1.5])
+        with col_o1:
+            orquestador_modo = st.radio(
+                "Orquestador Cognitivo (O-03):",
+                ["Pipeline RAG Asimétrico Directo (Baja Latencia)", "Grafo Multi-Agente LangGraph (3 Agentes: Didáctico, Calidad, Formato)"],
+                index=0,
+                horizontal=True,
+                key="radio_orquestador"
+            )
+            use_langgraph = "LangGraph" in orquestador_modo
+
+        with col_o2:
+            st.markdown("<div style='height: 24px;'></div>", unsafe_allow_html=True)
+            btn_generar = st.button("🚀 Generar Material Didáctico", type="primary", use_container_width=True, key="btn_generar_principal")
+
+        if btn_generar:
+            if not doc_contenido or not doc_contenido.strip():
+                st.warning("⚠️ Debes proporcionar o cargar un documento técnico antes de generar.")
+            else:
+                with st.spinner("Procesando documento técnico y generando material didáctico adaptado..."):
+                    perfil_enum = PerfilDestinatario(sel_perfil)
+                    formato_enum = FormatoSalida(sel_formato)
+                    nicho_enum = NichoSector(sel_nicho)
+                    detalle_enum = NivelDetalle(sel_detalle)
+
+                    solicitud = SolicitudAdaptacion(
+                        documento_titulo=doc_titulo.strip() or "Documento Técnico",
+                        documento_contenido=doc_contenido.strip(),
+                        perfil_destinatario=perfil_enum,
+                        formato_salida=formato_enum,
+                        nicho_sector=nicho_enum,
+                        nivel_detalle=detalle_enum
+                    )
+
+                    t_start = datetime.now()
+                    resp = adaptation_service.process_adaptation(solicitud, use_langgraph=use_langgraph)
+                    duracion_total = (datetime.now() - t_start).total_seconds()
+
+                    st.session_state["ultima_respuesta"] = resp
+                    st.session_state["ultimo_request"] = solicitud
+                    st.session_state["ultimo_trace"] = {
+                        "metodo": "LangGraph (Multi-Agente)" if use_langgraph else "RAG Asimétrico Directo",
+                        "duracion_segundos": duracion_total,
+                        "timestamp": datetime.now().isoformat()
+                    }
+                    st.rerun()
 
 
 # ------------------------------------------------------------------------------
@@ -907,7 +909,7 @@ with tab_pmo_arq:
         {"cod": "O-11", "req": "Almacenamiento de contenidos generados en OCI Object Storage", "st": "🟠 EXCEPCIÓN TÉCNICA", "ev": "docs/EXCEPCION_ALMACENAMIENTO_OCI.md · Adaptador S3 conmutable"},
         {"cod": "O-12", "req": "Mínimo de 3 ejemplos de ejecución documentados", "st": "🟢 VERIFICADO", "ev": "docs/contratos_referencia/ (Contratos 01, 02 y 03 versionados)"},
         {"cod": "O-13", "req": "Interfaz de usuario con los cuatro parámetros de control requeridos", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Perfil, Formato, 10 Sectores Canónicos, Nivel de Detalle)"},
-        {"cod": "O-14", "req": "Suite de pruebas automatizadas que valide el flujo completo", "st": "🟢 VERIFICADO", "ev": "tests/ (46 tests unitarios e integrales en Pytest)"},
+        {"cod": "O-14", "req": "Suite de pruebas automatizadas que valide el flujo completo", "st": "🟢 VERIFICADO", "ev": f"tests/ ({test_data['total_tests'] if test_data else 50} tests unitarios e integrales en Pytest)"},
         {"cod": "X-01", "req": "Independencia del corpus demostrada con sector no relacionado", "st": "🟢 VERIFICADO", "ev": "docs/INFORME_INDEPENDENCIA_CORPUS.md · tests/test_cross_corpus_domain.py"}
     ]
 
