@@ -128,7 +128,7 @@ def test_ui_grading_flow_sm2():
     # Anuncio de resultados listo
     assert "¡Material Didáctico Listo!" in all_text, "Debe mostrarse el banner anunciador de resultados"
     # Nota de representatividad pedagógica
-    assert "muestra representativa de 4 tarjetas" in all_text, "Falta nota de control de carga cognitiva"
+    assert "4 tarjetas por ejecución para una sesión breve y revisable" in all_text, "Falta nota de control de carga cognitiva"
 
     # 3. Probar volteo de la primera tarjeta
     btn_flip = [b for b in at.button if "Voltear Tarjeta" in b.label or "Ver Frente" in b.label]

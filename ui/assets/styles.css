@@ -1,416 +1,586 @@
-/* NuevaMente — tokens.css (generado desde tokens.json) */
+/* 1. Definición oficial directa de escalas Radix Colors Dark */
+:root, body, .stApp, [data-testid="stAppViewContainer"], .dark, .dark-theme {
+  --slate-1: #111113;
+  --slate-2: #18191b;
+  --slate-3: #212225;
+  --slate-4: #272a2d;
+  --slate-5: #2e3135;
+  --slate-6: #363a3f;
+  --slate-7: #43484e;
+  --slate-8: #5a6169;
+  --slate-9: #696e77;
+  --slate-10: #777b84;
+  --slate-11: #b0b4ba;
+  --slate-12: #edeef0;
 
-:root, [data-theme="dark"] {
-  --bg-900: #070b14;
-  --bg-800: #0d1322;
-  --bg-700: #151d31;
-  --line: #56648a;
-  --glass: rgba(13, 19, 34, 0.62);
-  --glass-line: rgba(147, 160, 186, 0.22);
-  --ink: #e8eef9;
-  --ink-muted: #98a5bf;
-  --on-accent: #070b14;
-  --quantum: #7456f7;
-  --quantum-soft: #b3a4ff;
-  --quantum-glow: rgba(116, 86, 247, 0.35);
-  --cyber: #22e4f2;
-  --cyber-glow: rgba(34, 228, 242, 0.30);
-  --oracle: #c74634;
-  --oracle-text: #ee7a66;
-  --amber: #f5a524;
-  --success: #10d98a;
-  --success-bg: rgba(16, 217, 138, 0.12);
-  --danger: #ff5c7a;
-  --danger-bg: rgba(255, 92, 122, 0.12);
-  --track-ops: var(--cyber);
-  --track-dev: var(--quantum-soft);
-  --track-arch: var(--amber);
-  --track-audit: var(--oracle-text);
-  --glow-cyber: 0 0 0 1px rgba(34, 228, 242, 0.55), 0 0 24px rgba(34, 228, 242, 0.25);
-  --glow-quantum: 0 0 0 1px rgba(116, 86, 247, 0.6), 0 0 28px rgba(116, 86, 247, 0.3);
-  --elev-3d: 0 24px 48px -16px rgba(0, 0, 0, 0.7), 0 8px 16px -8px rgba(0, 0, 0, 0.5);
+  --violet-1: #14121f;
+  --violet-2: #1b1525;
+  --violet-3: #291f43;
+  --violet-4: #33255b;
+  --violet-5: #3c2e69;
+  --violet-6: #473876;
+  --violet-7: #56468b;
+  --violet-8: #6958ad;
+  --violet-9: #6e56cf;
+  --violet-10: #7d66d9;
+  --violet-11: #baa7ff;
+  --violet-12: #e2ddfe;
+
+  --green-1: #0e1512;
+  --green-2: #121b17;
+  --green-3: #132d21;
+  --green-4: #113b29;
+  --green-5: #174933;
+  --green-6: #20573e;
+  --green-7: #28684a;
+  --green-8: #2f7c57;
+  --green-9: #30a46c;
+  --green-10: #33b074;
+  --green-11: #3dd68c;
+  --green-12: #b1f1cb;
+
+  --amber-1: #16120c;
+  --amber-2: #1d180f;
+  --amber-3: #302008;
+  --amber-4: #3f2700;
+  --amber-5: #4d3000;
+  --amber-6: #5c3d05;
+  --amber-7: #714f19;
+  --amber-8: #8f6424;
+  --amber-9: #ffc53d;
+  --amber-10: #ffd60a;
+  --amber-11: #ffca16;
+  --amber-12: #ffe7b3;
+
+  --red-1: #191111;
+  --red-2: #201314;
+  --red-3: #3b1219;
+  --red-4: #500f1c;
+  --red-5: #611623;
+  --red-6: #72232d;
+  --red-7: #8c333a;
+  --red-8: #b54548;
+  --red-9: #e5484d;
+  --red-10: #ec5d5e;
+  --red-11: #ff9592;
+  --red-12: #ffd1d9;
 }
 
-[data-theme="light"] {
-  --bg-900: #f4f6fb;
-  --bg-800: #ffffff;
-  --bg-700: #edf1f8;
-  --line: #848fa6;
-  --glass: rgba(255, 255, 255, 0.72);
-  --glass-line: rgba(11, 18, 32, 0.12);
-  --ink: #0b1220;
-  --ink-muted: #4a5670;
-  --on-accent: #ffffff;
-  --quantum: #5b3df0;
-  --quantum-soft: #4b2fd9;
-  --quantum-glow: rgba(91, 61, 240, 0.18);
-  --cyber: #067786;
-  --cyber-glow: rgba(6, 119, 134, 0.16);
-  --oracle: #c74634;
-  --oracle-text: #b23c2b;
-  --amber: #a14a07;
-  --success: #047857;
-  --success-bg: rgba(4, 120, 87, 0.08);
-  --danger: #c8103a;
-  --danger-bg: rgba(200, 16, 58, 0.07);
-  --track-ops: var(--cyber);
-  --track-dev: var(--quantum-soft);
-  --track-arch: var(--amber);
-  --track-audit: var(--oracle-text);
-  --glow-cyber: 0 0 0 1px rgba(6, 119, 134, 0.6), 0 0 16px rgba(6, 119, 134, 0.14);
-  --glow-quantum: 0 0 0 1px rgba(91, 61, 240, 0.55), 0 0 18px rgba(91, 61, 240, 0.14);
-  --elev-3d: 0 24px 48px -20px rgba(11, 18, 32, 0.25), 0 8px 16px -10px rgba(11, 18, 32, 0.15);
+/* 2. Importación tipográfica: Inter y JetBrains Mono */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap');
+
+/* 3. Definición de tokens y variables base */
+:root, body, .stApp, [data-testid="stAppViewContainer"], .dark, .dark-theme {
+  /* Tipografía */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-display: var(--font-sans);
+
+  /* Escala de texto */
+  --text-display: 36px;
+  --text-title: 24px;
+  --text-subtitle: 18px;
+  --text-body: 15px;
+  --text-label: 13px;
+
+  /* Alturas de línea */
+  --leading-title: 1.25;
+  --leading-body: 1.5;
+
+  /* Espaciado múltiplo de 4 estricto (4, 8, 12, 16, 24, 32, 48, 64, 96) */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-96: 96px;
+
+  /* Radios de borde (máximo 8px sin excepciones) */
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-pill: 8px;
+
+  /* Mapeo de roles semánticos por paso */
+  --bg-app: var(--slate-1);
+  --bg-section: var(--slate-2);
+  --bg-card: var(--slate-3);
+  --bg-hover: var(--slate-4);
+  --bg-active: var(--slate-5);
+  --border-subtle: var(--slate-6);
+  --border-focus: var(--slate-7);
+  --text-primary: var(--slate-12);
+  --text-secondary: var(--slate-11);
+
+  /* Acento único: Violeta */
+  --accent-primary: var(--violet-9);
+  --accent-hover: var(--violet-10);
+  --accent-subtle: var(--violet-3);
+  --accent-border: var(--violet-7);
+  --accent-text: var(--violet-11);
+
+  /* Estados de feedback objetivo */
+  --status-success: var(--green-9);
+  --status-success-bg: var(--green-2);
+  --status-success-border: var(--green-7);
+  --status-success-text: var(--green-11);
+
+  --status-warning: var(--amber-9);
+  --status-warning-bg: var(--amber-2);
+  --status-warning-border: var(--amber-7);
+  --status-warning-text: var(--amber-11);
+
+  --status-danger: var(--red-9);
+  --status-danger-bg: var(--red-2);
+  --status-danger-border: var(--red-7);
+  --status-danger-text: var(--red-11);
+
+  /* Compatibilidad con clases existentes */
+  --bg-900: var(--slate-1);
+  --bg-800: var(--slate-2);
+  --bg-700: var(--slate-3);
+  --line: var(--slate-6);
+  --glass: var(--slate-3);
+  --glass-line: var(--slate-6);
+  --ink: var(--slate-12);
+  --ink-muted: var(--slate-11);
+  --quantum: var(--violet-9);
+  --quantum-soft: var(--slate-11);
+  --cyber: var(--slate-11);
+  --amber: var(--amber-9);
+  --success: var(--green-9);
+  --danger: var(--red-9);
+  --success-bg: var(--green-2);
+  --danger-bg: var(--red-2);
 }
 
-:root {
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-12: 48px;
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-pill: 999px;
-  --blur-glass: 16px;
-  --font-display: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
-  --font-sans: Inter, "Segoe UI", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+/* 4. Reset y Contenedor Principal (1200px centrado) */
+html, body, .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+  background-color: var(--slate-1) !important;
+  color: var(--slate-12) !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--text-body) !important;
+  line-height: var(--leading-body) !important;
+  -webkit-font-smoothing: antialiased;
 }
 
-.display-xl { font-family: var(--font-display); font-size: 56px; line-height: 60px; font-weight: 700; letter-spacing: -0.02em; }
-.h1 { font-family: var(--font-display); font-size: 40px; line-height: 46px; font-weight: 700; letter-spacing: -0.015em; }
-.h2 { font-family: var(--font-display); font-size: 28px; line-height: 34px; font-weight: 600; }
-.h3 { font-family: var(--font-display); font-size: 20px; line-height: 28px; font-weight: 600; }
-.body-lg { font-family: var(--font-sans); font-size: 17px; line-height: 28px; font-weight: 400; }
-.body { font-family: var(--font-sans); font-size: 15px; line-height: 24px; font-weight: 400; }
-.caption { font-family: var(--font-sans); font-size: 13px; line-height: 18px; font-weight: 500; }
-.overline { font-family: var(--font-sans); font-size: 12px; line-height: 16px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
-.code { font-family: var(--font-mono); font-size: 14px; line-height: 22px; font-weight: 500; }
-.kpi { font-family: var(--font-mono); font-size: 32px; line-height: 36px; font-weight: 600; letter-spacing: -0.01em; }
+.stMainBlockContainer,
+div[data-testid="stMainBlockContainer"],
+.block-container {
+  max-width: 1200px !important;
+  padding-left: var(--space-24) !important;
+  padding-right: var(--space-24) !important;
+  padding-top: var(--space-24) !important;
+  padding-bottom: var(--space-48) !important;
+  margin: 0 auto !important;
+}
 
+/* 5. Jerarquía Tipográfica */
+h1 {
+  font-family: var(--font-sans) !important;
+  font-size: var(--text-display) !important;
+  font-weight: 600 !important;
+  line-height: var(--leading-title) !important;
+  color: var(--slate-12) !important;
+  margin-top: 0 !important;
+  margin-bottom: var(--space-16) !important;
+  letter-spacing: -0.02em !important;
+}
 
-/* NuevaMente UI Kit — CSS de componentes. Requiere tokens.css. */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@500;600;700&display=swap');
+h2 {
+  font-family: var(--font-sans) !important;
+  font-size: var(--text-title) !important;
+  font-weight: 600 !important;
+  line-height: var(--leading-title) !important;
+  color: var(--slate-12) !important;
+  margin-top: 0 !important;
+  margin-bottom: var(--space-12) !important;
+  letter-spacing: -0.015em !important;
+}
 
-.nm-stage { margin:0; padding:var(--space-6); background:var(--bg-900); color:var(--ink); font-family:var(--font-sans); font-size:15px; line-height:24px; -webkit-font-smoothing:antialiased; }
-.nm-row { display:flex; flex-wrap:wrap; gap:var(--space-4); align-items:flex-start; }
-.nm-col { display:flex; flex-direction:column; gap:var(--space-3); }
-.nm-overline { font:600 12px/16px var(--font-sans); letter-spacing:.12em; text-transform:uppercase; color:var(--ink-muted); }
-.nm-caption { font:500 13px/18px var(--font-sans); color:var(--ink-muted); }
-.nm-mono { font-family:var(--font-mono); }
+h3 {
+  font-family: var(--font-sans) !important;
+  font-size: var(--text-subtitle) !important;
+  font-weight: 500 !important;
+  line-height: var(--leading-title) !important;
+  color: var(--slate-12) !important;
+  margin-top: 0 !important;
+  margin-bottom: var(--space-8) !important;
+}
 
-/* Panel glass */
-.nm-glass { background:var(--glass); border:1px solid var(--glass-line); border-radius:var(--radius-lg); -webkit-backdrop-filter:blur(var(--blur-glass)); backdrop-filter:blur(var(--blur-glass)); }
+h4 {
+  font-family: var(--font-sans) !important;
+  font-size: var(--text-body) !important;
+  font-weight: 600 !important;
+  line-height: var(--leading-body) !important;
+  color: var(--slate-12) !important;
+  margin-top: 0 !important;
+  margin-bottom: var(--space-8) !important;
+}
 
-/* Botones */
-.nm-btn { display:inline-flex; align-items:center; gap:var(--space-2); height:40px; padding:0 var(--space-4); border-radius:var(--radius-md); font:600 14px/1 var(--font-sans); cursor:pointer; border:1px solid transparent; transition:box-shadow .18s ease, transform .18s ease, border-color .18s ease; }
-.nm-btn:focus-visible { outline:2px solid var(--cyber); outline-offset:2px; }
-.nm-btn--primary { background:var(--quantum); color:#ffffff; }
-.nm-btn--primary:hover { box-shadow:var(--glow-quantum); }
-.nm-btn--glass { background:var(--glass); color:var(--ink); border-color:var(--glass-line); backdrop-filter:blur(var(--blur-glass)); }
-.nm-btn--glass:hover { border-color:var(--cyber); box-shadow:var(--glow-cyber); }
-.nm-btn--ghost { background:none; color:var(--quantum-soft); }
-.nm-btn--ghost:hover { background:var(--bg-700); }
+/* Límite de ancho de lectura: 70 caracteres */
+p, .stMarkdown p {
+  max-width: 70ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--slate-12);
+  margin-bottom: var(--space-8);
+}
 
-/* Término canónico: Español [Canonical English] */
-.nm-term { white-space:nowrap; font-weight:600; color:var(--ink); }
-.nm-term__en { display:inline-flex; align-items:center; margin-left:var(--space-1); padding:1px var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--cyber); color:var(--cyber); font:500 .86em/1.4 var(--font-mono); vertical-align:1px; }
-.nm-term__en::before { content:"["; opacity:.6; margin-right:1px; }
-.nm-term__en::after { content:"]"; opacity:.6; margin-left:1px; }
-.nm-term:hover .nm-term__en { box-shadow:var(--glow-cyber); }
+.stCaption, .stCaption p, .nm-caption {
+  font-size: var(--text-label) !important;
+  line-height: var(--leading-body) !important;
+  color: var(--slate-11) !important;
+}
 
-/* Anillo de retención SM-2 */
-.nm-ring { --p:0; --tone:var(--quantum); position:relative; width:72px; height:72px; border-radius:50%; background:conic-gradient(var(--tone) calc(var(--p) * 1%), var(--bg-700) 0); display:grid; place-items:center; flex:none; }
-.nm-ring::before { content:""; position:absolute; inset:6px; border-radius:50%; background:var(--bg-800); }
-.nm-ring__val { position:relative; font:600 18px/1 var(--font-mono); color:var(--ink); }
-.nm-ring--sm { width:48px; height:48px; }
-.nm-ring--sm::before { inset:5px; }
-.nm-ring--sm .nm-ring__val { font-size:13px; }
-.nm-ring--warn { --tone:var(--amber); }
-.nm-ring--risk { --tone:var(--danger); }
+/* JetBrains Mono exclusivo para códigos, anclajes y metadatos */
+code, pre, .nm-mono, .nm-term__en, [data-testid="stMetricValue"], .nm-kpi__val {
+  font-family: var(--font-mono) !important;
+}
 
-/* Flashcard 3D */
-.nm-flash { width: 100%; max-width: 680px; height: 260px; perspective: 1200px; cursor: pointer; }
-.nm-flash__inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.2,.7,.2,1); }
-.nm-flash:hover .nm-flash__inner,
-.nm-flash.is-flipped .nm-flash__inner { transform: rotateY(180deg) !important; }
-.nm-flash__face { position: absolute; inset: 0; display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-6); border-radius: var(--radius-lg); background: var(--bg-800); border: 1px solid var(--line); box-shadow: var(--elev-3d); -webkit-backface-visibility: hidden; backface-visibility: hidden; box-sizing: border-box; }
-.nm-flash:hover .nm-flash__face { border-color: var(--cyber); }
-.nm-flash:focus-visible { outline:2px solid var(--cyber); outline-offset:4px; border-radius:var(--radius-lg); }
-.nm-flash__back { transform:rotateY(180deg); }
-.nm-flash__q { font:600 20px/28px var(--font-display); margin:0; }
-.nm-flash__hint { margin-top:auto; padding:var(--space-2) var(--space-3); border-radius:var(--radius-sm); background:var(--bg-700); color:var(--ink-muted); font-size:13px; line-height:18px; }
-.nm-flash__hint b { color:var(--quantum-soft); font-weight:600; }
-.nm-flash__a { margin:0; font-size:15px; line-height:24px; }
-.nm-flash__src { margin-top:auto; font:500 12px/16px var(--font-mono); color:var(--success); }
-.nm-flash__meta { display:flex; justify-content:space-between; align-items:center; }
+/* 6. Componentes Básicos: Paneles y Tarjetas */
+.nm-glass {
+  background-color: var(--slate-3) !important;
+  border: 1px solid var(--slate-6) !important;
+  border-radius: var(--radius-8) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
 
-/* Barra de autoevaluación SM-2 (q = 0..5) */
-.nm-sm2 { display:flex; flex-direction:column; gap:var(--space-2); width:320px; }
-.nm-sm2__scale { display:grid; grid-template-columns:repeat(6, 1fr); gap:var(--space-1); }
-.nm-sm2__btn { height:44px; border-radius:var(--radius-sm); border:1px solid var(--line); background:var(--bg-800); color:var(--ink); font:600 15px/1 var(--font-mono); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; }
-.nm-sm2__btn small { font:500 9px/1 var(--font-sans); color:var(--ink-muted); letter-spacing:.04em; }
-.nm-sm2__btn:hover { border-color:var(--cyber); box-shadow:var(--glow-cyber); }
-.nm-sm2__btn[data-q="0"], .nm-sm2__btn[data-q="1"], .nm-sm2__btn[data-q="2"] { border-bottom:3px solid var(--danger); }
-.nm-sm2__btn[data-q="3"] { border-bottom:3px solid var(--amber); }
-.nm-sm2__btn[data-q="4"], .nm-sm2__btn[data-q="5"] { border-bottom:3px solid var(--success); }
-.nm-sm2__btn.is-picked { background:var(--quantum); color:#ffffff; border-color:var(--quantum); }
-.nm-sm2__btn.is-picked small { color:#ffffff; }
+.nm-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-16);
+  align-items: stretch;
+}
 
-/* Quiz neón */
-.nm-quiz { display:flex; flex-direction:column; gap:var(--space-3); width:100%; max-width:520px; }
-.nm-opt { display:grid; grid-template-columns:28px 1fr; gap:var(--space-3); align-items:start; padding:var(--space-3) var(--space-4); border-radius:var(--radius-md); background:var(--bg-800); border:1px solid var(--line); color:var(--ink); text-align:left; font:inherit; cursor:pointer; transition:border-color .15s, box-shadow .15s; }
-.nm-opt__key { display:grid; place-items:center; width:28px; height:28px; border-radius:var(--radius-sm); background:var(--bg-700); font:600 13px/1 var(--font-mono); color:var(--ink-muted); }
-.nm-opt:hover, .nm-opt.is-hover { border-color:var(--cyber); box-shadow:var(--glow-cyber); }
-.nm-opt:hover .nm-opt__key, .nm-opt.is-hover .nm-opt__key { color:var(--cyber); }
-.nm-opt:focus-visible { outline:2px solid var(--cyber); outline-offset:2px; }
-.nm-opt.is-correct { border-color:var(--success); background:var(--success-bg); box-shadow:none; }
-.nm-opt.is-correct .nm-opt__key { background:var(--success); color:var(--on-accent); }
-.nm-opt.is-wrong { border-color:var(--danger); background:var(--danger-bg); box-shadow:none; }
-.nm-opt.is-wrong .nm-opt__key { background:var(--danger); color:var(--on-accent); }
-.nm-opt__note { grid-column:2; margin-top:var(--space-1); font-size:13px; line-height:18px; color:var(--ink-muted); }
-.nm-opt__note strong { font-weight:600; }
-.nm-opt.is-correct .nm-opt__note strong { color:var(--success); }
-.nm-opt.is-wrong .nm-opt__note strong { color:var(--danger); }
-.nm-cite { font-family:var(--font-mono); font-size:12px; color:var(--ink); }
+.nm-overline {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--slate-11);
+}
 
-/* Insignias de dominio */
-.nm-badge { width:132px; display:flex; flex-direction:column; align-items:center; gap:var(--space-2); text-align:center; }
-.nm-badge__hex { --tone:var(--cyber); width:72px; height:80px; display:grid; place-items:center; background:var(--tone); clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); }
-.nm-badge__core { width:64px; height:72px; display:grid; place-items:center; background:var(--bg-800); clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%); color:var(--tone); }
-.nm-badge__core svg { width:28px; height:28px; stroke:currentColor; fill:none; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
-.nm-badge__lvl { font:600 11px/14px var(--font-mono); color:var(--tone); letter-spacing:.08em; }
-.nm-badge__name { font:600 14px/18px var(--font-display); }
-.nm-badge.is-locked .nm-badge__hex { --tone:var(--line); }
-.nm-badge.is-locked .nm-badge__name { color:var(--ink-muted); }
-.nm-badge--l1 .nm-badge__hex, .nm-badge--l1 .nm-badge__lvl { --tone:var(--cyber); }
-.nm-badge--l2 .nm-badge__hex, .nm-badge--l2 .nm-badge__lvl { --tone:var(--success); }
-.nm-badge--l3 .nm-badge__hex, .nm-badge--l3 .nm-badge__lvl { --tone:var(--quantum-soft); }
-.nm-badge--l4 .nm-badge__hex, .nm-badge--l4 .nm-badge__lvl { --tone:var(--amber); }
+/* Término canónico */
+.nm-term {
+  font-weight: 600;
+  color: var(--slate-12);
+}
+.nm-term__en {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--space-4);
+  padding: 1px var(--space-8);
+  border-radius: var(--radius-4);
+  border: 1px solid var(--slate-6);
+  background-color: var(--slate-2);
+  color: var(--slate-12);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.nm-term__en::before { content: "["; color: var(--slate-11); }
+.nm-term__en::after { content: "]"; color: var(--slate-11); }
 
-/* Tarjeta de ruta NICE */
-.nm-track {
-  --tone: var(--track-ops);
+/* Chip de sector inferido (con acento violeta permitido) */
+.nm-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--space-8);
+  border-radius: var(--radius-4);
+  background-color: var(--slate-2);
+  border: 1px solid var(--slate-6);
+  font-size: var(--text-label);
+  color: var(--slate-11);
+}
+
+.nm-chip--sector {
+  border-color: var(--violet-7) !important;
+  color: var(--violet-11) !important;
+  background-color: var(--violet-3) !important;
+  font-weight: 500;
+}
+
+/* 7. Flashcards 3D (Sin sombras difusas, radio max 8px) */
+.nm-flash {
   width: 100%;
-  min-height: 270px;
-  padding: var(--space-4);
+  max-width: 680px;
+  height: 260px;
+  perspective: 1200px;
+  cursor: pointer;
+}
+
+.nm-flash__inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+.nm-flash.is-flipped .nm-flash__inner {
+  transform: rotateY(180deg) !important;
+}
+
+.nm-flash__face {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: var(--space-3);
-  border-radius: var(--radius-lg);
-  background: var(--bg-800);
-  border: 1px solid var(--line);
+  gap: var(--space-12);
+  padding: var(--space-24);
+  border-radius: var(--radius-8);
+  background-color: var(--slate-3);
+  border: 1px solid var(--slate-6);
+  box-shadow: none !important;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
   box-sizing: border-box;
-  transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
-}
-.nm-track:hover {
-  border-color: var(--tone);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.4);
-}
-.nm-track__head { display:flex; align-items:center; justify-content:space-between; }
-.nm-track__tag { font:600 11px/14px var(--font-mono); color:var(--tone); letter-spacing:.1em; }
-.nm-track__title { margin:0; font:600 18px/24px var(--font-display); }
-.nm-track__skills { display:flex; flex-wrap:wrap; gap:var(--space-1); margin: 6px 0; }
-.nm-chip { padding:3px var(--space-2); border-radius:var(--radius-sm); background:var(--bg-700); font-size:12px; line-height:18px; color:var(--ink); }
-.nm-bar-container { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
-.nm-bar-label { display: flex; justify-content: space-between; font: 500 11px/14px var(--font-mono); color: var(--ink-muted); }
-.nm-bar { height:6px; border-radius:var(--radius-pill); background:var(--bg-700); overflow:hidden; }
-.nm-bar > i { display:block; height:100%; border-radius:var(--radius-pill); background:var(--tone, var(--quantum)); }
-.nm-track--ops { --tone:var(--track-ops); }
-.nm-track--dev { --tone:var(--track-dev); }
-.nm-track--arch { --tone:var(--track-arch); }
-.nm-track--audit { --tone:var(--track-audit); }
-
-/* KPI PMO */
-.nm-kpi { width:210px; padding:var(--space-4) var(--space-6); display:flex; flex-direction:column; gap:var(--space-2); box-sizing:border-box; }
-.nm-kpi__val { font:600 32px/36px var(--font-mono); letter-spacing:-.01em; color:var(--ink); }
-.nm-kpi__foot { display:flex; align-items:center; gap:var(--space-2); font-size:13px; line-height:18px; color:var(--ink-muted); }
-.nm-dot { width:8px; height:8px; border-radius:50%; background:var(--tone, var(--success)); flex:none; }
-.nm-oci { display:inline-flex; align-items:center; gap:var(--space-1); padding:1px var(--space-2); border-radius:var(--radius-sm); border:1px solid var(--oracle); color:var(--oracle-text); font:600 11px/16px var(--font-mono); }
-
-
-
-/* ==============================================================================
-   STREAMLIT ADAPTERS PARA NUEVAMENTE DESIGN SYSTEM
-   ============================================================================== */
-.stApp {
-    background: var(--bg-900) !important;
-    color: var(--ink) !important;
-    font-family: var(--font-sans) !important;
 }
 
+.nm-flash:hover .nm-flash__face {
+  border-color: var(--slate-7);
+}
+
+.nm-flash__back {
+  transform: rotateY(180deg);
+}
+
+.nm-flash__q {
+  font-family: var(--font-sans);
+  font-size: var(--text-subtitle);
+  font-weight: 600;
+  line-height: var(--leading-title);
+  color: var(--slate-12);
+  margin: 0;
+}
+
+.nm-flash__hint {
+  margin-top: auto;
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-4);
+  background-color: var(--slate-2);
+  border: 1px solid var(--slate-6);
+  color: var(--slate-11);
+  font-size: var(--text-label);
+  line-height: var(--leading-body);
+}
+
+.nm-flash__hint b {
+  color: var(--slate-12);
+  font-weight: 500;
+}
+
+.nm-flash__a {
+  margin: 0;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--slate-12);
+}
+
+.nm-flash__src {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--slate-11);
+}
+
+.nm-flash__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Anillo de anclaje plano */
+.nm-ring {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-6);
+  background-color: var(--slate-2);
+  border: 1px solid var(--green-7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.nm-ring__val {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--green-11);
+}
+
+/* 8. Botones e Interacciones */
+/* Botón Principal (Generar): Acento Violeta */
+button[kind="primary"], .stButton > button[kind="primary"] {
+  background-color: var(--violet-9) !important;
+  color: #ffffff !important;
+  border: 1px solid var(--violet-9) !important;
+  border-radius: var(--radius-6) !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 500 !important;
+  font-size: var(--text-body) !important;
+  box-shadow: none !important;
+  transition: background-color 0.15s ease !important;
+}
+
+button[kind="primary"]:hover, .stButton > button[kind="primary"]:hover {
+  background-color: var(--violet-10) !important;
+  border-color: var(--violet-10) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* Botón Secundario / Estándar: Escala Slate */
+button[kind="secondary"], .stButton > button[kind="secondary"], .stButton > button {
+  background-color: var(--slate-3) !important;
+  color: var(--slate-12) !important;
+  border: 1px solid var(--slate-6) !important;
+  border-radius: var(--radius-6) !important;
+  font-family: var(--font-sans) !important;
+  font-weight: 500 !important;
+  box-shadow: none !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease !important;
+}
+
+button[kind="secondary"]:hover, .stButton > button[kind="secondary"]:hover, .stButton > button:hover {
+  background-color: var(--slate-4) !important;
+  border-color: var(--slate-7) !important;
+  color: var(--slate-12) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+button:focus-visible, .stButton > button:focus-visible {
+  outline: 2px solid var(--violet-8) !important;
+  outline-offset: 2px !important;
+}
+
+/* 9. Formularios, Controles e Inputs */
+[data-baseweb="select"], .stTextInput > div > div, .stTextArea textarea, input[type="text"] {
+  background-color: var(--slate-2) !important;
+  border: 1px solid var(--slate-6) !important;
+  border-radius: var(--radius-6) !important;
+  color: var(--slate-12) !important;
+  box-shadow: none !important;
+}
+
+[data-baseweb="select"]:focus-within, .stTextInput > div > div:focus-within, .stTextArea textarea:focus {
+  border-color: var(--violet-8) !important;
+  outline: 2px solid var(--violet-8) !important;
+  outline-offset: 1px !important;
+}
+
+/* 10. Pestañas / Tabs */
+button[data-baseweb="tab"], [data-baseweb="tab"], [role="tab"] {
+  font-family: var(--font-sans) !important;
+  font-size: var(--text-body) !important;
+  color: var(--slate-11) !important;
+  border-bottom: 2px solid transparent !important;
+  padding: var(--space-8) var(--space-16) !important;
+  box-shadow: none !important;
+  cursor: pointer !important;
+}
+
+button[data-baseweb="tab"][aria-selected="true"], [data-baseweb="tab"][aria-selected="true"], [role="tab"][aria-selected="true"] {
+  color: var(--slate-12) !important;
+  border-bottom-color: var(--violet-9) !important;
+  font-weight: 600 !important;
+}
+
+/* 11. Barra Lateral / Sidebar */
 [data-testid="stSidebar"] {
-    background: var(--bg-800) !important;
-    border-right: 1px solid var(--line) !important;
+  background-color: var(--slate-2) !important;
+  border-right: 1px solid var(--slate-6) !important;
 }
 
-[data-testid="stHeader"] {
-    background: transparent !important;
+[data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3, [data-testid="stSidebar"] h4 {
+  color: var(--slate-12) !important;
 }
 
-h1, h2, h3, h4 {
-    font-family: var(--font-display) !important;
-    color: var(--ink) !important;
-    letter-spacing: -0.02em;
+[data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] li {
+  color: var(--slate-11) !important;
+  font-size: var(--text-label) !important;
 }
 
-/* Tabs Streamlit */
-button[data-baseweb="tab"] {
-    font-family: var(--font-display) !important;
-    font-weight: 600 !important;
-    color: var(--ink-muted) !important;
-    font-size: 15px !important;
-}
-
-button[data-baseweb="tab"][aria-selected="true"] {
-    color: var(--cyber) !important;
-    border-bottom-color: var(--cyber) !important;
-}
-
-/* Botones Primarios Streamlit */
-.stButton > button {
-    background: var(--quantum) !important;
-    color: #ffffff !important;
-    border-radius: var(--radius-md) !important;
-    font-family: var(--font-sans) !important;
-    font-weight: 600 !important;
-    border: 1px solid transparent !important;
-    transition: box-shadow .18s ease, transform .18s ease !important;
-}
-
-.stButton > button:hover {
-    box-shadow: var(--glow-quantum) !important;
-    border-color: var(--quantum-soft) !important;
-}
-
-/* Controles de Selección e Inputs */
-[data-baseweb="select"], .stTextInput > div > div, .stTextArea textarea {
-    background: var(--bg-700) !important;
-    border: 1px solid var(--line) !important;
-    border-radius: var(--radius-md) !important;
-    color: var(--ink) !important;
-    font-family: var(--font-sans) !important;
-}
-
-[data-testid="stMetric"] {
-    background: var(--glass) !important;
-    border: 1px solid var(--glass-line) !important;
-    border-radius: var(--radius-lg) !important;
-    padding: var(--space-4) !important;
-    backdrop-filter: blur(var(--blur-glass)) !important;
-}
-
-[data-testid="stMetricValue"] {
-    font-family: var(--font-mono) !important;
-    color: var(--ink) !important;
-    font-weight: 600 !important;
-}
-
-[data-testid="stMetricLabel"] {
-    font-family: var(--font-sans) !important;
-    color: var(--ink-muted) !important;
-    text-transform: uppercase;
-    font-size: 11px !important;
-    letter-spacing: 0.1em;
-}
-
-/* Alert Boxes */
-.stAlert {
-    background: var(--glass) !important;
-    border: 1px solid var(--line) !important;
-    border-radius: var(--radius-md) !important;
-    color: var(--ink) !important;
-}
-
-/* Ocultar barra superior y decoración de Streamlit Cloud */
+/* 12. Ocultar Elementos Innecesarios de Streamlit */
 [data-testid="stToolbar"],
 [data-testid="stAppDeployButton"],
 [data-testid="manage-app-button"],
 [data-testid="stDecoration"] {
-    display: none !important;
+  display: none !important;
 }
 
-/* ==============================================================================
-   ALTA ACCESIBILIDAD Y CONTRASTE EN SIDEBAR
-   ============================================================================== */
-[data-testid="stSidebar"] label,
-[data-testid="stSidebar"] .stMarkdown p,
-[data-testid="stSidebar"] .stRadio label {
-    color: #E6EDF3 !important;
-    opacity: 1 !important;
-    font-weight: 600 !important;
+hr {
+  border: 0 !important;
+  border-top: 1px solid var(--slate-6) !important;
+  margin: var(--space-24) 0 !important;
 }
 
-[data-testid="stSidebar"] .stRadio label > div {
-    color: #E6EDF3 !important;
+/* 13. Notificaciones y Alertas */
+.stAlert {
+  background-color: var(--slate-2) !important;
+  border: 1px solid var(--slate-6) !important;
+  border-radius: var(--radius-6) !important;
+  color: var(--slate-12) !important;
+  box-shadow: none !important;
 }
 
-[data-testid="stSidebar"] .stSelectbox > div > div,
-[data-testid="stSidebar"] .stTextInput input,
-[data-testid="stSidebar"] .stTextArea textarea,
-[data-testid="stSidebar"] [data-baseweb="select"] {
-    background-color: #161B22 !important;
-    color: #E6EDF3 !important;
-    border: 1px solid #30363D !important;
-    font-weight: 500 !important;
+/* 14. Quiz Feedback Cards */
+.nm-opt {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  padding: var(--space-12) var(--space-16);
+  border-radius: var(--radius-6);
+  background-color: var(--slate-2);
+  border: 1px solid var(--slate-6);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--slate-12);
 }
 
-[data-testid="stSidebar"] input::placeholder,
-[data-testid="stSidebar"] textarea::placeholder {
-    color: #8B949E !important;
+.nm-opt.is-correct {
+  background-color: var(--slate-2);
+  border-color: var(--green-7);
+  color: var(--slate-12);
 }
 
-[data-testid="stSidebar"] .stAlert {
-    border-color: #7EE787 !important;
-    background: rgba(16, 217, 138, 0.08) !important;
-    color: #E6EDF3 !important;
+.nm-opt.is-wrong {
+  background-color: var(--slate-2);
+  border-color: var(--red-7);
+  color: var(--slate-12);
 }
 
-/* ==============================================================================
-   JERARQUÍA VISUAL DE PESTAÑAS (TAB 1 PRIMARIA)
-   ============================================================================== */
-button[data-baseweb="tab"] {
-    font-family: var(--font-display) !important;
-    font-size: 15px !important;
-    padding: 10px 18px !important;
-    color: var(--ink-muted) !important;
+.nm-opt__key {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
 }
 
-button[data-baseweb="tab"]:first-child {
-    font-weight: 700 !important;
-    color: var(--ink) !important;
-    border-bottom: 2px solid var(--quantum) !important;
+.nm-opt.is-correct .nm-opt__key {
+  color: var(--green-9);
 }
 
-/* ==============================================================================
-   BOTÓN DE GENERACIÓN DE ALTA PROMINENCIA (PASO 3)
-   ============================================================================== */
-div[data-testid="stButton"] button[kind="primary"] {
-    box-shadow: 0 0 16px rgba(116, 86, 247, 0.35) !important;
-    transition: all 0.2s ease-in-out !important;
-    font-weight: 600 !important;
+.nm-opt.is-wrong .nm-opt__key {
+  color: var(--red-9);
 }
 
-div[data-testid="stButton"] button[kind="primary"]:hover {
-    box-shadow: 0 0 26px rgba(116, 86, 247, 0.65) !important;
-    transform: translateY(-1px);
-}
-
-/* SM-2 Feedback Badge */
-.nm-sm2-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 12px;
-    padding: 5px 12px;
-    border-radius: var(--radius-pill);
-    background: var(--glass);
-    border: 1px solid var(--line);
-    margin-top: 8px;
+.nm-opt__note {
+  font-size: var(--text-label);
+  color: var(--slate-11);
+  line-height: var(--leading-body);
 }
 
