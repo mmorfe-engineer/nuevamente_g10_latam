@@ -1,15 +1,15 @@
 # 🎓 NuevaMente — Sistema Inteligente de Adaptación y Generación de Contenido Educativo
 
 [![Hackathon ONE G10](https://img.shields.io/badge/Hackathon-ONE%20G10%20%7C%20Alura%20%26%20Oracle-F80000?style=for-the-badge&logo=oracle)](https://www.oracle.com/lad/education/oracle-next-education/)
-[![OCI Always Free](https://img.shields.io/badge/OCI-Always%20Free%20Certified%20($0.00)-red?style=for-the-badge&logo=oracle)](https://www.oracle.com/cloud/free/)
-[![Tests Passing](https://img.shields.io/badge/Pytest-46%2F46%20Passing%20(100%25)-brightgreen?style=for-the-badge&logo=pytest)](https://docs.pytest.org/)
+[![Costo Infraestructura](https://img.shields.io/badge/Costo%20Infraestructura-$0.00-blue?style=for-the-badge&logo=oracle)](https://www.oracle.com/cloud/free/)
+[![Tests Passing](https://img.shields.io/badge/Pytest-52%2F52%20Passing%20(100%25)-brightgreen?style=for-the-badge&logo=pytest)](https://docs.pytest.org/)
 [![Multi-Agent](https://img.shields.io/badge/Agents-LangGraph%20Multi--Agent-6366F1?style=for-the-badge)](https://langchain-ai.github.io/langgraph/)
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-blue?style=for-the-badge&logo=python)](https://www.python.org/)
 [![UI Streamlit](https://img.shields.io/badge/UI-Design%20System%20Dark%20Enterprise-FF4B4B?style=for-the-badge&logo=streamlit)](https://nuevamente.streamlit.app)
 [![Storage](https://img.shields.io/badge/Storage-Universal%20S3%20%7C%20OCI%20Native-orange?style=for-the-badge)](https://aws.amazon.com/s3/)
 [![Spaced Repetition](https://img.shields.io/badge/Algorithm-SuperMemo%20SM--2-purple?style=for-the-badge)](https://en.wikipedia.org/wiki/SuperMemo#SM-2_algorithm)
 
-> 🚀 **PROTOTIPO DE REFERENCIA ASÍNCRONO v4 COMPLETADO Y CERTIFICADO**  
+> 🚀 **PROTOTIPO DE REFERENCIA TÉCNICAMENTE CERRADO** (con dependencias externas declaradas)  
 > Para la guía de adopción técnica por parte del equipo de desarrollo, consulta el [📦 Paquete de Transferencia Técnica para Squad 1](docs/PAQUETE_TRANSFERENCIA_PROYECTO_1.md) con la secuencia canónica de 12 commits, procedimiento de almacenamiento, bitácora de trampas resueltas y los 4 contratos JSON de referencia en [docs/contratos_referencia/](docs/contratos_referencia/).
 
 ---
@@ -17,11 +17,11 @@
 ## 📌 Visión General
 **NuevaMente** es una plataforma SaaS EdTech de alto impacto desarrollada en el marco del **Hackathon ONE Grupo 10 (Oracle Next Education & Alura / No Country)**. Su misión es democratizar y acelerar el aprendizaje técnico ingiriendo documentaciones canónicas de alta densidad (manuales de arquitectura cloud, normativas de ingeniería, guías de ciberseguridad, especificaciones NIST, CIS y PCI-DSS) y transformándolas de manera automática en contenidos pedagógicos hiper-personalizados según el perfil cognitivo del estudiante, aplicando la **Taxonomía de Bloom**, la **Andragogía Laboral de Malcolm Knowles** y retención activa medible mediante el algoritmo **SuperMemo SM-2**.
 
-La solución garantiza **fidelidad técnica rigurosa y mitigación total de alucinaciones** a través de:
+La solución garantiza **fidelidad técnica rigurosa y mitigación de alucinaciones** a través de:
 1. **Principio de Independencia del Corpus:** El dominio temático es dato de entrada, jamás arquitectura fija. Probado con éxito en Cloud OCI, Ciberseguridad y Manufactura Industrial (`tests/test_cross_corpus_domain.py`).
 2. **Evaluación de Anclaje a la Fuente (`anclaje_fuente_score >= 0.85`):** Ponderación algorítmica de retención conceptual y similitud semántica.
 3. **Regla de Nomenclatura Parentética Bilingüe:** `Término en Español [Término Canónico en Inglés]` para preservar correspondencia con la consola de Oracle Cloud.
-4. **Adaptador Universal de Almacenamiento:** Conmutación sin fricción entre almacenamiento local, S3 compatible y OCI Object Storage Always Free.
+4. **Adaptador Universal de Almacenamiento:** Conmutación sin fricción entre almacenamiento local, S3 compatible y OCI Object Storage.
 
 ---
 
@@ -76,7 +76,7 @@ flowchart TB
 
 ---
 
-## 🎯 Cuatro Parámetros de Control (Requisito O-13)
+## 🎯 Cuatro Parámetros de Control (Requisito O-08)
 
 | Dimensión | Opciones Soportadas | Enfoque Pedagógico |
 | :--- | :--- | :--- |
@@ -148,32 +148,49 @@ OCI_S3_ENDPOINT_URL=https://<tenant_id>.compat.objectstorage.<region>.oracleclou
 OCI_S3_ACCESS_KEY_ID=<tu_access_key>
 OCI_S3_SECRET_ACCESS_KEY=<tu_secret_key>
 
-# Opción C: Modo OCI Nativo (Producción Always Free con OCI SDK)
+# Opción C: Modo OCI Nativo (Conexión OCI SDK)
 STORAGE_PROVIDER=oci_native
 OCI_CONFIG_FILE=~/.oci/config
 ```
 
 ---
 
-## 🧪 Matriz de Verificación de Criterios (O-01 a O-14 + X-01)
+## 🧪 Matriz de Verificación de Criterios Canónicos (O-01 a O-14, D-01 a D-05, X-01)
 
-| Criterio | Descripción | Estado | Evidencia |
+### Requisitos Obligatorios del Pliego (14)
+
+| Criterio | Requisito Canónico | Estado | Evidencia Técnica |
 | :--- | :--- | :---: | :--- |
-| **O-01** | Ingesta PDF, Markdown y Texto Plano | 🟢 VERIFICADO | `src/ingestion/loaders.py` · `tests/test_ingestion.py` |
-| **O-02** | Limpieza y normalización de texto conservando terminología | 🟢 VERIFICADO | `src/ingestion/loaders.py` (`clean_text`) · `tests/test_ingestion.py` |
-| **O-03** | Orquestación con LLM (Google Gemini) | 🟡 PENDIENTE | Cliente migrado a `google-genai` en `src/llm/engine.py`; ejecución viva pendiente de provisión de `GEMINI_API_KEY` por el squad. |
-| **O-04** | Pipeline RAG: chunking 1000/150, embeddings y vector store | 🟢 VERIFICADO | `src/ingestion/chunker.py` · `src/rag/vector_store.py` (ChromaDB) |
-| **O-05** | Mismo documento adaptado a al menos 2 perfiles y 2 formatos | 🟢 VERIFICADO | Vinculado a Contrato 01 (Principiante Flashcards) y Contrato 02 (Arquitecto Tutorial) en `docs/contratos_referencia/` |
-| **O-06** | Formatos mínimos (Flashcards, Tutorial y Resumen) | 🟢 VERIFICADO | `src/schemas/adaptation.py` · `tests/test_schemas.py` |
-| **O-07** | Metadatos de aprendizaje con tiempo, conceptos y prerrequisitos | 🟢 VERIFICADO | `MetadatosAprendizaje` en `src/schemas/adaptation.py` |
-| **O-08** | Control de alucinaciones con anclaje a la fuente | 🟢 VERIFICADO | `src/quality/evaluator.py` (`anclaje_fuente_score >= 0.85`) |
-| **O-09** | Salida forzada en JSON estructurado y tipado | 🟢 VERIFICADO | `src/llm/engine.py` (validación Pydantic estricta con `RespuestaAdaptacion`) |
-| **O-10** | Manejo de excepciones defensivo ante caídas del LLM | 🟢 VERIFICADO | Cadena multi-proveedor: Google GenAI ➔ Mistral ➔ NVIDIA NIM ➔ OpenAI ➔ Sintético |
-| **O-11** | Almacenamiento en OCI Object Storage Always Free | 🟠 EXCEPCIÓN | Documentada y certificada en `docs/EXCEPCION_ALMACENAMIENTO_OCI.md`. Adaptador conmutable con prueba archivada |
-| **O-12** | Mínimo de 3 ejemplos de ejecución documentados | 🟢 VERIFICADO | Contratos 01, 02 y 03 versionados en `docs/contratos_referencia/` |
-| **O-13** | Interfaz de usuario con los 4 parámetros de control | 🟢 VERIFICADO | `ui/app.py` (Perfil, Formato, 10 Sectores Canónicos, Nivel de Detalle) |
-| **O-14** | Suite de pruebas automatizadas que valide el flujo completo | 🟢 VERIFICADO | 46 pruebas automatizadas passing en `tests/` (`pytest tests/ -v`) |
-| **X-01** | Independencia del corpus con sector no relacionado | 🟢 VERIFICADO | Sector 6 Manufactura en `tests/test_cross_corpus_domain.py` y `docs/INFORME_INDEPENDENCIA_CORPUS.md` |
+| **O-01** | Ingestión funcional PDF, Markdown o texto | 🟢 VERIFICADO | `src/ingestion/loaders.py` (`extract_from_pdf`, `extract_from_markdown`, `extract_from_txt`) · `tests/test_ingestion.py` |
+| **O-02** | RAG con segmentación, embeddings y Vector Store | 🟢 VERIFICADO | `src/ingestion/chunker.py` (1000/150 configurable) · `src/rag/vector_store.py` (ChromaDB) · `tests/test_rag_pipeline.py` |
+| **O-03** | Orquestación de agentes o cadenas de prompts con LLM | 🟡 ABIERTA (Dependencia Externa) | Cliente migrado a `google-genai` listo en `src/llm/engine.py`; ejecución viva con proveedor LLM en producción abierta como dependencia externa pendiente de provisión de credencial por Squad 1. |
+| **O-04** | Verificación de fidelidad al documento / mitigación de alucinaciones | 🟢 VERIFICADO | `src/quality/evaluator.py` (`anclaje_fuente_score >= 0.85`) · `tests/test_quality.py` |
+| **O-05** | Mismo contenido adaptado a al menos 2 perfiles y 2 formatos | 🟢 VERIFICADO | Doble ejecución empírica sobre `05_pci_dss_v4_0`: Principiante/Flashcards y Arquitecto/Tutorial · `docs/contratos_referencia/` |
+| **O-06** | JSON estructurado con status, metadatos, contenido_adaptado, evaluacion_calidad y almacenamiento_oci | 🟢 VERIFICADO | `src/utils/schemas.py` (`RespuestaAdaptacion` Pydantic v2) · `tests/test_schemas.py` |
+| **O-07** | Metadatos de aprendizaje: conceptos, prerrequisitos y tiempo | 🟢 VERIFICADO | `src/utils/schemas.py` (`MetadatosAprendizaje`) · `tests/test_schemas.py` |
+| **O-08** | Perfil, formato, nicho y nivel de detalle | 🟢 VERIFICADO | `ui/app.py` (Selectores de 4 parámetros en Paso 2) · `tests/test_ui_smoke.py` |
+| **O-09** | Interfaz interactiva o API REST operativa | 🟢 VERIFICADO | `ui/app.py` (Interfaz interactiva Streamlit en 3 pasos con Design System Radix Dark y persistencia relacional) |
+| **O-10** | Tipado estricto y manejo de excepciones con mensajes amigables | 🟢 VERIFICADO | `src/llm/engine.py` (conmutación defensiva multi-proveedor con fallback sintético local) · Pydantic v2 · `tests/test_llm_engine.py` |
+| **O-11** | OCI Object Storage activo para originales y JSON | 🟠 ABIERTA (Dependencia Externa) | `docs/EXCEPCION_ALMACENAMIENTO_OCI.md` · Adaptador S3 conmutable local verificado; integración activa con OCI Object Storage abierta como dependencia externa. |
+| **O-12** | Mínimo 3 ejemplos de ejecución | 🟢 VERIFICADO | `docs/contratos_referencia/` (5 contratos JSON versionados y autovalidados: VCN Flashcards, VCN Tutorial, IAM Resumen, Manufactura y Gemini) |
+| **O-13** | Repositorio Git estructurado con commits claros y colaborativos | 🟢 VERIFICADO | GitHub `mmorfe-engineer/nuevamente_g10_latam` con historial estructurado de ramas y commits colaborativos por componente |
+| **O-14** | README con arquitectura, diagrama RAG y guía de instalación | 🟢 VERIFICADO | `README.md` (Diagrama Mermaid C4/RAG, insignias, arquitectura técnica y guía de instalación paso a paso) |
+
+### Capacidades Diferenciales de Alto Impacto (5)
+
+| Criterio | Requisito Canónico | Estado | Evidencia Técnica |
+| :--- | :--- | :---: | :--- |
+| **D-01** | Quizzes con evaluación y retroalimentación en tiempo real | 🟢 VERIFICADO | `src/schemas/adaptation.py` · `ui/app.py` (evaluación interactiva de quizzes con justificación y citas al documento fuente) |
+| **D-02** | Sistema multi-agente con LangGraph | 🟢 VERIFICADO | `src/agents/multi_agent_graph.py` (Investigador RAG, Redactor Pedagógico, Crítico/Revisor con traza visual) · `tests/test_multi_agent_graph.py` |
+| **D-03** | Exportación Markdown/PDF/CSV compatible con Anki | 🟢 VERIFICADO | `src/exporters/anki.py` (CSV Anki), `src/exporters/markdown.py` (Guías MD) · `tests/test_exporters.py` |
+| **D-04** | Despliegue completo sobre OCI Compute Always Free | 🟠 ABIERTA (Dependencia Externa) | Scripts y procedimiento de despliegue preparados; despliegue activo en OCI Compute pendiente de verificación. |
+| **D-05** | Soporte multimodal para diagramas técnicos | 🟡 ABIERTA (Dependencia Externa) | Arquitectura y contratos preparados; interpretación multimodal directa de diagramas técnicos abierta para desarrollo del Squad 1. |
+
+### Validación Interna de Robustez Arquitectónica (X-01 Interno)
+
+| Criterio | Requisito Canónico | Estado | Evidencia Técnica |
+| :--- | :--- | :---: | :--- |
+| **X-01** | Control interno de independencia de corpus | 🟢 VERIFICADO | `docs/INFORME_INDEPENDENCIA_CORPUS.md` · `tests/test_cross_corpus_domain.py` (Sector 6: Manufactura de Compresores Industriales) |
 
 ---
 
@@ -181,8 +198,8 @@ OCI_CONFIG_FILE=~/.oci/config
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/bitcoinpapa-dev/nuevamente.git
-cd nuevamente
+git clone https://github.com/mmorfe-engineer/nuevamente_g10_latam.git
+cd nuevamente_g10_latam
 
 # 2. Entorno virtual e instalación de dependencias
 python3 -m venv venv

@@ -1166,7 +1166,7 @@ with tab_pmo_arq:
         {"cod": "D-01", "req": "Quizzes con evaluación y retroalimentación en tiempo real", "st": "🟢 VERIFICADO", "ev": "src/schemas/adaptation.py · ui/app.py (evaluación interactiva de quizzes con justificación y citas al documento fuente)"},
         {"cod": "D-02", "req": "Sistema multi-agente con LangGraph", "st": "🟢 VERIFICADO", "ev": "src/agents/multi_agent_graph.py (Investigador RAG, Redactor Pedagógico, Crítico/Revisor con traza visual) · tests/test_multi_agent_graph.py"},
         {"cod": "D-03", "req": "Exportación Markdown/PDF/CSV compatible con Anki", "st": "🟢 VERIFICADO", "ev": "src/exporters/anki.py (CSV Anki), src/exporters/markdown.py (Guías MD) · tests/test_exporters.py"},
-        {"cod": "D-04", "req": "Despliegue completo sobre OCI Compute Always Free", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "deploy/MANUAL_DESPLIEGUE_OCI_PASO_A_PASO.md · deploy/oci_setup.sh · Despliegue activo en instancia VM OCI Compute abierto como dependencia externa."},
+        {"cod": "D-04", "req": "Despliegue completo sobre OCI Compute Always Free", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "Scripts y procedimiento de despliegue preparados; despliegue activo en OCI Compute pendiente de verificación."},
         {"cod": "D-05", "req": "Soporte multimodal para diagramas técnicos", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Arquitectura y contratos preparados; interpretación multimodal directa de diagramas técnicos abierta para desarrollo del Squad 1."},
     ]
     _render_criterios_block(matriz_diferenciales)
