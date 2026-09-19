@@ -335,7 +335,7 @@ with tab_estudio:
                     <strong style="color: var(--slate-12);">Porción del Documento Procesada:</strong>
                     <span style="color: var(--slate-11); margin-left: var(--space-8);">{porcion_procesada}</span>
                 </div>
-                <span class="nm-chip" style="font-size: 11px; font-family: var(--font-mono); border: 1px solid var(--slate-6); color: var(--slate-11);">RAG Representativo · {chunks_idx}/{tot_chunks} fragmentos</span>
+                <span class="nm-chip" style="font-size: 11px; font-family: var(--font-mono); border: 1px solid var(--slate-6); color: var(--slate-11);">Lote Inicial Acotado (ADR-012) · {chunks_idx}/{tot_chunks} fragmentos</span>
             </div>
             """, unsafe_allow_html=True)
 
@@ -769,9 +769,9 @@ with tab_estudio:
                 est_chunks = (doc_chars // 800) + 1
                 st.warning(
                     f"**Documento Extenso Detectado ({doc_chars:,} caracteres · ~{est_chunks} fragmentos):** "
-                    f"Para garantizar latencia óptima (<30s) y prevenir sobrecarga cognitiva, el pipeline indexará un "
-                    f"**lote representativo inicial de 80 fragmentos (~75.000 caracteres)**. "
-                    f"**Tiempo estimado de generación:** ~20 a 35 segundos (frente a más de 5 minutos sin partición). "
+                    f"Para garantizar latencia óptima (<30s) y prevenir sobrecarga cognitiva, el pipeline procesa un "
+                    f"**lote inicial acotado configurable de 80 fragmentos (~75.000 caracteres, conforme a ADR-012)**. "
+                    f"**Tiempo estimado de generación:** ~20 a 35 segundos (frente a más de 5 minutos sin límite de partición). "
                     f"Podrás avanzar por los siguientes segmentos del documento usando el botón 'Lote Adicional'."
                 )
             else:
@@ -858,7 +858,7 @@ with tab_estudio:
         if doc_contenido.strip():
             doc_len = len(doc_contenido)
             is_large = doc_len > 80_000
-            tiempo_label = "~20-35s (lote representativo 80 fragmentos)" if is_large else "~8-15s (indexación completa)"
+            tiempo_label = "~20-35s (lote inicial acotado 80 fragmentos · ADR-012)" if is_large else "~8-15s (indexación completa)"
             st.caption(f"**Tiempo estimado de generación:** {tiempo_label} · Formato: **{sel_formato}** para perfil **{sel_perfil}**.")
 
         col_g1, col_g2, col_g3 = st.columns([1, 2, 1])
