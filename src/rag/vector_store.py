@@ -4,7 +4,7 @@ Gestiona la indexación, persistencia y recuperación vectorial de fragmentos de
 """
 import logging
 from pathlib import Path
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Callable
 import chromadb
 from chromadb.config import Settings as ChromaSettings
 from config.settings import settings
@@ -23,29 +23,41 @@ class VectorStoreManager:
         )
         logger.info(f"ChromaDB inicializado en: {self.persist_dir}. Colección: {self.collection_name}")
 
-    def add_chunks(self, chunks: List[Dict[str, Any]]):
-        """Indexa una lista de fragmentos con sus metadatos e IDs."""
+    def add_chunks(
+        self,
+        chunks: List[Dict[str, Any]],
+        batch_size: int = 16,
+        progress_callback: Optional[Callable[[int, int], None]] = None
+    ):
+        """Indexa una lista de fragmentos con sus metadatos e IDs, con soporte de lotes e informe de progreso."""
         if not chunks:
             return
 
-        documents = [c["content"] for c in chunks]
-        metadatas = [
-            {
-                "source": c.get("source", "doc"),
-                "chunk_index": c.get("chunk_index", 0),
-                "total_chars": c.get("total_chars", len(c["content"]))
-            }
-            for c in chunks
-        ]
-        ids = [c["chunk_id"] for c in chunks]
+        total = len(chunks)
+        for i in range(0, total, batch_size):
+            sub_chunks = chunks[i : i + batch_size]
+            documents = [c["content"] for c in sub_chunks]
+            metadatas = [
+                {
+                    "source": c.get("source", "doc"),
+                    "chunk_index": c.get("chunk_index", 0),
+                    "total_chars": c.get("total_chars", len(c["content"]))
+                }
+                for c in sub_chunks
+            ]
+            ids = [c["chunk_id"] for c in sub_chunks]
 
-        # Upsert en ChromaDB
-        self.collection.upsert(
-            documents=documents,
-            metadatas=metadatas,
-            ids=ids
-        )
-        logger.info(f"Se indexaron {len(chunks)} fragmentos en ChromaDB.")
+            # Upsert en ChromaDB
+            self.collection.upsert(
+                documents=documents,
+                metadatas=metadatas,
+                ids=ids
+            )
+            current = min(i + len(sub_chunks), total)
+            if progress_callback:
+                progress_callback(current, total)
+
+        logger.info(f"Se indexaron {total} fragmentos en ChromaDB.")
 
     def search_similar(self, query: str, top_k: Optional[int] = None) -> List[Dict[str, Any]]:
         """Realiza una búsqueda semántica y retorna los fragmentos más relevantes."""

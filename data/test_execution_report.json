@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-18 21:18:00 UTC",
-  "total_tests": 51,
-  "passed": 51,
+  "timestamp": "2026-09-19 02:01:00 UTC",
+  "total_tests": 52,
+  "passed": 52,
   "failed": 0,
-  "duration_seconds": 7.89,
+  "duration_seconds": 18.43,
   "exit_code": 0,
   "details": [
     {
@@ -16,6 +16,10 @@
     },
     {
       "name": "tests/test_adaptation_service.py::test_document_deduplication_in_service",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_adaptation_service.py::test_adaptation_service_large_document_representative_batching_and_progress",
       "status": "PASSED"
     },
     {

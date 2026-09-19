@@ -15,6 +15,7 @@ import uuid
 from datetime import datetime
 from pathlib import Path
 import streamlit as st
+from typing import Optional, List, Dict, Any, Tuple
 
 # Asegurar path del proyecto en sys.path
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -250,6 +251,7 @@ with tab_estudio:
         with col_hdr2:
             if st.button("🔄 Cargar Nuevo Documento", key="btn_tab1_reset", use_container_width=True):
                 del st.session_state["ultima_respuesta"]
+                st.session_state["current_chunk_offset"] = 0
                 st.rerun()
         
         # Apertura didáctica con estilo glass
@@ -274,6 +276,20 @@ with tab_estudio:
             prereqs = getattr(resp.metadatos, "prerrequisitos", []) or ["Lectura técnica básica"]
             st.markdown(f"**Prerrequisitos:** {', '.join(prereqs)}")
 
+        porcion_procesada = trace.get("porcion_procesada")
+        if porcion_procesada:
+            chunks_idx = trace.get("chunks_indexados", 0)
+            tot_chunks = trace.get("total_chunks_doc", 0)
+            st.markdown(f"""
+            <div class="nm-glass" style="padding: 0.65rem 1.15rem; margin-top: 0.85rem; margin-bottom: 1.25rem; border-left: 3px solid var(--cyber); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; font-size: 13px;">
+                <div>
+                    <strong style="color: var(--cyber);">Porción del Documento Procesada:</strong>
+                    <span style="color: var(--ink); margin-left: 6px;">{porcion_procesada}</span>
+                </div>
+                <span class="nm-chip" style="font-size: 11px; border: 1px solid var(--cyber); color: var(--cyber);">RAG Representativo · {chunks_idx}/{tot_chunks} fragmentos</span>
+            </div>
+            """, unsafe_allow_html=True)
+
         st.markdown("---")
         items = resp.contenido_adaptado.items
 
@@ -282,7 +298,10 @@ with tab_estudio:
             col_fc_title, col_fc_btns = st.columns([2.5, 1.5])
             with col_fc_title:
                 st.markdown("### Flashcards con Repetición Espaciada (Algoritmo SM-2)")
-                st.caption("El prototipo genera una muestra representativa de 4 tarjetas para control de carga cognitiva según diseño andragógico. Para documentos extensos, la partición completa se indexa en la base vectorial.")
+                if porcion_procesada:
+                    st.caption(f"Generado sobre {porcion_procesada}. El prototipo genera una muestra representativa de 4 tarjetas para control de carga cognitiva según diseño andragógico.")
+                else:
+                    st.caption("El prototipo genera una muestra representativa de 4 tarjetas para control de carga cognitiva según diseño andragógico.")
             with col_fc_btns:
                 col_b1, col_b2 = st.columns(2)
                 with col_b1:
@@ -294,8 +313,29 @@ with tab_estudio:
                         use_container_width=True
                     )
                 with col_b2:
-                    if st.button("➕ Lote Adicional", use_container_width=True, key="btn_lote_adicional", help="Generar siguiente lote de 4 tarjetas"):
-                        st.info("Generación de lote adicional de tarjetas en cola (máximo 4 tarjetas por lote para retención óptima).")
+                    current_offset = trace.get("chunk_offset", 0)
+                    chunks_idx = trace.get("chunks_indexados", 0)
+                    total_chunks = trace.get("total_chunks_doc", 0)
+                    next_offset = current_offset + chunks_idx
+                    has_more = next_offset < total_chunks
+
+                    if st.button("➕ Lote Adicional", use_container_width=True, key="btn_lote_adicional", help="Generar material para el siguiente segmento del documento"):
+                        if has_more:
+                            with st.spinner(f"Generando lote adicional (fragmentos {next_offset+1}-{min(next_offset+80, total_chunks)} de {total_chunks})..."):
+                                with get_db_session() as db:
+                                    resp_next, trace_next = adaptation_service.process_adaptation(
+                                        req,
+                                        db=db,
+                                        use_multi_agent=trace.get("use_multi_agent", False),
+                                        chunk_offset=next_offset
+                                    )
+                                st.session_state["ultima_respuesta"] = resp_next
+                                st.session_state["ultimo_trace"] = trace_next
+                                st.session_state["current_chunk_offset"] = next_offset
+                                st.toast(f"Lote adicional generado con éxito (fragmentos {next_offset+1}-{min(next_offset+80, total_chunks)}).", icon="✅")
+                                st.rerun()
+                        else:
+                            st.info("ℹ️ Se ha alcanzado el final del documento o este fue procesado en su totalidad.")
 
             session_id_str = trace.get("session_id")
             saved_card_ids = []
@@ -569,6 +609,7 @@ with tab_estudio:
                 st.session_state["sel_nicho"] = NichoSector.CLOUD_INFRAESTRUCTURA.value
                 st.session_state["sel_detalle"] = NivelDetalle.DIDACTICO.value
                 st.session_state["input_modo"] = "Pegar Texto Libre"
+                st.session_state["current_chunk_offset"] = 0
                 st.rerun()
 
         with col_dem2:
@@ -582,6 +623,7 @@ with tab_estudio:
                 st.session_state["sel_nicho"] = NichoSector.CLOUD_INFRAESTRUCTURA.value
                 st.session_state["sel_detalle"] = NivelDetalle.TECNICO.value
                 st.session_state["input_modo"] = "Pegar Texto Libre"
+                st.session_state["current_chunk_offset"] = 0
                 st.rerun()
 
         with col_dem3:
@@ -595,6 +637,7 @@ with tab_estudio:
                 st.session_state["sel_nicho"] = NichoSector.CLOUD_INFRAESTRUCTURA.value
                 st.session_state["sel_detalle"] = NivelDetalle.EJECUTIVO.value
                 st.session_state["input_modo"] = "Pegar Texto Libre"
+                st.session_state["current_chunk_offset"] = 0
                 st.rerun()
 
         st.markdown("---")
@@ -623,6 +666,7 @@ with tab_estudio:
             if uploaded_file is not None:
                 doc_titulo = uploaded_file.name
                 st.session_state["doc_titulo"] = doc_titulo
+                st.session_state["current_chunk_offset"] = 0
                 tmp_dir = BASE_DIR / "data" / "uploads"
                 tmp_dir.mkdir(parents=True, exist_ok=True)
                 tmp_file_path = tmp_dir / uploaded_file.name
@@ -661,7 +705,22 @@ with tab_estudio:
             st.session_state["doc_contenido"] = doc_contenido
 
         if doc_contenido.strip():
-            st.success(f"📄 Documento Listo: **{doc_titulo or 'Documento Técnico'}** — {len(doc_contenido):,} caracteres listos para procesar.")
+            doc_chars = len(doc_contenido)
+            st.success(f"📄 Documento Listo: **{doc_titulo or 'Documento Técnico'}** — {doc_chars:,} caracteres cargados.")
+            if doc_chars > 80_000:
+                est_chunks = (doc_chars // 800) + 1
+                st.warning(
+                    f"⏱️ **Documento Extenso Detectado ({doc_chars:,} caracteres · ~{est_chunks} fragmentos):** "
+                    f"Para garantizar latencia óptima (<30s) y prevenir sobrecarga cognitiva, el pipeline indexará un "
+                    f"**lote representativo inicial de 80 fragmentos (~75.000 caracteres)**. "
+                    f"**Tiempo estimado de generación:** ~20 a 35 segundos (frente a más de 5 minutos sin partición). "
+                    f"Podrás avanzar por los siguientes segmentos del documento usando el botón '➕ Lote Adicional'."
+                )
+            else:
+                st.info(
+                    f"⏱️ **Documento Estándar ({doc_chars:,} caracteres):** Se indexará de forma completa. "
+                    f"**Tiempo estimado de generación:** ~8 a 15 segundos."
+                )
             with st.expander("Inspeccionar Vista Previa del Documento en Memoria", expanded=False):
                 st.text(doc_contenido[:1200] + ("..." if len(doc_contenido) > 1200 else ""))
 
@@ -738,6 +797,12 @@ with tab_estudio:
         # PASO 3 · GENERACIÓN DEL MATERIAL
         st.markdown("### Paso 3 · Generación del Material")
 
+        if doc_contenido.strip():
+            doc_len = len(doc_contenido)
+            is_large = doc_len > 80_000
+            tiempo_label = "~20-35s (lote representativo 80 fragmentos)" if is_large else "~8-15s (indexación completa)"
+            st.caption(f"⚡ **Tiempo estimado de generación:** {tiempo_label} · Formato: **{sel_formato}** para perfil **{sel_perfil}**.")
+
         col_g1, col_g2, col_g3 = st.columns([1, 2, 1])
         with col_g2:
             btn_generar = st.button("🚀 Generar Material Didáctico Adaptado", type="primary", use_container_width=True, key="btn_generar_principal")
@@ -747,8 +812,16 @@ with tab_estudio:
                 st.warning("⚠️ Debes proporcionar o cargar un documento técnico antes de generar.")
             else:
                 with st.status("🚀 Procesando documento técnico...", expanded=True) as status_box:
-                    st.write("📖 **Fase 1/4:** Lectura y normalización del documento técnico...")
-                    
+                    ph1 = st.empty()
+                    ph2 = st.empty()
+                    ph3 = st.empty()
+                    ph4 = st.empty()
+
+                    ph1.markdown("⏳ **Fase 1/4:** Lectura y normalización del documento técnico...")
+                    ph2.markdown("⏸️ **Fase 2/4:** Segmentación semántica e indexación vectorial *(en espera)*")
+                    ph3.markdown("⏸️ **Fase 3/4:** Recuperación contextual y anclaje normativo *(en espera)*")
+                    ph4.markdown("⏸️ **Fase 4/4:** Síntesis didáctica adaptada al perfil *(en espera)*")
+
                     perfil_enum = PerfilDestinatario(sel_perfil)
                     formato_enum = FormatoSalida(sel_formato)
                     nicho_enum = NichoSector(sel_nicho)
@@ -763,16 +836,55 @@ with tab_estudio:
                         nivel_detalle=detalle_enum
                     )
 
-                    st.write("🧩 **Fase 2/4:** Segmentación semántica y extracción de conceptos clave...")
-                    st.write("🎯 **Fase 3/4:** Recuperación contextual y anclaje normativo...")
-                    
+                    def ui_progress_callback(phase: int, phase_name: str, current: Optional[int], total: Optional[int], detail: Optional[str]):
+                        if phase == 1:
+                            if current == total and total and total > 0:
+                                ph1.markdown("✅ **Fase 1/4:** Lectura y normalización del documento completada")
+                            else:
+                                ph1.markdown(f"⏳ **Fase 1/4:** Lectura y normalización... *({detail or 'procesando'})*")
+                        elif phase == 2:
+                            ph1.markdown("✅ **Fase 1/4:** Lectura y normalización completada")
+                            if current is not None and total is not None and total > 0:
+                                pct = int((current / total) * 100)
+                                if current < total:
+                                    ph2.markdown(f"⏳ **Fase 2/4:** Segmentación e indexación vectorial — **Fragmento {current} de {total} ({pct}%)**")
+                                else:
+                                    ph2.markdown(f"✅ **Fase 2/4:** Segmentación e indexación vectorial completada ({total} fragmentos)")
+                            else:
+                                ph2.markdown(f"⏳ **Fase 2/4:** Segmentación e indexación vectorial... *({detail or ''})*")
+                        elif phase == 3:
+                            ph1.markdown("✅ **Fase 1/4:** Lectura y normalización completada")
+                            ph2.markdown("✅ **Fase 2/4:** Segmentación e indexación vectorial completada")
+                            if current == total and total and total > 0:
+                                ph3.markdown(f"✅ **Fase 3/4:** Recuperación contextual y anclaje completado *({detail or ''})*")
+                            else:
+                                ph3.markdown(f"⏳ **Fase 3/4:** Recuperación contextual y anclaje normativo... *({detail or ''})*")
+                        elif phase == 4:
+                            ph1.markdown("✅ **Fase 1/4:** Lectura y normalización completada")
+                            ph2.markdown("✅ **Fase 2/4:** Segmentación e indexación vectorial completada")
+                            ph3.markdown("✅ **Fase 3/4:** Recuperación contextual y anclaje normativo completado")
+                            if current == total and total and total > 0:
+                                ph4.markdown("✅ **Fase 4/4:** Síntesis didáctica adaptada completada")
+                            else:
+                                ph4.markdown(f"⏳ **Fase 4/4:** Síntesis didáctica adaptada al perfil... *({detail or 'generando material'})*")
+
                     t_start = datetime.now()
-                    st.write("✨ **Fase 4/4:** Síntesis didáctica adaptada al perfil...")
                     with get_db_session() as db:
-                        resp, trace = adaptation_service.process_adaptation(solicitud, db=db, use_multi_agent=use_langgraph)
+                        resp, trace = adaptation_service.process_adaptation(
+                            solicitud,
+                            db=db,
+                            use_multi_agent=use_langgraph,
+                            progress_callback=ui_progress_callback,
+                            chunk_offset=st.session_state.get("current_chunk_offset", 0)
+                        )
                     duracion_total = (datetime.now() - t_start).total_seconds()
 
-                    status_box.update(label="✅ Material didáctico generado con éxito", state="complete", expanded=False)
+                    ph1.markdown("✅ **Fase 1/4:** Lectura y normalización completada")
+                    ph2.markdown("✅ **Fase 2/4:** Segmentación e indexación vectorial completada")
+                    ph3.markdown("✅ **Fase 3/4:** Recuperación contextual y anclaje completado")
+                    ph4.markdown(f"✅ **Fase 4/4:** Síntesis didáctica adaptada completada ({len(resp.contenido_adaptado.items)} ítems)")
+
+                    status_box.update(label=f"✅ Material didáctico generado con éxito en {duracion_total:.1f}s", state="complete", expanded=False)
 
                 trace = trace or {}
                 trace["metodo"] = "LangGraph (Multi-Agente)" if use_langgraph else "RAG Asimétrico Directo"

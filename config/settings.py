@@ -65,6 +65,7 @@ class Settings(BaseSettings):
     DEFAULT_CHUNK_SIZE: int = Field(default=1000, description="Tamaño del chunk en caracteres")
     DEFAULT_CHUNK_OVERLAP: int = Field(default=150, description="Solapamiento entre chunks")
     TOP_K_RETRIEVAL: int = Field(default=4, description="Número de chunks relevantes a recuperar")
+    MAX_CHUNKS_PER_BATCH: int = Field(default=80, description="Máximo de fragmentos indexados por lote representativo de adaptación")
 
     # Rutas locales auxiliares
     DATA_DIR: Path = BASE_DIR / "data"

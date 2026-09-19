@@ -108,3 +108,68 @@ def test_document_deduplication_in_service():
         _, trace2 = adaptation_service.process_adaptation(req, db=db)
 
         assert trace1["document_id"] == trace2["document_id"]
+
+
+def test_adaptation_service_large_document_representative_batching_and_progress():
+    """Valida la indexación representativa (lote de 80 fragmentos) y reporte dinámico de progreso en documentos extensos."""
+    # Documento sintético extenso de ~100,000 caracteres (~120 fragmentos)
+    parrafo = (
+        "En Oracle Cloud Infrastructure, una Virtual Cloud Network (VCN) define un entorno de red aislado en la nube. "
+        "Permite configurar subredes públicas y privadas, enrutamiento CIDR, gateways de internet y tablas de seguridad. "
+    )
+    doc_extenso = (parrafo * 450)  # ~102,000 caracteres
+
+    req = SolicitudAdaptacion(
+        documento_titulo="Manual Extenso de Redes Cloud",
+        documento_contenido=doc_extenso,
+        perfil_destinatario=PerfilDestinatario.PRINCIPIANTE,
+        formato_salida=FormatoSalida.FLASHCARDS,
+        nicho_sector=NichoSector.CLOUD_INFRAESTRUCTURA,
+        nivel_detalle=NivelDetalle.DIDACTICO
+    )
+
+    progreso_capturado = []
+
+    def callback_spy(phase: int, name: str, current: int, total: int, detail: str):
+        progreso_capturado.append((phase, name, current, total, detail))
+
+    with get_db_session() as db:
+        resp, trace = adaptation_service.process_adaptation(
+            req,
+            db=db,
+            progress_callback=callback_spy,
+            max_chunks=80,
+            chunk_offset=0
+        )
+
+        # 1. Validar que la respuesta sea válida
+        assert resp.status == "exito"
+        assert len(resp.contenido_adaptado.items) > 0
+
+        # 2. Validar que la partición representativa limitó la indexación a 80 chunks
+        assert trace["chunks_indexados"] == 80
+        assert trace["total_chunks_doc"] > 80
+        assert trace["cobertura_pct"] < 100.0
+        assert "Lote representativo #1" in trace["porcion_procesada"]
+        assert f"{trace['total_chars_doc']:,}" in trace["porcion_procesada"]
+
+        # 3. Validar que el callback fue invocado para las 4 fases y reportó progreso
+        fases_vistas = {p[0] for p in progreso_capturado}
+        assert {1, 2, 3, 4}.issubset(fases_vistas)
+
+        # Validar que en la fase 2 se reportó progreso de fragmentos
+        progreso_fase2 = [p for p in progreso_capturado if p[0] == 2]
+        assert len(progreso_fase2) >= 5
+        assert progreso_fase2[-1][2] == 80  # Finalizó en 80 de 80
+
+        # 4. Validar avance al siguiente lote (offset=80)
+        resp2, trace2 = adaptation_service.process_adaptation(
+            req,
+            db=db,
+            max_chunks=80,
+            chunk_offset=80
+        )
+        assert trace2["chunks_indexados"] == trace2["total_chunks_doc"] - 80
+        assert trace2["chunk_offset"] == 80
+        assert "Lote representativo #2" in trace2["porcion_procesada"]
+
