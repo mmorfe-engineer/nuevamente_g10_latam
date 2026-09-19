@@ -131,16 +131,64 @@ with st.sidebar:
     if "ultima_respuesta" in st.session_state:
         st.markdown("#### Documento en Estudio")
         req_act = st.session_state.get("ultimo_request")
+        resp_act = st.session_state["ultima_respuesta"]
+        anclaje_val = f"{int(resp_act.evaluacion_calidad.anclaje_fuente_score * 100)}%"
         if req_act:
-            st.markdown(f"- **Título:** `{req_act.documento_titulo}`")
-            st.markdown(f"- **Perfil:** `{req_act.perfil_destinatario.value}`")
-            st.markdown(f"- **Formato:** `{req_act.formato_salida.value}`")
-            st.markdown(f"- **Sector:** `{req_act.nicho_sector.value}`")
-        
-        st.markdown("<br/>", unsafe_allow_html=True)
-        if st.button("Cargar Nuevo Documento", type="primary", use_container_width=True, key="btn_sidebar_reset"):
+            st.markdown(f"""
+            <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
+                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9);"></span>
+                    <span class="nm-overline" style="color: var(--green-11);">Completado · {anclaje_val} Anclaje</span>
+                </div>
+                <p style="font-size: 13px; font-weight: 600; color: var(--slate-12); margin: 0 0 var(--space-8) 0; word-break: break-word;">
+                    {req_act.documento_titulo}
+                </p>
+                <div style="font-size: 12px; color: var(--slate-11); line-height: 1.6;">
+                    <div><strong>Perfil:</strong> {req_act.perfil_destinatario.value}</div>
+                    <div><strong>Formato:</strong> {req_act.formato_salida.value}</div>
+                    <div><strong>Sector:</strong> {req_act.nicho_sector.value}</div>
+                </div>
+            </div>
+            """, unsafe_allow_html=True)
+
+        if st.button("Adaptar Nuevo Documento", type="primary", use_container_width=True, key="btn_sidebar_reset"):
             del st.session_state["ultima_respuesta"]
+            st.session_state["current_chunk_offset"] = 0
             st.rerun()
+    else:
+        doc_tit_s = st.session_state.get("doc_titulo", "")
+        doc_cont_s = st.session_state.get("doc_contenido", "")
+        if doc_cont_s and doc_cont_s.strip():
+            doc_len = len(doc_cont_s.strip())
+            est_chunks = (doc_len // 800) + 1
+            st.markdown("#### Documento Cargado")
+            st.markdown(f"""
+            <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-16); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
+                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9);"></span>
+                    <span class="nm-overline" style="color: var(--green-11);">Listo para Inferencia</span>
+                </div>
+                <p style="font-size: 13px; font-weight: 600; color: var(--slate-12); margin: 0 0 var(--space-4) 0; word-break: break-word;">
+                    {doc_tit_s or 'Documento Técnico'}
+                </p>
+                <p style="font-size: 12px; color: var(--slate-11); margin: 0; font-family: var(--font-mono);">
+                    {doc_len:,} caracteres · ~{est_chunks} fragmentos
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
+        else:
+            st.markdown("#### Estado del Flujo")
+            st.markdown("""
+            <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-6); background-color: var(--slate-3);">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
+                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--slate-8);"></span>
+                    <span class="nm-overline" style="color: var(--slate-11);">Esperando Documento (Paso 1)</span>
+                </div>
+                <p style="font-size: 12px; color: var(--slate-11); margin: 0; line-height: var(--leading-body);">
+                    Carga un archivo (.pdf, .md, .txt) o selecciona una muestra oficial para iniciar el flujo.
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
 
     st.markdown("#### Infraestructura Cloud")
     st.markdown("""
@@ -250,7 +298,7 @@ with tab_estudio:
         with col_hdr1:
             st.markdown(f"## {resp.contenido_adaptado.titulo}")
         with col_hdr2:
-            if st.button("Cargar Nuevo Documento", key="btn_tab1_reset", use_container_width=True):
+            if st.button("Adaptar Nuevo Documento", key="btn_tab1_reset", use_container_width=True):
                 del st.session_state["ultima_respuesta"]
                 st.session_state["current_chunk_offset"] = 0
                 st.rerun()
@@ -575,6 +623,15 @@ with tab_estudio:
                     {f'<div class="nm-flash__hint" style="margin-top: var(--space-8);"><b>Implicación Práctica:</b> {sec_hint}</div>' if sec_hint else ''}
                 </div>
                 """, unsafe_allow_html=True)
+
+        # Botón inferior de reinicio / nueva adaptación
+        st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
+        col_bot1, col_bot2, col_bot3 = st.columns([1, 2, 1])
+        with col_bot2:
+            if st.button("Adaptar Nuevo Documento", key="btn_tab1_reset_bottom", type="secondary", use_container_width=True):
+                del st.session_state["ultima_respuesta"]
+                st.session_state["current_chunk_offset"] = 0
+                st.rerun()
     else:
         # ======================================================================
         # PANTALLA DE BIENVENIDA / ESTACIÓN DE INGESTA DOCUMENTAL PRINCIPAL
@@ -642,8 +699,8 @@ with tab_estudio:
                 st.rerun()
 
         st.markdown("---")
-        # PASO 1 · DOCUMENTO FUENTE
-        st.markdown("### Paso 1 · Documento Fuente")
+        # PASO 1 · INGESTA DEL DOCUMENTO FUENTE
+        st.markdown("### Paso 1 · Ingesta del Documento Fuente")
 
         modo_idx = 1 if st.session_state.get("input_modo") == "Pegar Texto Libre" else 0
         modo_ingesta = st.radio(
@@ -726,8 +783,8 @@ with tab_estudio:
                 st.text(doc_contenido[:1200] + ("..." if len(doc_contenido) > 1200 else ""))
 
         st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
-        # PASO 2 · AUDIENCIA Y FORMATO DIDÁCTICO
-        st.markdown("### Paso 2 · Audiencia y Formato Didáctico")
+        # PASO 2 · CONFIGURACIÓN PEDAGÓGICA (AUDIENCIA Y FORMATO)
+        st.markdown("### Paso 2 · Configuración Pedagógica (Audiencia y Formato)")
 
         perfiles = [p.value for p in PerfilDestinatario]
         formatos = [
@@ -795,8 +852,8 @@ with tab_estudio:
             use_langgraph = "LangGraph" in orquestador_modo
 
         st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
-        # PASO 3 · GENERACIÓN DEL MATERIAL
-        st.markdown("### Paso 3 · Generación del Material")
+        # PASO 3 · GENERACIÓN DEL MATERIAL DIDÁCTICO
+        st.markdown("### Paso 3 · Generación del Material Didáctico")
 
         if doc_contenido.strip():
             doc_len = len(doc_contenido)
@@ -954,7 +1011,7 @@ with tab_metricas:
             <strong>Definición Canónica:</strong> El Puntaje de Anclaje mide la fidelidad técnica del contenido adaptado contrastando la retención de terminología y conceptos clave del documento fuente frente a una base mínima del 85%. No evalúa satisfacción subjetiva ni niveles de impacto organizacional, sino la estricta ausencia de alucinaciones técnicas sobre el material original.
         </p>
         <div style="margin-top: var(--space-12); font-size: var(--text-label); color: var(--slate-11); line-height: var(--leading-body);">
-            <strong>Delimitación de Alcance Técnico (ADR-006):</strong> Modelos organizacionales externos (como Kirkpatrick) quedan formalmente excluidos del alcance del prototipo para concentrar los esfuerzos en la calidad técnica objetiva: ingestión documental, adaptación por perfil, formatos interactivos con retención SM-2 y anclaje verificable a la fuente original.
+            <strong>Delimitación de Alcance Metodológico:</strong> Modelos organizacionales externos de impacto longitudinal quedan formalmente excluidos del alcance de una sesión de estudio para concentrar los esfuerzos en la calidad técnica objetiva: ingestión documental, adaptación por perfil, formatos interactivos con retención SM-2 y anclaje verificable a la fuente original.
         </div>
     </div>
     """, unsafe_allow_html=True)
