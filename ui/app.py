@@ -91,23 +91,23 @@ def format_canonical_terms(text: str) -> str:
 # ENCABEZADO OFICIAL DE MARCA (Wordmark & Tagline Oficial)
 # ==============================================================================
 st.markdown("""
-<div class="nm-glass" style="padding: 1.25rem 2rem; margin-bottom: 1.2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+<div class="nm-glass" style="padding: var(--space-16) var(--space-24); margin-bottom: var(--space-16); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
     <div>
-        <div style="font-family: var(--font-display); font-size: 2.3rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1;">
-            <span style="color: var(--ink);">Nueva</span><span style="color: var(--quantum-soft);">Mente</span>
+        <div style="font-family: var(--font-sans); font-size: var(--text-display); font-weight: 600; letter-spacing: -0.02em; line-height: var(--leading-title); color: var(--slate-12);">
+            NuevaMente
         </div>
-        <div class="nm-caption" style="margin-top: 4px;">
-            Sistema Inteligente de Adaptación y Generación de Contenido Educativo · <span style="color: var(--quantum-soft); font-weight: 600;">Hackathon ONE G10 (Oracle & Alura)</span>
+        <div class="nm-caption" style="margin-top: var(--space-4); color: var(--slate-11); font-size: var(--text-label); font-weight: 500; line-height: var(--leading-body);">
+            Sistema Inteligente de Adaptación y Generación de Contenido Educativo · Hackathon ONE G10 (Oracle & Alura)
         </div>
     </div>
-    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+    <div style="display: flex; gap: var(--space-8); align-items: center; flex-wrap: wrap;">
         <a href="https://github.com/mmorfe-engineer/nuevamente_g10_latam" target="_blank" style="text-decoration: none;">
-            <span class="nm-chip" style="color: var(--ink-muted); border: 1px solid var(--line); font-weight: 500; cursor: pointer;">
+            <span class="nm-chip" style="color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); font-weight: 500; cursor: pointer; border-radius: var(--radius-4); padding: 2px var(--space-8); font-size: var(--text-label);">
                 GitHub: nuevamente_g10_latam
             </span>
         </a>
-        <span class="nm-chip" style="color: var(--success); border: 1px solid var(--success); font-weight: 500;">
-            <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--success); margin-right: 5px;"></span>OCI Always Free ($0.00)
+        <span class="nm-chip" style="color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); font-weight: 500; border-radius: var(--radius-4); padding: 2px var(--space-8); font-size: var(--text-label);">
+            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9); margin-right: 6px;"></span>OCI Always Free ($0.00)
         </span>
     </div>
 </div>
@@ -120,9 +120,9 @@ st.markdown("""
 with st.sidebar:
     st.markdown("### NuevaMente · Motor RAG")
     st.markdown("""
-    <div class="nm-glass" style="padding: 1rem; margin-bottom: 1.2rem; border-left: 3px solid var(--quantum);">
-        <span class="nm-overline" style="color: var(--quantum-soft);">Arquitectura del Motor</span>
-        <p style="font-size: 13px; color: var(--ink); margin: 4px 0 0 0; line-height: 1.45;">
+    <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-6); background-color: var(--slate-3);">
+        <span class="nm-overline" style="color: var(--slate-11);">Arquitectura del Motor</span>
+        <p style="font-size: 13px; color: var(--slate-12); margin: var(--space-4) 0 0 0; line-height: var(--leading-body);">
             Pipeline RAG Asimétrico con Ingesta de Documentos Universales y Generación Didáctica Estructurada.
         </p>
     </div>
@@ -138,7 +138,7 @@ with st.sidebar:
             st.markdown(f"- **Sector:** `{req_act.nicho_sector.value}`")
         
         st.markdown("<br/>", unsafe_allow_html=True)
-        if st.button("🔄 Cargar Nuevo Documento", type="primary", use_container_width=True, key="btn_sidebar_reset"):
+        if st.button("Cargar Nuevo Documento", type="primary", use_container_width=True, key="btn_sidebar_reset"):
             del st.session_state["ultima_respuesta"]
             st.rerun()
 
@@ -170,45 +170,46 @@ if "ultima_respuesta" in st.session_state:
     grounding_pct = int(grounding_score * 100)
     grounding_val = f"{grounding_pct}%"
     grounding_foot = "Anclaje Óptimo en Documento" if grounding_score >= 0.85 else "Anclaje Parcial"
+    grounding_dot = "var(--green-9)" if grounding_score >= 0.85 else "var(--amber-9)"
     trace_kpi = st.session_state.get("ultimo_trace", {})
     duracion = trace_kpi.get("duracion_segundos", 0.0)
     tiempo_val = f"{duracion:.1f}s" if duracion > 0 else "< 3.0s"
     tiempo_foot = "Medición en última ejecución"
 
     st.markdown(f"""
-    <div class="nm-row" style="margin-bottom: 1.5rem; justify-content: space-between;">
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; border-left: 3px solid var(--quantum);" title="Mide la retención de conceptos clave del documento fuente frente a una base mínima del 85%. Garantiza la ausencia de alucinaciones técnicas sobre el material original.">
-        <span class="nm-overline" style="color: var(--quantum-soft);">Puntaje de Anclaje</span>
-        <span class="nm-kpi__val" style="color: var(--quantum);">{grounding_val}</span>
-        <span class="nm-kpi__foot"><span class="nm-dot" style="background: var(--quantum);"></span>{grounding_foot}</span>
+    <div class="nm-row" style="margin-bottom: var(--space-24); gap: var(--space-16);">
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; padding: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);" title="Mide la retención de conceptos clave del documento fuente frente a una base mínima del 85%. Garantiza la ausencia de alucinaciones técnicas sobre el material original.">
+        <span class="nm-overline" style="color: var(--slate-11);">Puntaje de Anclaje</span>
+        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 28px; font-weight: 600; display: block; margin: var(--space-4) 0;">{grounding_val}</span>
+        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: {grounding_dot}; width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>{grounding_foot}</span>
       </div>
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
-        <span class="nm-overline">Tiempo de Adaptación</span>
-        <span class="nm-kpi__val">{tiempo_val}</span>
-        <span class="nm-kpi__foot"><span class="nm-dot"></span>{tiempo_foot}</span>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+        <span class="nm-overline" style="color: var(--slate-11);">Tiempo de Adaptación</span>
+        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 28px; font-weight: 600; display: block; margin: var(--space-4) 0;">{tiempo_val}</span>
+        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: var(--slate-7); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>{tiempo_foot}</span>
       </div>
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
-        <span class="nm-overline">Formatos Interactivos</span>
-        <span class="nm-kpi__val" style="white-space: nowrap;">3 Formatos</span>
-        <span class="nm-kpi__foot">Flashcards, Guía Práctica, Resumen</span>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+        <span class="nm-overline" style="color: var(--slate-11);">Formatos Interactivos</span>
+        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-sans); font-size: 20px; font-weight: 600; white-space: nowrap; display: block; margin: var(--space-4) 0;">3 Formatos</span>
+        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px;">Flashcards, Guía Práctica, Resumen</span>
       </div>
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px;">
-        <span class="nm-overline">Costo Cloud / mes</span>
-        <span class="nm-kpi__val">$0.00</span>
-        <span class="nm-kpi__foot"><span class="nm-oci">Always Free</span> Certificado</span>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+        <span class="nm-overline" style="color: var(--slate-11);">Costo Cloud / mes</span>
+        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 28px; font-weight: 600; display: block; margin: var(--space-4) 0;">$0.00</span>
+        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px;"><span class="nm-chip" style="font-size: 11px; padding: 1px 6px; border: 1px solid var(--slate-6); color: var(--slate-11);">Always Free</span> Certificado</span>
       </div>
     </div>
     """, unsafe_allow_html=True)
 else:
     # Estado frío: Barra compacta de una sola línea para maximizar espacio útil
     st.markdown("""
-    <div class="nm-glass" style="padding: 0.65rem 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem; border-left: 3px solid var(--quantum);">
-        <div style="display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
-            <span style="font-size: 13px; color: var(--ink);"><strong style="color: var(--quantum-soft);">Puntaje de Anclaje:</strong> <span style="color: var(--ink-muted);">-- · Aún sin medir</span></span>
-            <span style="font-size: 13px; color: var(--ink);"><strong style="color: var(--quantum-soft);">Formatos Didácticos:</strong> <span style="white-space: nowrap; color: var(--ink-muted);">3 Formatos (Flashcards, Guía, Resumen)</span></span>
-            <span style="font-size: 13px; color: var(--ink);"><strong style="color: var(--quantum-soft);">Costo Cloud / mes:</strong> <span style="color: var(--ink);">$0.00</span> <span class="nm-oci" style="font-size: 11px; padding: 2px 6px;">Always Free</span></span>
+    <div class="nm-glass" style="padding: var(--space-8) var(--space-16); margin-bottom: var(--space-16); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); border: 1px solid var(--slate-6); border-radius: var(--radius-6); background-color: var(--slate-3);">
+        <div style="display: flex; gap: var(--space-24); align-items: center; flex-wrap: wrap;">
+            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Puntaje de Anclaje:</strong> <span style="color: var(--slate-11); font-family: var(--font-mono);">-- · Aún sin medir</span></span>
+            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Formatos Didácticos:</strong> <span style="white-space: nowrap; color: var(--slate-11);">3 Formatos (Flashcards, Guía, Resumen)</span></span>
+            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Costo Cloud / mes:</strong> <span style="color: var(--slate-12); font-family: var(--font-mono);">$0.00</span> <span class="nm-chip" style="font-size: 11px; padding: 1px 6px; border: 1px solid var(--slate-6); color: var(--slate-11);">Always Free</span></span>
         </div>
-        <span class="nm-caption" style="color: var(--ink-muted);">Sesión Fría · Se calcula al procesar</span>
+        <span class="nm-caption" style="color: var(--slate-11);">Sesión Fría · Se calcula al procesar</span>
     </div>
     """, unsafe_allow_html=True)
 
@@ -217,7 +218,7 @@ else:
 # PESTAÑAS PRINCIPALES DEL SISTEMA (Tablero NuevaMente)
 # ==============================================================================
 tab_estudio, tab_metricas, tab_pmo_arq = st.tabs([
-    "🎓 Experiencia de Aprendizaje",
+    "Experiencia de Aprendizaje",
     "Auditoría de Calidad",
     "Trazabilidad PMO y Arquitectura"
 ])
@@ -234,12 +235,12 @@ with tab_estudio:
 
         # Banner de notificación de resultados listos
         st.markdown("""
-        <div class="nm-glass" style="padding: 0.85rem 1.25rem; margin-bottom: 1.25rem; border: 1px solid rgba(16, 217, 138, 0.4); border-left: 4px solid var(--success); display: flex; align-items: center; justify-content: space-between; border-radius: 8px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-size: 1.3rem;">✅</span>
+        <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-16); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); display: flex; align-items: center; justify-content: space-between; border-radius: var(--radius-6); background-color: var(--slate-2);">
+            <div style="display: flex; align-items: center; gap: var(--space-8);">
+                <span style="color: var(--green-11); font-weight: 600;">✓</span>
                 <div>
-                    <strong style="color: var(--success);">¡Material Didáctico Listo!</strong>
-                    <span style="color: var(--ink-muted); font-size: 13px; margin-left: 8px;">Tu contenido adaptado ha sido generado y anclado al documento fuente.</span>
+                    <strong style="color: var(--green-11);">¡Material Didáctico Listo!</strong>
+                    <span style="color: var(--slate-11); font-size: 13px; margin-left: var(--space-8);">Tu contenido adaptado ha sido generado y anclado al documento fuente.</span>
                 </div>
             </div>
         </div>
@@ -249,7 +250,7 @@ with tab_estudio:
         with col_hdr1:
             st.markdown(f"## {resp.contenido_adaptado.titulo}")
         with col_hdr2:
-            if st.button("🔄 Cargar Nuevo Documento", key="btn_tab1_reset", use_container_width=True):
+            if st.button("Cargar Nuevo Documento", key="btn_tab1_reset", use_container_width=True):
                 del st.session_state["ultima_respuesta"]
                 st.session_state["current_chunk_offset"] = 0
                 st.rerun()
@@ -257,9 +258,9 @@ with tab_estudio:
         # Apertura didáctica con estilo glass
         intro_formateada = format_canonical_terms(resp.contenido_adaptado.introduccion_contextualizada)
         st.markdown(f"""
-        <div class="nm-glass" style="padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid var(--quantum);">
-            <span class="nm-overline" style="color: var(--quantum-soft);">Apertura Andragógica:</span>
-            <p style="margin: 0.35rem 0 0 0; font-size: 1.05rem; color: var(--ink); line-height: 1.6;">
+        <div class="nm-glass" style="padding: var(--space-16) var(--space-24); margin-bottom: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-overline" style="color: var(--slate-11);">Apertura Andragógica</span>
+            <p style="margin: var(--space-4) 0 0 0; font-size: var(--text-body); color: var(--slate-12); line-height: var(--leading-body);">
                 {intro_formateada}
             </p>
         </div>
@@ -281,12 +282,12 @@ with tab_estudio:
             chunks_idx = trace.get("chunks_indexados", 0)
             tot_chunks = trace.get("total_chunks_doc", 0)
             st.markdown(f"""
-            <div class="nm-glass" style="padding: 0.65rem 1.15rem; margin-top: 0.85rem; margin-bottom: 1.25rem; border-left: 3px solid var(--cyber); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; font-size: 13px;">
+            <div class="nm-glass" style="padding: var(--space-8) var(--space-16); margin-top: var(--space-8); margin-bottom: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-6); background-color: var(--slate-2); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-8); font-size: 13px;">
                 <div>
-                    <strong style="color: var(--cyber);">Porción del Documento Procesada:</strong>
-                    <span style="color: var(--ink); margin-left: 6px;">{porcion_procesada}</span>
+                    <strong style="color: var(--slate-12);">Porción del Documento Procesada:</strong>
+                    <span style="color: var(--slate-11); margin-left: var(--space-8);">{porcion_procesada}</span>
                 </div>
-                <span class="nm-chip" style="font-size: 11px; border: 1px solid var(--cyber); color: var(--cyber);">RAG Representativo · {chunks_idx}/{tot_chunks} fragmentos</span>
+                <span class="nm-chip" style="font-size: 11px; font-family: var(--font-mono); border: 1px solid var(--slate-6); color: var(--slate-11);">RAG Representativo · {chunks_idx}/{tot_chunks} fragmentos</span>
             </div>
             """, unsafe_allow_html=True)
 
@@ -319,7 +320,7 @@ with tab_estudio:
                     next_offset = current_offset + chunks_idx
                     has_more = next_offset < total_chunks
 
-                    if st.button("➕ Lote Adicional", use_container_width=True, key="btn_lote_adicional", help="Generar material para el siguiente segmento del documento"):
+                    if st.button("Lote Adicional", use_container_width=True, key="btn_lote_adicional", help="Generar material para el siguiente segmento del documento"):
                         if has_more:
                             with st.spinner(f"Generando lote adicional (fragmentos {next_offset+1}-{min(next_offset+80, total_chunks)} de {total_chunks})..."):
                                 with get_db_session() as db:
@@ -332,10 +333,10 @@ with tab_estudio:
                                 st.session_state["ultima_respuesta"] = resp_next
                                 st.session_state["ultimo_trace"] = trace_next
                                 st.session_state["current_chunk_offset"] = next_offset
-                                st.toast(f"Lote adicional generado con éxito (fragmentos {next_offset+1}-{min(next_offset+80, total_chunks)}).", icon="✅")
+                                st.toast(f"Lote adicional generado con éxito (fragmentos {next_offset+1}-{min(next_offset+80, total_chunks)}).")
                                 st.rerun()
                         else:
-                            st.info("ℹ️ Se ha alcanzado el final del documento o este fue procesado en su totalidad.")
+                            st.info("Se ha alcanzado el final del documento o este fue procesado en su totalidad.")
 
             session_id_str = trace.get("session_id")
             saved_card_ids = []
@@ -364,23 +365,23 @@ with tab_estudio:
                 flip_class = "is-flipped" if is_flipped else ""
 
                 card_html = f"""
-                <div class="nm-row" style="margin-bottom: 0.75rem;">
+                <div class="nm-row" style="margin-bottom: var(--space-12);">
                   <div class="nm-flash {flip_class}" style="width: 100%; max-width: 680px; height: 260px;">
                     <div class="nm-flash__inner">
                       <div class="nm-flash__face">
                         <div class="nm-flash__meta">
                           <span class="nm-overline">Tarjeta #{i+1} · {req.perfil_destinatario.value}</span>
-                          <span class="nm-chip" style="color: var(--cyber); border: 1px solid var(--cyber); font-size: 11px;">{req.nicho_sector.value}</span>
+                          <span class="nm-chip nm-chip--sector" style="border: 1px solid var(--violet-7); color: var(--violet-11); background-color: var(--violet-3); font-size: 11px;">{req.nicho_sector.value}</span>
                         </div>
-                        <p class="nm-flash__q" style="margin-top: 0.85rem;">{frente_html}</p>
+                        <p class="nm-flash__q" style="margin-top: var(--space-12);">{frente_html}</p>
                         {f'<div class="nm-flash__hint"><b>Pista Didáctica:</b> {pista}</div>' if pista else ''}
                       </div>
                       <div class="nm-flash__face nm-flash__back">
                         <div class="nm-flash__meta">
                           <span class="nm-overline">Explicación Canónica & Fundamento</span>
-                          <div class="nm-ring nm-ring--sm" style="--p:92"><span class="nm-ring__val">92%</span></div>
+                          <div class="nm-ring"><span class="nm-ring__val">92%</span></div>
                         </div>
-                        <p class="nm-flash__a" style="margin-top: 0.5rem;">{dorso_html}</p>
+                        <p class="nm-flash__a" style="margin-top: var(--space-8);">{dorso_html}</p>
                         <span class="nm-flash__src">Fuente Oficial: {fuente}</span>
                       </div>
                     </div>
@@ -391,7 +392,7 @@ with tab_estudio:
 
                 col_flip, col_sm2 = st.columns([1.2, 3.8])
                 with col_flip:
-                    flip_label = "↩️ Ver Frente" if is_flipped else "🔄 Voltear Tarjeta"
+                    flip_label = "Ver Frente" if is_flipped else "Voltear Tarjeta"
                     if st.button(flip_label, key=f"btn_flip_{i}", use_container_width=True):
                         st.session_state[f"card_flipped_{i}"] = not is_flipped
                         st.rerun()
@@ -401,7 +402,7 @@ with tab_estudio:
                     c_no, c_dev, c_alc = st.columns(3)
                     
                     with c_no:
-                        if st.button("🔴 No alcanzado", key=f"q_no_{i}", use_container_width=True, help="Dificultad alta · Repaso programado para mañana (+1 día)"):
+                        if st.button("No alcanzado", key=f"q_no_{i}", use_container_width=True, help="Dificultad alta · Repaso programado para mañana (+1 día)"):
                             reps, iv, ef, next_rev = calculate_sm2(quality=1)
                             if card_id:
                                 try:
@@ -411,16 +412,16 @@ with tab_estudio:
                                     pass
                             st.session_state[f"card_graded_{i}"] = {
                                 "status": "No alcanzado",
-                                "badge_color": "var(--danger)",
+                                "badge_color": "var(--red-9)",
                                 "days": iv,
                                 "date_str": next_rev.strftime("%d/%m"),
                                 "quality": 1
                             }
-                            st.toast("SM-2: Nivel No alcanzado. Próximo repaso programado para mañana (+1 día).", icon="🔴")
+                            st.toast("SM-2: Nivel No alcanzado. Próximo repaso programado para mañana (+1 día).")
                             st.rerun()
 
                     with c_dev:
-                        if st.button("🟡 En desarrollo", key=f"q_dev_{i}", use_container_width=True, help="Asimilación parcial · Próximo repaso en 1 a 6 días"):
+                        if st.button("En desarrollo", key=f"q_dev_{i}", use_container_width=True, help="Asimilación parcial · Próximo repaso en 1 a 6 días"):
                             reps, iv, ef, next_rev = calculate_sm2(quality=3, repetitions=1)
                             if card_id:
                                 try:
@@ -430,16 +431,16 @@ with tab_estudio:
                                     pass
                             st.session_state[f"card_graded_{i}"] = {
                                 "status": "En desarrollo",
-                                "badge_color": "var(--amber)",
+                                "badge_color": "var(--amber-9)",
                                 "days": iv,
                                 "date_str": next_rev.strftime("%d/%m"),
                                 "quality": 3
                             }
-                            st.toast(f"SM-2: Nivel En desarrollo. Próximo repaso en {iv} día(s) ({next_rev.strftime('%d/%m')}).", icon="🟡")
+                            st.toast(f"SM-2: Nivel En desarrollo. Próximo repaso en {iv} día(s) ({next_rev.strftime('%d/%m')}).")
                             st.rerun()
 
                     with c_alc:
-                        if st.button("🟢 Alcanzado", key=f"q_alc_{i}", use_container_width=True, help="Concepto dominado · Próximo repaso espaciado en 6+ días"):
+                        if st.button("Alcanzado", key=f"q_alc_{i}", use_container_width=True, help="Concepto dominado · Próximo repaso espaciado en 6+ días"):
                             reps, iv, ef, next_rev = calculate_sm2(quality=5, repetitions=2, previous_interval=6)
                             if card_id:
                                 try:
@@ -449,26 +450,26 @@ with tab_estudio:
                                     pass
                             st.session_state[f"card_graded_{i}"] = {
                                 "status": "Alcanzado",
-                                "badge_color": "var(--success)",
+                                "badge_color": "var(--green-9)",
                                 "days": iv,
                                 "date_str": next_rev.strftime("%d/%m"),
                                 "quality": 5
                             }
-                            st.toast(f"SM-2: Nivel Alcanzado. Próximo repaso en {iv} días ({next_rev.strftime('%d/%m')}).", icon="🟢")
+                            st.toast(f"SM-2: Nivel Alcanzado. Próximo repaso en {iv} días ({next_rev.strftime('%d/%m')}).")
                             st.rerun()
 
                     grade_info = st.session_state.get(f"card_graded_{i}")
                     if grade_info:
                         st.markdown(f"""
-                        <div class="nm-glass" style="padding: 0.35rem 0.8rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 8px; font-size: 12px; border: 1px solid var(--line); margin-top: 6px;">
-                            <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: {grade_info['badge_color']};"></span>
-                            <span style="color: var(--ink);"><strong>Estado:</strong> {grade_info['status']}</span>
-                            <span style="color: var(--line);">|</span>
-                            <span style="color: var(--ink-muted);">📅 <strong>Próximo repaso:</strong> en {grade_info['days']} día(s) ({grade_info['date_str']})</span>
+                        <div class="nm-glass" style="padding: var(--space-4) var(--space-12); border-radius: var(--radius-6); display: inline-flex; align-items: center; gap: var(--space-8); font-size: 12px; border: 1px solid var(--slate-6); margin-top: var(--space-8); background-color: var(--slate-2);">
+                            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: {grade_info['badge_color']};"></span>
+                            <span style="color: var(--slate-12);"><strong>Estado:</strong> {grade_info['status']}</span>
+                            <span style="color: var(--slate-6);">|</span>
+                            <span style="color: var(--slate-11);">Próximo repaso: en {grade_info['days']} día(s) ({grade_info['date_str']})</span>
                         </div>
                         """, unsafe_allow_html=True)
 
-                st.markdown("<hr style='border:0; border-top: 1px solid var(--line); margin: 1.25rem 0;'>", unsafe_allow_html=True)
+                st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-16) 0;'>", unsafe_allow_html=True)
 
         # --- CASO 2: QUIZ INTERACTIVO CON FEEDBACK FUNDAMENTADO ---
         elif req.formato_salida == FormatoSalida.QUIZ:
@@ -506,10 +507,10 @@ with tab_estudio:
 
                     if is_correct:
                         st.markdown(f"""
-                        <div class="nm-opt is-correct" style="margin-top: 10px;">
+                        <div class="nm-opt is-correct" style="margin-top: var(--space-8);">
                             <span class="nm-opt__key">✓</span>
                             <span><strong>¡Correcto!</strong> {format_canonical_terms(opcion_seleccionada)}
-                                <span class="nm-opt__note" style="display:block; margin-top: 6px;">
+                                <span class="nm-opt__note" style="display:block; margin-top: var(--space-4);">
                                     <strong>Justificación Técnica:</strong> {format_canonical_terms(explicacion)}
                                 </span>
                             </span>
@@ -517,10 +518,10 @@ with tab_estudio:
                         """, unsafe_allow_html=True)
                     else:
                         st.markdown(f"""
-                        <div class="nm-opt is-wrong" style="margin-top: 10px;">
+                        <div class="nm-opt is-wrong" style="margin-top: var(--space-8);">
                             <span class="nm-opt__key">✕</span>
                             <span><strong>Respuesta no esperada.</strong>
-                                <span class="nm-opt__note" style="display:block; margin-top: 6px;">
+                                <span class="nm-opt__note" style="display:block; margin-top: var(--space-4);">
                                     <strong>Tu selección:</strong> {format_canonical_terms(opcion_seleccionada)}<br/>
                                     <strong>Respuesta Correcta:</strong> {format_canonical_terms(correcta)}<br/>
                                     <strong>Fundamentación Técnica:</strong> {format_canonical_terms(explicacion)}
@@ -529,7 +530,7 @@ with tab_estudio:
                         </div>
                         """, unsafe_allow_html=True)
 
-                st.markdown("---")
+                st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-16) 0;'>", unsafe_allow_html=True)
 
         # --- CASO 3: GUÍA PRÁCTICA / TUTORIAL PASO A PASO ---
         elif req.formato_salida == FormatoSalida.TUTORIAL:
@@ -549,16 +550,16 @@ with tab_estudio:
             for itm in items:
                 paso_num = itm.get("paso", 1)
                 st.markdown(f"""
-                <div class="nm-glass" style="padding: 1.25rem 1.5rem; margin-bottom: 1rem; border-left: 4px solid var(--cyber);">
-                    <span class="nm-overline" style="color: var(--cyber);">PASO {paso_num}:</span>
-                    <h3 style="margin: 0.25rem 0 0.5rem 0; color: var(--ink);">{format_canonical_terms(itm.get('titulo_paso', ''))}</h3>
-                    <p style="color: var(--ink-muted); line-height: 1.6;">{format_canonical_terms(itm.get('descripcion', ''))}</p>
+                <div class="nm-glass" style="padding: var(--space-16) var(--space-20); margin-bottom: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+                    <span class="nm-overline" style="color: var(--slate-11);">PASO {paso_num}:</span>
+                    <h3 style="margin: var(--space-4) 0 var(--space-8) 0; color: var(--slate-12);">{format_canonical_terms(itm.get('titulo_paso', ''))}</h3>
+                    <p style="color: var(--slate-11); line-height: var(--leading-body); margin: 0;">{format_canonical_terms(itm.get('descripcion', ''))}</p>
                 </div>
                 """, unsafe_allow_html=True)
                 if itm.get("comando_o_codigo"):
                     st.code(itm.get("comando_o_codigo"), language="bash")
                 if itm.get("verificacion"):
-                    st.info(f"🔍 **Criterio de Verificación:** {itm.get('verificacion')}")
+                    st.info(f"**Criterio de Verificación:** {itm.get('verificacion')}")
 
         # --- CASO 4: SÍNTESIS EJECUTIVA / RESUMEN / CASOS ---
         else:
@@ -568,10 +569,10 @@ with tab_estudio:
                 sec_content = itm.get("contenido") or itm.get("descripcion") or str(itm)
                 sec_hint = itm.get("pista_didactica") or itm.get("impacto_empresarial")
                 st.markdown(f"""
-                <div class="nm-glass" style="padding: 1.25rem 1.5rem; margin-bottom: 1rem; border-left: 4px solid var(--amber);">
-                    <h4 style="margin: 0 0 0.5rem 0; color: var(--ink);">{format_canonical_terms(sec_title)}</h4>
-                    <p style="color: var(--ink-muted); line-height: 1.6;">{format_canonical_terms(sec_content)}</p>
-                    {f'<div class="nm-flash__hint" style="margin-top: 8px;"><b>Implicación Práctica:</b> {sec_hint}</div>' if sec_hint else ''}
+                <div class="nm-glass" style="padding: var(--space-16) var(--space-20); margin-bottom: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+                    <h4 style="margin: 0 0 var(--space-8) 0; color: var(--slate-12);">{format_canonical_terms(sec_title)}</h4>
+                    <p style="color: var(--slate-11); line-height: var(--leading-body); margin: 0;">{format_canonical_terms(sec_content)}</p>
+                    {f'<div class="nm-flash__hint" style="margin-top: var(--space-8);"><b>Implicación Práctica:</b> {sec_hint}</div>' if sec_hint else ''}
                 </div>
                 """, unsafe_allow_html=True)
     else:
@@ -579,12 +580,12 @@ with tab_estudio:
         # PANTALLA DE BIENVENIDA / ESTACIÓN DE INGESTA DOCUMENTAL PRINCIPAL
         # ======================================================================
         st.markdown("""
-        <div class="nm-glass" style="padding: 1.5rem 2rem; margin-bottom: 1.5rem; border-left: 4px solid var(--quantum);">
-            <span class="nm-overline" style="color: var(--quantum-soft);">Estación de Ingesta y Transformación Documental</span>
-            <h2 style="margin: 0.35rem 0 0.6rem 0; color: var(--ink); font-size: 1.65rem;">
+        <div class="nm-glass" style="padding: var(--space-24) var(--space-32); margin-bottom: var(--space-24); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-overline" style="color: var(--slate-11);">Estación de Ingesta y Transformación Documental</span>
+            <h2 style="margin: var(--space-4) 0 var(--space-8) 0; color: var(--slate-12); font-size: var(--text-title);">
                 Transforma cualquier Documento Técnico en Material Didáctico Adaptado
             </h2>
-            <p style="color: var(--ink-muted); margin: 0; font-size: 0.95rem; line-height: 1.55;">
+            <p style="color: var(--slate-11); margin: 0; font-size: var(--text-body); line-height: var(--leading-body);">
                 NuevaMente recibe cualquier documento técnico (PDF, Markdown o Texto Plano) o texto libre y sintetiza material didáctico interactivo adaptado y anclado a la fuente, en los formatos canónicos (Flashcards, Guía Práctica y Resumen Ejecutivo).
             </p>
         </div>
@@ -596,7 +597,7 @@ with tab_estudio:
 
         col_dem1, col_dem2, col_dem3 = st.columns([1.6, 1.2, 1.2])
         with col_dem1:
-            if st.button("⚡ Caso Canónico Oracle: Redes VCN (Pág. 4)", type="primary", use_container_width=True, key="btn_demo_canonico"):
+            if st.button("Caso Canónico Oracle: Redes VCN (Pág. 4)", type="primary", use_container_width=True, key="btn_demo_canonico"):
                 st.session_state["doc_titulo"] = "Introducción a la Arquitectura de Redes VCN en OCI"
                 st.session_state["doc_contenido"] = (
                     "La Virtual Cloud Network (VCN) es una red privada y personalizable configurada en Oracle Cloud Infrastructure. "
@@ -706,25 +707,25 @@ with tab_estudio:
 
         if doc_contenido.strip():
             doc_chars = len(doc_contenido)
-            st.success(f"📄 Documento Listo: **{doc_titulo or 'Documento Técnico'}** — {doc_chars:,} caracteres cargados.")
+            st.success(f"Documento Listo: **{doc_titulo or 'Documento Técnico'}** — {doc_chars:,} caracteres cargados.")
             if doc_chars > 80_000:
                 est_chunks = (doc_chars // 800) + 1
                 st.warning(
-                    f"⏱️ **Documento Extenso Detectado ({doc_chars:,} caracteres · ~{est_chunks} fragmentos):** "
+                    f"**Documento Extenso Detectado ({doc_chars:,} caracteres · ~{est_chunks} fragmentos):** "
                     f"Para garantizar latencia óptima (<30s) y prevenir sobrecarga cognitiva, el pipeline indexará un "
                     f"**lote representativo inicial de 80 fragmentos (~75.000 caracteres)**. "
                     f"**Tiempo estimado de generación:** ~20 a 35 segundos (frente a más de 5 minutos sin partición). "
-                    f"Podrás avanzar por los siguientes segmentos del documento usando el botón '➕ Lote Adicional'."
+                    f"Podrás avanzar por los siguientes segmentos del documento usando el botón 'Lote Adicional'."
                 )
             else:
                 st.info(
-                    f"⏱️ **Documento Estándar ({doc_chars:,} caracteres):** Se indexará de forma completa. "
+                    f"**Documento Estándar ({doc_chars:,} caracteres):** Se indexará de forma completa. "
                     f"**Tiempo estimado de generación:** ~8 a 15 segundos."
                 )
             with st.expander("Inspeccionar Vista Previa del Documento en Memoria", expanded=False):
                 st.text(doc_contenido[:1200] + ("..." if len(doc_contenido) > 1200 else ""))
 
-        st.markdown("---")
+        st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
         # PASO 2 · AUDIENCIA Y FORMATO DIDÁCTICO
         st.markdown("### Paso 2 · Audiencia y Formato Didáctico")
 
@@ -783,7 +784,7 @@ with tab_estudio:
             )
             st.session_state["sel_detalle"] = sel_detalle
 
-        with st.expander("⚙️ Opciones Avanzadas de Inferencia", expanded=False):
+        with st.expander("Opciones Avanzadas de Inferencia", expanded=False):
             orquestador_modo = st.radio(
                 "Orquestador Cognitivo:",
                 ["Pipeline RAG Asimétrico Directo (Baja Latencia)", "Grafo Multi-Agente LangGraph (3 Agentes: Didáctico, Calidad, Formato)"],
@@ -793,7 +794,7 @@ with tab_estudio:
             )
             use_langgraph = "LangGraph" in orquestador_modo
 
-        st.markdown("---")
+        st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
         # PASO 3 · GENERACIÓN DEL MATERIAL
         st.markdown("### Paso 3 · Generación del Material")
 
@@ -801,26 +802,26 @@ with tab_estudio:
             doc_len = len(doc_contenido)
             is_large = doc_len > 80_000
             tiempo_label = "~20-35s (lote representativo 80 fragmentos)" if is_large else "~8-15s (indexación completa)"
-            st.caption(f"⚡ **Tiempo estimado de generación:** {tiempo_label} · Formato: **{sel_formato}** para perfil **{sel_perfil}**.")
+            st.caption(f"**Tiempo estimado de generación:** {tiempo_label} · Formato: **{sel_formato}** para perfil **{sel_perfil}**.")
 
         col_g1, col_g2, col_g3 = st.columns([1, 2, 1])
         with col_g2:
-            btn_generar = st.button("🚀 Generar Material Didáctico Adaptado", type="primary", use_container_width=True, key="btn_generar_principal")
+            btn_generar = st.button("Generar Material Didáctico Adaptado", type="primary", use_container_width=True, key="btn_generar_principal")
 
         if btn_generar:
             if not doc_contenido or not doc_contenido.strip():
-                st.warning("⚠️ Debes proporcionar o cargar un documento técnico antes de generar.")
+                st.warning("Debes proporcionar o cargar un documento técnico antes de generar.")
             else:
-                with st.status("🚀 Procesando documento técnico...", expanded=True) as status_box:
+                with st.status("Procesando documento técnico...", expanded=True) as status_box:
                     ph1 = st.empty()
                     ph2 = st.empty()
                     ph3 = st.empty()
                     ph4 = st.empty()
 
-                    ph1.markdown("⏳ **Fase 1/4:** Lectura y normalización del documento técnico...")
-                    ph2.markdown("⏸️ **Fase 2/4:** Segmentación semántica e indexación vectorial *(en espera)*")
-                    ph3.markdown("⏸️ **Fase 3/4:** Recuperación contextual y anclaje normativo *(en espera)*")
-                    ph4.markdown("⏸️ **Fase 4/4:** Síntesis didáctica adaptada al perfil *(en espera)*")
+                    ph1.markdown("**Fase 1/4:** Lectura y normalización del documento técnico...")
+                    ph2.markdown("**Fase 2/4:** Segmentación semántica e indexación vectorial *(en espera)*")
+                    ph3.markdown("**Fase 3/4:** Recuperación contextual y anclaje normativo *(en espera)*")
+                    ph4.markdown("**Fase 4/4:** Síntesis didáctica adaptada al perfil *(en espera)*")
 
                     perfil_enum = PerfilDestinatario(sel_perfil)
                     formato_enum = FormatoSalida(sel_formato)
@@ -839,34 +840,34 @@ with tab_estudio:
                     def ui_progress_callback(phase: int, phase_name: str, current: Optional[int], total: Optional[int], detail: Optional[str]):
                         if phase == 1:
                             if current == total and total and total > 0:
-                                ph1.markdown("✅ **Fase 1/4:** Lectura y normalización del documento completada")
+                                ph1.markdown("**Fase 1/4:** Lectura y normalización del documento completada")
                             else:
-                                ph1.markdown(f"⏳ **Fase 1/4:** Lectura y normalización... *({detail or 'procesando'})*")
+                                ph1.markdown(f"**Fase 1/4:** Lectura y normalización... *({detail or 'procesando'})*")
                         elif phase == 2:
-                            ph1.markdown("✅ **Fase 1/4:** Lectura y normalización completada")
+                            ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                             if current is not None and total is not None and total > 0:
                                 pct = int((current / total) * 100)
                                 if current < total:
-                                    ph2.markdown(f"⏳ **Fase 2/4:** Segmentación e indexación vectorial — **Fragmento {current} de {total} ({pct}%)**")
+                                    ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial — **Fragmento {current} de {total} ({pct}%)**")
                                 else:
-                                    ph2.markdown(f"✅ **Fase 2/4:** Segmentación e indexación vectorial completada ({total} fragmentos)")
+                                    ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial completada ({total} fragmentos)")
                             else:
-                                ph2.markdown(f"⏳ **Fase 2/4:** Segmentación e indexación vectorial... *({detail or ''})*")
+                                ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial... *({detail or ''})*")
                         elif phase == 3:
-                            ph1.markdown("✅ **Fase 1/4:** Lectura y normalización completada")
-                            ph2.markdown("✅ **Fase 2/4:** Segmentación e indexación vectorial completada")
+                            ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
+                            ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
                             if current == total and total and total > 0:
-                                ph3.markdown(f"✅ **Fase 3/4:** Recuperación contextual y anclaje completado *({detail or ''})*")
+                                ph3.markdown(f"**Fase 3/4:** Recuperación contextual y anclaje completado *({detail or ''})*")
                             else:
-                                ph3.markdown(f"⏳ **Fase 3/4:** Recuperación contextual y anclaje normativo... *({detail or ''})*")
+                                ph3.markdown(f"**Fase 3/4:** Recuperación contextual y anclaje normativo... *({detail or ''})*")
                         elif phase == 4:
-                            ph1.markdown("✅ **Fase 1/4:** Lectura y normalización completada")
-                            ph2.markdown("✅ **Fase 2/4:** Segmentación e indexación vectorial completada")
-                            ph3.markdown("✅ **Fase 3/4:** Recuperación contextual y anclaje normativo completado")
+                            ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
+                            ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
+                            ph3.markdown("**Fase 3/4:** Recuperación contextual y anclaje normativo completado")
                             if current == total and total and total > 0:
-                                ph4.markdown("✅ **Fase 4/4:** Síntesis didáctica adaptada completada")
+                                ph4.markdown("**Fase 4/4:** Síntesis didáctica adaptada completada")
                             else:
-                                ph4.markdown(f"⏳ **Fase 4/4:** Síntesis didáctica adaptada al perfil... *({detail or 'generando material'})*")
+                                ph4.markdown(f"**Fase 4/4:** Síntesis didáctica adaptada al perfil... *({detail or 'generando material'})*")
 
                     t_start = datetime.now()
                     with get_db_session() as db:
@@ -879,12 +880,12 @@ with tab_estudio:
                         )
                     duracion_total = (datetime.now() - t_start).total_seconds()
 
-                    ph1.markdown("✅ **Fase 1/4:** Lectura y normalización completada")
-                    ph2.markdown("✅ **Fase 2/4:** Segmentación e indexación vectorial completada")
-                    ph3.markdown("✅ **Fase 3/4:** Recuperación contextual y anclaje completado")
-                    ph4.markdown(f"✅ **Fase 4/4:** Síntesis didáctica adaptada completada ({len(resp.contenido_adaptado.items)} ítems)")
+                    ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
+                    ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
+                    ph3.markdown("**Fase 3/4:** Recuperación contextual y anclaje completado")
+                    ph4.markdown(f"**Fase 4/4:** Síntesis didáctica adaptada completada ({len(resp.contenido_adaptado.items)} ítems)")
 
-                    status_box.update(label=f"✅ Material didáctico generado con éxito en {duracion_total:.1f}s", state="complete", expanded=False)
+                    status_box.update(label=f"Material didáctico generado con éxito en {duracion_total:.1f}s", state="complete", expanded=False)
 
                 trace = trace or {}
                 trace["metodo"] = "LangGraph (Multi-Agente)" if use_langgraph else "RAG Asimétrico Directo"
@@ -929,30 +930,30 @@ with tab_metricas:
         with col_c3:
             st.metric("Promesa de Calidad", "Citas Verificables", "Cero Inventiva Normativa")
 
-        st.markdown("---")
+        st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
         st.markdown(f"""
-        <div class="nm-glass" style="padding: 1.25rem 1.5rem;">
-            <span class="nm-overline" style="color: var(--cyber);">Dictamen del Agente Crítico Revisor:</span>
-            <p style="margin: 0.35rem 0 0 0; color: var(--ink);">{resp.evaluacion_calidad.observaciones}</p>
+        <div class="nm-glass" style="padding: var(--space-16) var(--space-20); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-overline" style="color: var(--slate-11);">Dictamen del Agente Crítico Revisor:</span>
+            <p style="margin: var(--space-4) 0 0 0; color: var(--slate-12); line-height: var(--leading-body);">{resp.evaluacion_calidad.observaciones}</p>
         </div>
         """, unsafe_allow_html=True)
 
         if trace.get("agent_logs"):
-            st.markdown("---")
+            st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
             with st.expander("Traza Completa de Ejecución Multi-Agente (LangGraph)", expanded=True):
                 for log_line in trace["agent_logs"]:
                     st.markdown(f"- {log_line}")
     else:
         st.info("Las métricas de anclaje y la traza de los agentes se calculan en tiempo real al generar una adaptación.")
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
     st.markdown("### Fundamento Metodológico del Puntaje de Anclaje")
     st.markdown("""
-    <div class="nm-glass" style="padding: 1.25rem 1.5rem; border-left: 4px solid var(--quantum);">
-        <p style="margin: 0; font-size: 0.95rem; line-height: 1.6; color: var(--ink);">
+    <div class="nm-glass" style="padding: var(--space-16) var(--space-20); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);">
+        <p style="margin: 0; font-size: var(--text-body); line-height: var(--leading-body); color: var(--slate-12);">
             <strong>Definición Canónica:</strong> El Puntaje de Anclaje mide la fidelidad técnica del contenido adaptado contrastando la retención de terminología y conceptos clave del documento fuente frente a una base mínima del 85%. No evalúa satisfacción subjetiva ni niveles de impacto organizacional, sino la estricta ausencia de alucinaciones técnicas sobre el material original.
         </p>
-        <div style="margin-top: 0.75rem; font-size: 0.85rem; color: var(--ink-muted); line-height: 1.5;">
+        <div style="margin-top: var(--space-12); font-size: var(--text-label); color: var(--slate-11); line-height: var(--leading-body);">
             <strong>Delimitación de Alcance Técnico (ADR-006):</strong> Modelos organizacionales externos (como Kirkpatrick) quedan formalmente excluidos del alcance del prototipo para concentrar los esfuerzos en la calidad técnica objetiva: ingestión documental, adaptación por perfil, formatos interactivos con retención SM-2 y anclaje verificable a la fuente original.
         </div>
     </div>
@@ -964,20 +965,20 @@ with tab_metricas:
 # ------------------------------------------------------------------------------
 with tab_pmo_arq:
     st.markdown("""
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-24); flex-wrap: wrap; gap: var(--space-16);">
         <div>
-            <h2 style="margin:0;">Trazabilidad Técnica y Paquete de Transferencia</h2>
-            <div class="nm-caption">Evidencia Objetiva del Prototipo de Referencia para Squad 1 · <strong>Coordinador General & PM: Martin Morfe</strong></div>
+            <h2 style="margin:0; color: var(--slate-12);">Trazabilidad Técnica y Paquete de Transferencia</h2>
+            <div class="nm-caption" style="color: var(--slate-11); font-size: var(--text-label);">Evidencia Objetiva del Prototipo de Referencia para Squad 1 · <strong>Coordinador General & PM: Martin Morfe</strong></div>
         </div>
         <div>
             <a href="https://github.com/mmorfe-engineer/nuevamente_g10_latam" target="_blank" style="text-decoration: none;">
-                <span class="nm-chip" style="color: var(--ink); border: 1px solid var(--line); font-weight: 500;">GitHub: nuevamente_g10_latam</span>
+                <span class="nm-chip" style="color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); font-weight: 500; border-radius: var(--radius-4); padding: 2px var(--space-8); font-size: var(--text-label);">GitHub: nuevamente_g10_latam</span>
             </a>
         </div>
     </div>
     """, unsafe_allow_html=True)
 
-    with st.expander("📌 Información del Proyecto No Country · Cronograma y Arquitectura Cloud", expanded=True):
+    with st.expander("Información del Proyecto No Country · Cronograma y Arquitectura Cloud", expanded=True):
         st.markdown("""
         **Proyecto 1: NuevaMente** · Hackathon No Country & Oracle Next Education (ONE G10)
         - **Coordinador General & PM:** Martin Morfe
@@ -1005,47 +1006,47 @@ with tab_pmo_arq:
     col_kpi1, col_kpi2, col_kpi3, col_kpi4 = st.columns(4)
     with col_kpi1:
         st.markdown("""
-        <div class="nm-glass nm-kpi">
-            <span class="nm-overline">Costo OCI / mes</span>
-            <span class="nm-kpi__val">$0.00</span>
-            <span class="nm-kpi__foot"><span class="nm-oci">Always Free</span></span>
+        <div class="nm-glass nm-kpi" style="padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-overline" style="color: var(--slate-11);">Costo OCI / mes</span>
+            <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 24px; font-weight: 600; display: block; margin: var(--space-4) 0;">$0.00</span>
+            <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Always Free</span>
         </div>
         """, unsafe_allow_html=True)
     with col_kpi2:
         if test_data:
             st.markdown(f"""
-            <div class="nm-glass nm-kpi">
-                <span class="nm-overline">Tests Automatizados</span>
-                <span class="nm-kpi__val">{test_data['passed']}<span style="color:var(--ink-muted);font-size:18px">/{test_data['total_tests']}</span></span>
-                <span class="nm-kpi__foot"><span class="nm-dot"></span>100% pasando ({test_data['duration_seconds']}s)</span>
+            <div class="nm-glass nm-kpi" style="padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+                <span class="nm-overline" style="color: var(--slate-11);">Tests Automatizados</span>
+                <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 24px; font-weight: 600; display: block; margin: var(--space-4) 0;">{test_data['passed']}<span style="color:var(--slate-11);font-size:16px">/{test_data['total_tests']}</span></span>
+                <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>100% pasando ({test_data['duration_seconds']}s)</span>
             </div>
             """, unsafe_allow_html=True)
         else:
             st.markdown("""
-            <div class="nm-glass nm-kpi">
-                <span class="nm-overline">Tests Automatizados</span>
-                <span class="nm-kpi__val">Pytest</span>
-                <span class="nm-kpi__foot">Reporte en disco</span>
+            <div class="nm-glass nm-kpi" style="padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+                <span class="nm-overline" style="color: var(--slate-11);">Tests Automatizados</span>
+                <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 24px; font-weight: 600; display: block; margin: var(--space-4) 0;">Pytest</span>
+                <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px;">Reporte en disco</span>
             </div>
             """, unsafe_allow_html=True)
     with col_kpi3:
         st.markdown("""
-        <div class="nm-glass nm-kpi">
-            <span class="nm-overline">Almacenamiento</span>
-            <span class="nm-kpi__val">Universal</span>
-            <span class="nm-kpi__foot"><span class="nm-dot" style="--tone:var(--amber)"></span>Adaptador Conmutable</span>
+        <div class="nm-glass nm-kpi" style="padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-overline" style="color: var(--slate-11);">Almacenamiento</span>
+            <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-sans); font-size: 20px; font-weight: 600; display: block; margin: var(--space-4) 0;">Universal</span>
+            <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--amber-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Adaptador Conmutable</span>
         </div>
         """, unsafe_allow_html=True)
     with col_kpi4:
         st.markdown(f"""
-        <div class="nm-glass nm-kpi">
-            <span class="nm-overline">Corpus en Base de Datos</span>
-            <span class="nm-kpi__val">{chunks_count if chunks_count else 3020}</span>
-            <span class="nm-kpi__foot"><span class="nm-dot" style="--tone:var(--cyber)"></span>{docs_count if docs_count else 9} Documentos</span>
+        <div class="nm-glass nm-kpi" style="padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-overline" style="color: var(--slate-11);">Corpus en Base de Datos</span>
+            <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 24px; font-weight: 600; display: block; margin: var(--space-4) 0;">{chunks_count if chunks_count else 3020}</span>
+            <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--slate-7); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>{docs_count if docs_count else 9} Documentos</span>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
 
     # --------------------------------------------------------------------------
     # ELEMENTO 1 APROBADO: MATRIZ DE TRAZABILIDAD VISIBLE CON ESTADOS REALES
@@ -1073,24 +1074,30 @@ with tab_pmo_arq:
 
     for c in matriz_criterios:
         if "🟢" in c["st"]:
-            color = "var(--success)"
+            color = "var(--green-11)"
+            border_c = "var(--green-7)"
+            bg_c = "var(--slate-2)"
         elif "🟠" in c["st"]:
-            color = "#f97316"
+            color = "var(--amber-11)"
+            border_c = "var(--amber-7)"
+            bg_c = "var(--slate-2)"
         else:
-            color = "var(--amber)"
+            color = "var(--amber-11)"
+            border_c = "var(--amber-7)"
+            bg_c = "var(--slate-2)"
         st.markdown(f"""
-        <div class="nm-glass" style="padding: 0.75rem 1.1rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+        <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-8); border: 1px solid var(--slate-6); border-radius: var(--radius-6); background-color: var(--slate-3); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-8);">
             <div style="flex: 1; min-width: 250px;">
-                <strong style="color: var(--ink);">{c['cod']}</strong> · <span style="color: var(--ink); font-size: 0.95rem;">{c['req']}</span>
-                <p style="margin: 0.2rem 0 0 0; color: var(--ink-muted); font-size: 0.85rem;">📁 <code>{c['ev']}</code></p>
+                <strong style="color: var(--slate-12); font-family: var(--font-mono);">{c['cod']}</strong> · <span style="color: var(--slate-12); font-size: var(--text-body);">{c['req']}</span>
+                <p style="margin: var(--space-4) 0 0 0; color: var(--slate-11); font-size: 12px; font-family: var(--font-mono);">📁 {c['ev']}</p>
             </div>
-            <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.8rem; color: {color}; border: 1px solid {color}; padding: 3px 8px; border-radius: 4px;">
+            <span style="font-family: var(--font-mono); font-weight: 600; font-size: 12px; color: {color}; border: 1px solid {border_c}; background-color: {bg_c}; padding: 2px var(--space-8); border-radius: var(--radius-4);">
                 {c['st']}
             </span>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
 
     # --------------------------------------------------------------------------
     # ELEMENTO 2 APROBADO: CENTRO DE DESCARGAS DE CONTRATOS JSON DE REFERENCIA
@@ -1127,7 +1134,7 @@ with tab_pmo_arq:
             else:
                 st.caption("No disponible en disco")
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
 
     # --------------------------------------------------------------------------
     # ELEMENTO 3 APROBADO: PAQUETE DE TRANSFERENCIA DESCARGABLE
@@ -1164,7 +1171,7 @@ with tab_pmo_arq:
             else:
                 st.caption("No disponible")
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
 
     # --------------------------------------------------------------------------
     # ELEMENTO 4 APROBADO: SECUENCIA DE LOS DOCE COMMITS CANÓNICOS
@@ -1189,17 +1196,17 @@ with tab_pmo_arq:
 
     for cm in commits_list:
         st.markdown(f"""
-        <div class="nm-glass" style="padding: 0.6rem 1rem; margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+        <div class="nm-glass" style="padding: var(--space-8) var(--space-16); margin-bottom: var(--space-4); border: 1px solid var(--slate-6); border-radius: var(--radius-6); background-color: var(--slate-3); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-8);">
             <div>
-                <span style="font-family: var(--font-mono); color: var(--quantum-soft); font-weight: 700;">#{cm['n']}</span> · 
-                <code>{cm['h']}</code> · 
-                <strong style="color: var(--ink);">{cm['msg']}</strong>
-                <p style="margin: 0.15rem 0 0 0; font-size: 0.85rem; color: var(--ink-muted);">{cm['r']}</p>
+                <span style="font-family: var(--font-mono); color: var(--slate-11); font-weight: 600;">#{cm['n']}</span> · 
+                <code style="font-family: var(--font-mono); color: var(--slate-12);">{cm['h']}</code> · 
+                <strong style="color: var(--slate-12);">{cm['msg']}</strong>
+                <p style="margin: var(--space-4) 0 0 0; font-size: 12px; color: var(--slate-11);">{cm['r']}</p>
             </div>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
     st.markdown("### Persistencia en OCI Object Storage y Adaptador S3")
     if "ultima_respuesta" in st.session_state:
         resp = st.session_state["ultima_respuesta"]
@@ -1230,9 +1237,9 @@ with tab_pmo_arq:
             st.code(json_str, language="json")
     else:
         st.markdown("""
-        <div class="nm-glass" style="padding: 1.25rem 1.5rem;">
-            <h4 style="margin:0 0 0.5rem 0; color: var(--ink);">Configuración de Almacenamiento OCI Always Free:</h4>
-            <ul>
+        <div class="nm-glass" style="padding: var(--space-16) var(--space-20); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <h4 style="margin:0 0 var(--space-8) 0; color: var(--slate-12);">Configuración de Almacenamiento OCI Always Free:</h4>
+            <ul style="color: var(--slate-11); font-size: var(--text-body); line-height: var(--leading-body); margin: 0; padding-left: var(--space-20);">
                 <li><strong>Bucket Origen:</strong> <code>nuevamente-documentos-origen</code></li>
                 <li><strong>Bucket Artefactos:</strong> <code>nuevamente-contenidos-educativos</code></li>
                 <li><strong>Cuota Permanente:</strong> 10 GB de almacenamiento gratuito de por vida ($0.00 USD)</li>
@@ -1241,7 +1248,7 @@ with tab_pmo_arq:
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
     with st.expander("Inspección de Glosario Normativo LexForja (Persistencia SQL y Términos Bilingües)"):
         st.caption("Asegura preservación de terminología técnica bilingüe en SQLite / Neon PostgreSQL.")
         with get_db_session() as db:
@@ -1261,60 +1268,60 @@ with tab_pmo_arq:
                 target_col = cols_g[idx % 2]
                 with target_col:
                     st.markdown(f"""
-                    <div class="nm-glass" style="padding: 0.9rem 1.1rem; margin-bottom: 0.6rem;">
+                    <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-8); border: 1px solid var(--slate-6); border-radius: var(--radius-6); background-color: var(--slate-3);">
                         <span class="nm-term">
                             <strong>{g['termino_es']}</strong> <span class="nm-term__en">{g['termino_en']}</span>
                         </span>
-                        <p style="margin: 0.3rem 0 0 0; font-size: 13px; color: var(--ink-muted); line-height: 1.4;">
+                        <p style="margin: var(--space-4) 0 0 0; font-size: 13px; color: var(--slate-11); line-height: 1.4;">
                             {g['definicion']}
                         </p>
-                        <span class="nm-caption" style="display: block; margin-top: 4px; font-size: 11px; color: var(--quantum-soft);">
+                        <span class="nm-caption" style="display: block; margin-top: var(--space-4); font-size: 11px; color: var(--slate-11);">
                             Categoría: {g['categoria']}
                         </span>
                     </div>
                     """, unsafe_allow_html=True)
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
     st.markdown("### Alcance Adicional · Roadmap Futuro")
     st.caption("Funcionalidades viables de nivel enterprise declaradas formalmente para fases de escalamiento post-MVP:")
     
     col_r1, col_r2 = st.columns(2)
     with col_r1:
         st.markdown("""
-        <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--cyber);">
-            <span class="nm-chip" style="font-size: 10px; color: var(--cyber);">PRÓXIMAMENTE</span>
-            <strong style="color: var(--ink); display: block; margin: 4px 0;">Ingestión Multimodal con Visión Computacional</strong>
-            <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
+        <div class="nm-glass" style="padding: var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-chip" style="font-size: 10px; color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); border-radius: var(--radius-4); padding: 1px var(--space-6);">PRÓXIMAMENTE</span>
+            <strong style="color: var(--slate-12); display: block; margin: var(--space-4) 0;">Ingestión Multimodal con Visión Computacional</strong>
+            <p style="font-size: 12px; color: var(--slate-11); margin: 0; line-height: 1.4;">
                 Interpretación automatizada de diagramas de arquitectura, planos de planta y topologías de red en formato PNG/JPG vía Gemini Vision.
             </p>
         </div>
-        <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--quantum);">
-            <span class="nm-chip" style="font-size: 10px; color: var(--quantum);">PRÓXIMAMENTE</span>
-            <strong style="color: var(--ink); display: block; margin: 4px 0;">Podcast Educativo / Audio AI Bidireccional</strong>
-            <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
+        <div class="nm-glass" style="padding: var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-chip" style="font-size: 10px; color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); border-radius: var(--radius-4); padding: 1px var(--space-6);">PRÓXIMAMENTE</span>
+            <strong style="color: var(--slate-12); display: block; margin: var(--space-4) 0;">Podcast Educativo / Audio AI Bidireccional</strong>
+            <p style="font-size: 12px; color: var(--slate-11); margin: 0; line-height: 1.4;">
                 Síntesis de voz para transformar cualquier guía técnica en un diálogo de audio explicativo interactivo (estilo NotebookLM).
             </p>
         </div>
         """, unsafe_allow_html=True)
     with col_r2:
         st.markdown("""
-        <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--amber);">
-            <span class="nm-chip" style="font-size: 10px; color: var(--amber);">PRÓXIMAMENTE</span>
-            <strong style="color: var(--ink); display: block; margin: 4px 0;">Conectores LMS SCORM 2004 / LTI 1.3</strong>
-            <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
+        <div class="nm-glass" style="padding: var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-chip" style="font-size: 10px; color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); border-radius: var(--radius-4); padding: 1px var(--space-6);">PRÓXIMAMENTE</span>
+            <strong style="color: var(--slate-12); display: block; margin: var(--space-4) 0;">Conectores LMS SCORM 2004 / LTI 1.3</strong>
+            <p style="font-size: 12px; color: var(--slate-11); margin: 0; line-height: 1.4;">
                 Empaquetado directo para integración sin fricción con plataformas corporativas Moodle, Canvas LMS y Blackboard.
             </p>
         </div>
-        <div class="nm-glass" style="padding: 1rem 1.2rem; margin-bottom: 0.8rem; border-left: 3px solid var(--success);">
-            <span class="nm-chip" style="font-size: 10px; color: var(--success);">PRÓXIMAMENTE</span>
-            <strong style="color: var(--ink); display: block; margin: 4px 0;">Insignias Verificables & Certificación Blockchain</strong>
-            <p style="font-size: 12px; color: var(--ink-muted); margin: 0; line-height: 1.4;">
+        <div class="nm-glass" style="padding: var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+            <span class="nm-chip" style="font-size: 10px; color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); border-radius: var(--radius-4); padding: 1px var(--space-6);">PRÓXIMAMENTE</span>
+            <strong style="color: var(--slate-12); display: block; margin: var(--space-4) 0;">Insignias Verificables & Certificación Blockchain</strong>
+            <p style="font-size: 12px; color: var(--slate-11); margin: 0; line-height: 1.4;">
                 Emisión de credenciales verificables W3C ancladas en blockchain al superar los quizzes diagnósticos de competencia.
             </p>
         </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("---")
+    st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
     st.markdown("### Equipo de Ingeniería — Proyecto NuevaMente")
     st.markdown("""
     - **Project Manager & Coordinador General:** Martin Morfe
@@ -1326,6 +1333,6 @@ with tab_pmo_arq:
     """)
 
 # Pie de página institucional y acreditación OCI Always Free
-st.markdown("---")
+st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
 st.caption("Infraestructura de Nube: Oracle Cloud Infrastructure (OCI Always Free · $0.00/mes) · Persistencia S3 Universal · Repositorio Oficial: [mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")
 
