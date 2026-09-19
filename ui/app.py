@@ -350,9 +350,9 @@ with tab_estudio:
             with col_fc_title:
                 st.markdown("### Flashcards con Repetición Espaciada (Algoritmo SM-2)")
                 if porcion_procesada:
-                    st.caption(f"Generado sobre {porcion_procesada}. El prototipo genera 4 tarjetas por ejecución para una sesión breve y revisable. <!-- muestra representativa de 4 tarjetas -->")
+                    st.caption(f"Generado sobre {porcion_procesada}. El prototipo genera 4 tarjetas por ejecución para una sesión breve y revisable.")
                 else:
-                    st.caption("El prototipo genera 4 tarjetas por ejecución para una sesión breve y revisable. <!-- muestra representativa de 4 tarjetas -->")
+                    st.caption("El prototipo genera 4 tarjetas por ejecución para una sesión breve y revisable.")
             with col_fc_btns:
                 col_b1, col_b2 = st.columns(2)
                 with col_b1:
@@ -1144,36 +1144,36 @@ with tab_pmo_arq:
 
     st.markdown("#### Requisitos Obligatorios del Pliego (14)")
     matriz_obligatorios = [
-        {"cod": "O-01", "req": "Ingesta de documentos técnicos en PDF, Markdown y Texto Plano", "st": "🟢 VERIFICADO", "ev": "src/ingestion/loaders.py · tests/test_ingestion.py"},
-        {"cod": "O-02", "req": "Limpieza y normalización de texto conservando terminología técnica", "st": "🟢 VERIFICADO", "ev": "src/ingestion/loaders.py (clean_text) · tests/test_ingestion.py"},
-        {"cod": "O-03", "req": "Orquestación con LLM (Google Gemini)", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Cliente migrado a google-genai listo en src/llm/engine.py; ejecución viva con LLM en producción abierta como dependencia externa pendiente de provisión de credencial por Squad 1."},
-        {"cod": "O-04", "req": "Pipeline RAG: chunking 1000/150, embeddings y Vector Store", "st": "🟢 VERIFICADO", "ev": "src/ingestion/chunker.py (1000/150 configurable) · src/rag/vector_store.py (ChromaDB)"},
-        {"cod": "O-05", "req": "Mismo documento adaptado a al menos dos perfiles y dos formatos", "st": "🟢 VERIFICADO", "ev": "Doble ejecución empírica sobre 05_pci_dss_v4_0: Principiante/Flashcards y Arquitecto/Tutorial"},
-        {"cod": "O-06", "req": "Generación en los tres formatos mínimos (Flashcards, Tutorial, Resumen)", "st": "🟢 VERIFICADO", "ev": "src/schemas/adaptation.py · tests/test_schemas.py"},
-        {"cod": "O-07", "req": "Metadatos de aprendizaje con tiempo, conceptos y prerrequisitos", "st": "🟢 VERIFICADO", "ev": "src/schemas/adaptation.py (MetadatosAprendizaje) · Contratos Pydantic v2"},
-        {"cod": "O-08", "req": "Control de alucinaciones con anclaje a la fuente comprobable", "st": "🟢 VERIFICADO", "ev": "src/quality/evaluator.py (anclaje_fuente_score >= 0.85 en última ejecución)"},
-        {"cod": "O-09", "req": "Salida forzada en formato JSON estructurado y tipado", "st": "🟢 VERIFICADO", "ev": "src/llm/engine.py · RespuestaAdaptacion Pydantic v2"},
-        {"cod": "O-10", "req": "Manejo de excepciones defensivo ante caídas de la API del LLM", "st": "🟢 VERIFICADO", "ev": "src/llm/engine.py (Google GenAI ➔ Mistral ➔ NVIDIA ➔ OpenAI ➔ Sintético)"},
-        {"cod": "O-11", "req": "Almacenamiento de contenidos generados en OCI Object Storage", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "docs/EXCEPCION_ALMACENAMIENTO_OCI.md · Adaptador S3 conmutable local verificado; integración activa con OCI Object Storage abierta como dependencia externa."},
-        {"cod": "O-12", "req": "Mínimo de 3 ejemplos de ejecución documentados", "st": "🟢 VERIFICADO", "ev": "docs/contratos_referencia/ (Contratos 01, 02 y 03 versionados)"},
-        {"cod": "O-13", "req": "Interfaz de usuario con los cuatro parámetros de control requeridos", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Perfil, Formato, 10 Sectores Canónicos, Nivel de Detalle)"},
-        {"cod": "O-14", "req": "Suite de pruebas automatizadas que valide el flujo completo", "st": "🟢 VERIFICADO", "ev": f"tests/ ({test_data['total_tests'] if test_data else 52} tests automatizados en Pytest al 100%)"},
+        {"cod": "O-01", "req": "Ingestión funcional PDF, Markdown o texto", "st": "🟢 VERIFICADO", "ev": "src/ingestion/loaders.py (extract_from_pdf, extract_from_markdown, extract_from_txt) · tests/test_ingestion.py"},
+        {"cod": "O-02", "req": "RAG con segmentación, embeddings y Vector Store", "st": "🟢 VERIFICADO", "ev": "src/ingestion/chunker.py (1000/150 configurable) · src/rag/vector_store.py (ChromaDB) · tests/test_rag_pipeline.py"},
+        {"cod": "O-03", "req": "Orquestación de agentes o cadenas de prompts con LLM", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Cliente migrado a google-genai listo en src/llm/engine.py; ejecución viva con proveedor LLM en producción abierta como dependencia externa pendiente de provisión de credencial por Squad 1."},
+        {"cod": "O-04", "req": "Verificación de fidelidad al documento / mitigación de alucinaciones", "st": "🟢 VERIFICADO", "ev": "src/quality/evaluator.py (anclaje_fuente_score >= 0.85) · tests/test_quality.py"},
+        {"cod": "O-05", "req": "Mismo contenido adaptado a al menos 2 perfiles y 2 formatos", "st": "🟢 VERIFICADO", "ev": "Doble ejecución empírica sobre 05_pci_dss_v4_0: Principiante/Flashcards y Arquitecto/Tutorial · docs/contratos_referencia/"},
+        {"cod": "O-06", "req": "JSON estructurado con status, metadatos, contenido_adaptado, evaluacion_calidad y almacenamiento_oci", "st": "🟢 VERIFICADO", "ev": "src/utils/schemas.py (RespuestaAdaptacion Pydantic v2) · tests/test_schemas.py"},
+        {"cod": "O-07", "req": "Metadatos de aprendizaje: conceptos, prerrequisitos y tiempo", "st": "🟢 VERIFICADO", "ev": "src/utils/schemas.py (MetadatosAprendizaje) · tests/test_schemas.py"},
+        {"cod": "O-08", "req": "Perfil, formato, nicho y nivel de detalle", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Selectores de 4 parámetros en Paso 2) · tests/test_ui_smoke.py"},
+        {"cod": "O-09", "req": "Interfaz interactiva o API REST operativa", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Interfaz interactiva Streamlit en 3 pasos con Design System Radix Dark y persistencia relacional)"},
+        {"cod": "O-10", "req": "Tipado estricto y manejo de excepciones con mensajes amigables", "st": "🟢 VERIFICADO", "ev": "src/llm/engine.py (conmutación defensiva multi-proveedor con fallback sintético local) · Pydantic v2 · tests/test_llm_engine.py"},
+        {"cod": "O-11", "req": "OCI Object Storage activo para originales y JSON", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "docs/EXCEPCION_ALMACENAMIENTO_OCI.md · Adaptador S3 conmutable local verificado; integración activa con OCI Object Storage abierta como dependencia externa."},
+        {"cod": "O-12", "req": "Mínimo 3 ejemplos de ejecución", "st": "🟢 VERIFICADO", "ev": "docs/contratos_referencia/ (5 contratos JSON versionados y autovalidados: VCN Flashcards, VCN Tutorial, IAM Resumen, Manufactura y Gemini)"},
+        {"cod": "O-13", "req": "Repositorio Git estructurado con commits claros y colaborativos", "st": "🟢 VERIFICADO", "ev": "GitHub mmorfe-engineer/nuevamente_g10_latam con historial estructurado de ramas y commits colaborativos por componente"},
+        {"cod": "O-14", "req": "README con arquitectura, diagrama RAG y guía de instalación", "st": "🟢 VERIFICADO", "ev": "README.md (Diagrama Mermaid C4/RAG, insignias, arquitectura técnica y guía de instalación paso a paso)"},
     ]
     _render_criterios_block(matriz_obligatorios)
 
     st.markdown("#### Capacidades Diferenciales de Alto Impacto (5)")
     matriz_diferenciales = [
-        {"cod": "D-01", "req": "Algoritmo de Repetición Espaciada (SuperMemo SM-2)", "st": "🟢 VERIFICADO", "ev": "src/storage/database.py (FlashcardRepository, cálculo EF e intervalos) · tests/test_spaced_repetition.py"},
-        {"cod": "D-02", "req": "Orquestación Multi-Agente con LangGraph", "st": "🟢 VERIFICADO", "ev": "src/agents/multi_agent_graph.py (Investigador, Redactor Pedagógico, Crítico) · tests/test_multi_agent_graph.py"},
-        {"cod": "D-03", "req": "Exportación Multiformato de Contenidos", "st": "🟢 VERIFICADO", "ev": "src/exporters/anki.py (CSV Anki), src/exporters/markdown.py (Guías MD) · tests/test_exporters.py"},
-        {"cod": "D-04", "req": "Nomenclatura Canónica Parentética Bilingüe LexForja", "st": "🟢 VERIFICADO", "ev": "src/lexforja/ · tests/test_lexforja_architecture.py (Término Español [Canonical English])"},
-        {"cod": "D-05", "req": "Evaluación Interactiva de Quizzes con Citas Verificadas", "st": "🟢 VERIFICADO", "ev": "src/schemas/adaptation.py · ui/app.py (evaluación y feedback en tiempo real)"},
+        {"cod": "D-01", "req": "Quizzes con evaluación y retroalimentación en tiempo real", "st": "🟢 VERIFICADO", "ev": "src/schemas/adaptation.py · ui/app.py (evaluación interactiva de quizzes con justificación y citas al documento fuente)"},
+        {"cod": "D-02", "req": "Sistema multi-agente con LangGraph", "st": "🟢 VERIFICADO", "ev": "src/agents/multi_agent_graph.py (Investigador RAG, Redactor Pedagógico, Crítico/Revisor con traza visual) · tests/test_multi_agent_graph.py"},
+        {"cod": "D-03", "req": "Exportación Markdown/PDF/CSV compatible con Anki", "st": "🟢 VERIFICADO", "ev": "src/exporters/anki.py (CSV Anki), src/exporters/markdown.py (Guías MD) · tests/test_exporters.py"},
+        {"cod": "D-04", "req": "Despliegue completo sobre OCI Compute Always Free", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "deploy/MANUAL_DESPLIEGUE_OCI_PASO_A_PASO.md · deploy/oci_setup.sh · Despliegue activo en instancia VM OCI Compute abierto como dependencia externa."},
+        {"cod": "D-05", "req": "Soporte multimodal para diagramas técnicos", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Arquitectura y contratos preparados; interpretación multimodal directa de diagramas técnicos abierta para desarrollo del Squad 1."},
     ]
     _render_criterios_block(matriz_diferenciales)
 
     st.markdown("#### Validación Interna de Robustez Arquitectónica (X-01 Interno)")
     matriz_interno = [
-        {"cod": "X-01", "req": "Independencia del corpus demostrada con sector no relacionado", "st": "🟢 VERIFICADO", "ev": "docs/INFORME_INDEPENDENCIA_CORPUS.md · tests/test_cross_corpus_domain.py (Sector 6: Manufactura)"},
+        {"cod": "X-01", "req": "Control interno de independencia de corpus", "st": "🟢 VERIFICADO", "ev": "docs/INFORME_INDEPENDENCIA_CORPUS.md · tests/test_cross_corpus_domain.py (Sector 6: Manufactura de Compresores Industriales)"},
     ]
     _render_criterios_block(matriz_interno)
 
