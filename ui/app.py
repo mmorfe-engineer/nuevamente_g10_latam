@@ -87,11 +87,37 @@ def format_canonical_terms(text: str) -> str:
     return re.sub(pattern, r'<span class="nm-term">\1<span class="nm-term__en">\2</span></span>', text)
 
 
+# Sincronización anticipada de entrada documental (garantiza coherencia entre sidebar y cuerpo principal)
+if "uploader_input_file" in st.session_state and st.session_state["uploader_input_file"] is not None:
+    up_file = st.session_state["uploader_input_file"]
+    if st.session_state.get("ultimo_archivo_cargado") != up_file.name:
+        tmp_dir = BASE_DIR / "data" / "uploads"
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        tmp_file_path = tmp_dir / up_file.name
+        with open(tmp_file_path, "wb") as f:
+            f.write(up_file.getbuffer())
+        try:
+            raw_extracted = doc_loader.extract_from_file(tmp_file_path)
+            if raw_extracted and raw_extracted.strip():
+                st.session_state["doc_titulo"] = up_file.name
+                st.session_state["doc_contenido"] = raw_extracted
+                st.session_state["ultimo_archivo_cargado"] = up_file.name
+                st.session_state["current_chunk_offset"] = 0
+        except Exception:
+            pass
+
+if "input_doc_contenido" in st.session_state and st.session_state.get("input_modo") == "Pegar Texto Libre":
+    if st.session_state.get("doc_contenido") != st.session_state["input_doc_contenido"]:
+        st.session_state["doc_contenido"] = st.session_state["input_doc_contenido"]
+if "input_doc_titulo" in st.session_state and st.session_state.get("input_modo") == "Pegar Texto Libre":
+    st.session_state["doc_titulo"] = st.session_state["input_doc_titulo"]
+
+
 # ==============================================================================
-# ENCABEZADO OFICIAL DE MARCA (Wordmark & Tagline Oficial)
+# ENCABEZADO OFICIAL DE MARCA (Wordmark & Tagline Oficial · Vista de Producto Limpia)
 # ==============================================================================
 st.markdown("""
-<div class="nm-glass" style="padding: var(--space-16) var(--space-24); margin-bottom: var(--space-16); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+<div class="nm-glass" style="padding: var(--space-16) var(--space-24); margin-bottom: var(--space-16); display: flex; justify-content: space-between; align-items: center; border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
     <div>
         <div style="font-family: var(--font-sans); font-size: var(--text-display); font-weight: 600; letter-spacing: -0.02em; line-height: var(--leading-title); color: var(--slate-12);">
             NuevaMente
@@ -100,22 +126,12 @@ st.markdown("""
             Sistema Inteligente de Adaptación y Generación de Contenido Educativo · Hackathon ONE G10 (Oracle & Alura)
         </div>
     </div>
-    <div style="display: flex; gap: var(--space-8); align-items: center; flex-wrap: wrap;">
-        <a href="https://github.com/mmorfe-engineer/nuevamente_g10_latam" target="_blank" style="text-decoration: none;">
-            <span class="nm-chip" style="color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); font-weight: 500; cursor: pointer; border-radius: var(--radius-4); padding: 2px var(--space-8); font-size: var(--text-label);">
-                GitHub: nuevamente_g10_latam
-            </span>
-        </a>
-        <span class="nm-chip" style="color: var(--slate-11); border: 1px solid var(--slate-6); background-color: var(--slate-2); font-weight: 500; border-radius: var(--radius-4); padding: 2px var(--space-8); font-size: var(--text-label);">
-            <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9); margin-right: 6px;"></span>Costo Prototipo: $0.00
-        </span>
-    </div>
 </div>
 """, unsafe_allow_html=True)
 
 
 # ==============================================================================
-# SIDEBAR: Arquitectura Cloud y Trazabilidad (Solo Lectura · Cero Duplicación)
+# SIDEBAR: Arquitectura de Ejecución y Estado del Flujo en Tiempo Real
 # ==============================================================================
 with st.sidebar:
     st.markdown("### NuevaMente · Motor RAG")
@@ -128,61 +144,66 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
+    # Estado del Flujo de 3 Pasos
+    st.markdown("#### Estado del Flujo")
     if "ultima_respuesta" in st.session_state:
-        st.markdown("#### Documento en Estudio")
         req_act = st.session_state.get("ultimo_request")
         resp_act = st.session_state["ultima_respuesta"]
         anclaje_val = f"{int(resp_act.evaluacion_calidad.anclaje_fuente_score * 100)}%"
-        if req_act:
-            st.markdown(f"""
-            <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
-                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
-                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9);"></span>
-                    <span class="nm-overline" style="color: var(--green-11);">Completado · {anclaje_val} anclaje de esta ejecución</span>
-                </div>
-                <p style="font-size: 13px; font-weight: 600; color: var(--slate-12); margin: 0 0 var(--space-8) 0; word-break: break-word;">
-                    {req_act.documento_titulo}
-                </p>
-                <div style="font-size: 12px; color: var(--slate-11); line-height: 1.6;">
-                    <div><strong>Perfil:</strong> {req_act.perfil_destinatario.value}</div>
-                    <div><strong>Formato:</strong> {req_act.formato_salida.value}</div>
-                    <div><strong>Sector:</strong> {req_act.nicho_sector.value}</div>
-                </div>
+        st.markdown(f"""
+        <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
+            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
+                <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9);"></span>
+                <span class="nm-overline" style="color: var(--green-11);">Paso 3 Completado · {anclaje_val} anclaje de esta ejecución</span>
             </div>
-            """, unsafe_allow_html=True)
+            <p style="font-size: 13px; font-weight: 600; color: var(--slate-12); margin: 0 0 var(--space-8) 0; word-break: break-word;">
+                {req_act.documento_titulo if req_act else 'Documento Técnico'}
+            </p>
+            <div style="font-size: 12px; color: var(--slate-11); line-height: 1.6;">
+                <div><strong>Perfil:</strong> {req_act.perfil_destinatario.value if req_act else ''}</div>
+                <div><strong>Formato:</strong> {req_act.formato_salida.value if req_act else ''}</div>
+                <div><strong>Sector:</strong> {req_act.nicho_sector.value if req_act else ''}</div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
         if st.button("Adaptar Nuevo Documento", type="primary", use_container_width=True, key="btn_sidebar_reset"):
             del st.session_state["ultima_respuesta"]
             st.session_state["current_chunk_offset"] = 0
             st.rerun()
+
     else:
         doc_tit_s = st.session_state.get("doc_titulo", "")
         doc_cont_s = st.session_state.get("doc_contenido", "")
         if doc_cont_s and doc_cont_s.strip():
             doc_len = len(doc_cont_s.strip())
             est_chunks = (doc_len // 800) + 1
-            st.markdown("#### Documento Cargado")
             st.markdown(f"""
-            <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-16); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
+            <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
                 <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
                     <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9);"></span>
-                    <span class="nm-overline" style="color: var(--green-11);">Listo para Inferencia</span>
+                    <span class="nm-overline" style="color: var(--green-11);">Paso 1 Completado · Documento Listo</span>
                 </div>
                 <p style="font-size: 13px; font-weight: 600; color: var(--slate-12); margin: 0 0 var(--space-4) 0; word-break: break-word;">
                     {doc_tit_s or 'Documento Técnico'}
                 </p>
                 <p style="font-size: 12px; color: var(--slate-11); margin: 0; font-family: var(--font-mono);">
-                    {doc_len:,} caracteres · ~{est_chunks} fragmentos
+                    {doc_len:,} caracteres (medidos) · ~{est_chunks} fragmentos (estimados)
                 </p>
+            </div>
+            <div class="nm-glass" style="padding: var(--space-8) var(--space-16); margin-bottom: var(--space-16); border: 1px solid var(--violet-7); border-left: 3px solid var(--violet-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--violet-9);"></span>
+                    <span class="nm-overline" style="color: var(--violet-11);">Paso 2 Activo · Configurar y Generar</span>
+                </div>
             </div>
             """, unsafe_allow_html=True)
         else:
-            st.markdown("#### Estado del Flujo")
             st.markdown("""
             <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-6); background-color: var(--slate-3);">
                 <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
                     <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--slate-8);"></span>
-                    <span class="nm-overline" style="color: var(--slate-11);">Esperando Documento (Paso 1)</span>
+                    <span class="nm-overline" style="color: var(--slate-11);">Paso 1 Activo · Esperando Documento</span>
                 </div>
                 <p style="font-size: 12px; color: var(--slate-11); margin: 0; line-height: var(--leading-body);">
                     Carga un archivo (.pdf, .md, .txt) o selecciona una muestra oficial para iniciar el flujo.
@@ -190,22 +211,23 @@ with st.sidebar:
             </div>
             """, unsafe_allow_html=True)
 
-    st.markdown("#### Infraestructura Cloud")
-    st.markdown("""
-    - **Cómputo:** Python 3.11 / Streamlit Cloud
-    - **Nube:** Oracle Cloud Infrastructure (OCI)
-    - **Costo:** Costo de infraestructura del prototipo: $0.00
-    - **Almacenamiento:** Bucket S3 Universal (boto3)
-    - **Persistencia:** SQLite / Neon PostgreSQL
-    - **Orquestador:** Pipeline RAG / LangGraph
-    """)
+    st.markdown("#### Entorno de Ejecución")
+    db_tipo = "PostgreSQL (Neon)" if "postgres" in settings.DATABASE_URL.lower() else "SQLite Local (WAL)"
+    if "ultima_respuesta" in st.session_state and "ultimo_trace" in st.session_state:
+        motor_actual = st.session_state["ultimo_trace"].get("proveedor_llm", "Fallback Sintético Local")
+    else:
+        motor_actual = "Google Gemini" if os.environ.get("GEMINI_API_KEY") else "Fallback Sintético Local (Demostración Offline)"
+    has_remote_storage = bool(settings.STORAGE_ACCESS_KEY_ID or os.environ.get("AWS_ACCESS_KEY_ID"))
+    s3_estado = f"S3 Universal ({settings.STORAGE_BUCKET_OUTPUTS})" if has_remote_storage else "Almacenamiento Local (Fallback)"
+    is_cloud = bool(os.environ.get("STREAMLIT_SHARING_MODE") or os.path.exists("/app"))
+    computo_desc = "Python 3.11 (Streamlit Cloud)" if is_cloud else "Python 3.11 (Local)"
 
-    st.markdown("---")
-    st.markdown("#### Repositorio & PMO")
-    st.markdown("""
-    - **PM & Coordinador:** Martin Morfe
-    - **Hackathon:** ONE G10 (Oracle & Alura) / No Country
-    - **Código:** [GitHub nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)
+    st.markdown(f"""
+    - **Cómputo:** {computo_desc}
+    - **Motor LLM:** {motor_actual}
+    - **Persistencia:** {db_tipo}
+    - **Almacenamiento:** {s3_estado}
+    - **Costo de Infraestructura:** $0.00
     """)
 
 
@@ -314,18 +336,39 @@ with tab_estudio:
         </div>
         """, unsafe_allow_html=True)
 
-        col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+        # Fila 1: Metadatos de ejecución y estudio (3 columnas amplias)
+        col_m1, col_m2, col_m3 = st.columns([1.2, 1.6, 1.2])
         with col_m1:
             st.markdown(f"**Perfil:** `{resp.metadatos.perfil_aplicado}`")
-            prov_label = trace.get("proveedor_llm", "Fallback Sintético Local (Offline)")
-            st.caption(f"Motor LLM: `{prov_label}`")
+            st.caption(f"Sector: `{req.nicho_sector.value}`")
         with col_m2:
-            st.markdown(f"**Tiempo Estimado:** `{resp.metadatos.tiempo_estimado_estudio_minutos} min`")
+            prov_label = trace.get("proveedor_llm", "Fallback Sintético Local (Demostración Offline)")
+            st.markdown(f"**Motor LLM:** `{prov_label}`")
+            st.caption(f"Orquestación: {'LangGraph Multi-Agente' if trace.get('use_multi_agent') else 'Pipeline RAG Asimétrico'}")
         with col_m3:
-            st.markdown(f"**Conceptos Clave:** {', '.join(resp.metadatos.conceptos_clave)}")
-        with col_m4:
+            st.markdown(f"**Tiempo de Estudio:** `{resp.metadatos.tiempo_estimado_estudio_minutos} min (estimado)`")
+            duracion_ejec = trace.get("duracion_segundos", 0.0)
+            if duracion_ejec > 0:
+                st.caption(f"Generación: `{duracion_ejec:.1f}s (medido)`")
+
+        # Fila 2: Conceptos Clave y Prerrequisitos en 2 columnas al 50% con tags responsivos
+        col_c1, col_c2 = st.columns(2)
+        with col_c1:
+            st.markdown("**Conceptos Clave del Documento:**")
+            conceptos_html = " ".join([
+                f'<span class="nm-chip" style="margin: 2px 4px 2px 0; display: inline-block; font-size: 12px; border: 1px solid var(--slate-6); background-color: var(--slate-2); color: var(--slate-12); padding: 3px 8px; border-radius: 4px;">{c}</span>'
+                for c in resp.metadatos.conceptos_clave
+            ])
+            st.markdown(f'<div style="line-height: 1.8; margin-top: 4px;">{conceptos_html}</div>', unsafe_allow_html=True)
+
+        with col_c2:
+            st.markdown("**Prerrequisitos Didácticos Sugeridos:**")
             prereqs = getattr(resp.metadatos, "prerrequisitos", []) or ["Lectura técnica básica"]
-            st.markdown(f"**Prerrequisitos:** {', '.join(prereqs)}")
+            prereqs_html = " ".join([
+                f'<span class="nm-chip" style="margin: 2px 4px 2px 0; display: inline-block; font-size: 12px; border: 1px solid var(--slate-6); background-color: var(--slate-2); color: var(--slate-12); padding: 3px 8px; border-radius: 4px;">{p}</span>'
+                for p in prereqs
+            ])
+            st.markdown(f'<div style="line-height: 1.8; margin-top: 4px;">{prereqs_html}</div>', unsafe_allow_html=True)
 
         porcion_procesada = trace.get("porcion_procesada")
         if porcion_procesada:
@@ -418,26 +461,32 @@ with tab_estudio:
 
                 card_html = f"""
                 <div class="nm-row" style="margin-bottom: var(--space-12);">
-                  <div class="nm-flash {flip_class}" style="width: 100%; max-width: 680px; height: 260px;">
-                    <div class="nm-flash__inner">
-                      <div class="nm-flash__face">
-                        <div class="nm-flash__meta">
-                          <span class="nm-overline">Tarjeta #{i+1} · {req.perfil_destinatario.value}</span>
-                          <span class="nm-chip nm-chip--sector" style="border: 1px solid var(--violet-7); color: var(--violet-11); background-color: var(--violet-3); font-size: 11px;">{req.nicho_sector.value}</span>
+                  <label class="nm-flash-wrap" for="nm_flash_cb_{i}">
+                    <input type="checkbox" id="nm_flash_cb_{i}" class="nm-flash-cb" />
+                    <div class="nm-flash {flip_class}">
+                      <div class="nm-flash__inner">
+                        <div class="nm-flash__face">
+                          <div class="nm-flash__meta">
+                            <span class="nm-overline">Tarjeta #{i+1} · {req.perfil_destinatario.value}</span>
+                            <div style="display: flex; gap: var(--space-8); align-items: center;">
+                              <span class="nm-chip nm-chip--sector" style="border: 1px solid var(--violet-7); color: var(--violet-11); background-color: var(--violet-3); font-size: 11px;">{req.nicho_sector.value}</span>
+                              <span class="nm-chip" style="font-size: 11px; font-weight: 500; border: 1px solid var(--violet-7); color: var(--violet-11); background-color: var(--violet-3);">↺ Voltear</span>
+                            </div>
+                          </div>
+                          <p class="nm-flash__q" style="margin-top: var(--space-12);">{frente_html}</p>
+                          {f'<div class="nm-flash__hint"><b>Pista Didáctica:</b> {pista}</div>' if pista else ''}
                         </div>
-                        <p class="nm-flash__q" style="margin-top: var(--space-12);">{frente_html}</p>
-                        {f'<div class="nm-flash__hint"><b>Pista Didáctica:</b> {pista}</div>' if pista else ''}
-                      </div>
-                      <div class="nm-flash__face nm-flash__back">
-                        <div class="nm-flash__meta">
-                          <span class="nm-overline">Explicación Canónica & Fundamento</span>
-                          <div class="nm-ring"><span class="nm-ring__val">92%</span></div>
+                        <div class="nm-flash__face nm-flash__back">
+                          <div class="nm-flash__meta">
+                            <span class="nm-overline">Explicación Canónica & Fundamento</span>
+                            <span class="nm-chip" style="font-size: 11px; font-weight: 500; border: 1px solid var(--violet-7); color: var(--violet-11); background-color: var(--violet-3);">↺ Frente</span>
+                          </div>
+                          <p class="nm-flash__a" style="margin-top: var(--space-8);">{dorso_html}</p>
+                          <span class="nm-flash__src">Fuente Oficial: {fuente}</span>
                         </div>
-                        <p class="nm-flash__a" style="margin-top: var(--space-8);">{dorso_html}</p>
-                        <span class="nm-flash__src">Fuente Oficial: {fuente}</span>
                       </div>
                     </div>
-                  </div>
+                  </label>
                 </div>
                 """
                 st.markdown(card_html, unsafe_allow_html=True)
@@ -445,7 +494,7 @@ with tab_estudio:
                 col_flip, col_sm2 = st.columns([1.2, 3.8])
                 with col_flip:
                     flip_label = "Ver Frente" if is_flipped else "Voltear Tarjeta"
-                    if st.button(flip_label, key=f"btn_flip_{i}", use_container_width=True):
+                    if st.button(flip_label, key=f"btn_flip_{i}", use_container_width=True, help="Atajo accesible / teclado para alternar vista frente y reverso"):
                         st.session_state[f"card_flipped_{i}"] = not is_flipped
                         st.rerun()
 
@@ -723,28 +772,31 @@ with tab_estudio:
             uploaded_file = st.file_uploader(
                 "Cargar archivo técnico para procesamiento RAG:",
                 type=["pdf", "md", "txt"],
-                help="Soporta documentos técnicos en PDF, Markdown o Texto Plano."
+                help="Soporta documentos técnicos en PDF, Markdown o Texto Plano.",
+                key="uploader_input_file"
             )
             if uploaded_file is not None:
                 doc_titulo = uploaded_file.name
                 st.session_state["doc_titulo"] = doc_titulo
                 st.session_state["current_chunk_offset"] = 0
-                tmp_dir = BASE_DIR / "data" / "uploads"
-                tmp_dir.mkdir(parents=True, exist_ok=True)
-                tmp_file_path = tmp_dir / uploaded_file.name
-                with open(tmp_file_path, "wb") as f:
-                    f.write(uploaded_file.getbuffer())
-                try:
-                    raw_extracted = doc_loader.extract_from_file(tmp_file_path)
-                    if not raw_extracted or not raw_extracted.strip():
-                        st.warning(f"⚠️ El archivo '{uploaded_file.name}' fue cargado pero no contiene texto legible (archivo vacío o escaneado sin capa OCR). Ingrese texto manualmente o use una muestra oficial.")
+                if st.session_state.get("ultimo_archivo_cargado") != uploaded_file.name or not doc_contenido:
+                    tmp_dir = BASE_DIR / "data" / "uploads"
+                    tmp_dir.mkdir(parents=True, exist_ok=True)
+                    tmp_file_path = tmp_dir / uploaded_file.name
+                    with open(tmp_file_path, "wb") as f:
+                        f.write(uploaded_file.getbuffer())
+                    try:
+                        raw_extracted = doc_loader.extract_from_file(tmp_file_path)
+                        if not raw_extracted or not raw_extracted.strip():
+                            st.warning(f"⚠️ El archivo '{uploaded_file.name}' fue cargado pero no contiene texto legible (archivo vacío o escaneado sin capa OCR). Ingrese texto manualmente o use una muestra oficial.")
+                            doc_contenido = ""
+                        else:
+                            doc_contenido = raw_extracted
+                            st.session_state["ultimo_archivo_cargado"] = uploaded_file.name
+                    except Exception as e:
+                        st.error(f"⚠️ No fue posible procesar el archivo '{uploaded_file.name}': formato no válido o archivo dañado ({str(e)[:120]}).")
                         doc_contenido = ""
-                    else:
-                        doc_contenido = raw_extracted
-                except Exception as e:
-                    st.error(f"⚠️ No fue posible procesar el archivo '{uploaded_file.name}': formato no válido o archivo dañado ({str(e)[:120]}).")
-                    doc_contenido = ""
-                st.session_state["doc_contenido"] = doc_contenido
+                    st.session_state["doc_contenido"] = doc_contenido
         else:
             col_t1, col_t2 = st.columns([1, 2])
             with col_t1:
@@ -768,20 +820,20 @@ with tab_estudio:
 
         if doc_contenido.strip():
             doc_chars = len(doc_contenido)
-            st.success(f"Documento Listo: **{doc_titulo or 'Documento Técnico'}** — {doc_chars:,} caracteres cargados.")
+            st.success(f"Paso 1 Completado · Documento Listo: **{doc_titulo or 'Documento Técnico'}** — {doc_chars:,} caracteres (medidos en carga).")
             if doc_chars > 80_000:
                 est_chunks = (doc_chars // 800) + 1
                 st.warning(
-                    f"**Documento Extenso Detectado ({doc_chars:,} caracteres · ~{est_chunks} fragmentos):** "
-                    f"Para garantizar latencia óptima (<30s) y prevenir sobrecarga cognitiva, el pipeline procesa un "
-                    f"**lote inicial acotado configurable de 80 fragmentos (~75.000 caracteres, conforme a ADR-012)**. "
-                    f"**Tiempo estimado de generación:** ~20 a 35 segundos (frente a más de 5 minutos sin límite de partición). "
+                    f"**Documento Extenso Detectado ({doc_chars:,} caracteres medidos · ~{est_chunks} fragmentos estimados):** "
+                    f"Para garantizar latencia óptima (<30s referencial) y prevenir sobrecarga cognitiva, el pipeline procesa un "
+                    f"**lote inicial acotado de 80 fragmentos (~75.000 caracteres estimados, configuración bajo ADR-012)**. "
+                    f"**Tiempo estimado de generación:** ~20 a 35 segundos (estimación referencial frente a más de 5 minutos sin partición). "
                     f"Podrás avanzar por los siguientes segmentos del documento usando el botón 'Lote Adicional'."
                 )
             else:
                 st.info(
-                    f"**Documento Estándar ({doc_chars:,} caracteres):** Se indexará de forma completa. "
-                    f"**Tiempo estimado de generación:** ~8 a 15 segundos."
+                    f"**Documento Estándar ({doc_chars:,} caracteres medidos):** Se indexará de forma completa. "
+                    f"**Tiempo estimado de generación:** ~8 a 15 segundos (estimación referencial)."
                 )
             with st.expander("Inspeccionar Vista Previa del Documento en Memoria", expanded=False):
                 st.text(doc_contenido[:1200] + ("..." if len(doc_contenido) > 1200 else ""))
@@ -874,6 +926,7 @@ with tab_estudio:
                 st.warning("Debes proporcionar o cargar un documento técnico antes de generar.")
             else:
                 with st.status("Procesando documento técnico...", expanded=True) as status_box:
+                    prog_bar = st.progress(5, text="Iniciando pipeline RAG...")
                     ph1 = st.empty()
                     ph2 = st.empty()
                     ph3 = st.empty()
@@ -900,6 +953,7 @@ with tab_estudio:
 
                     def ui_progress_callback(phase: int, phase_name: str, current: Optional[int], total: Optional[int], detail: Optional[str]):
                         if phase == 1:
+                            prog_bar.progress(15, text="Fase 1/4 · Lectura y normalización del documento...")
                             if current == total and total and total > 0:
                                 ph1.markdown("**Fase 1/4:** Lectura y normalización del documento completada")
                             else:
@@ -908,13 +962,17 @@ with tab_estudio:
                             ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                             if current is not None and total is not None and total > 0:
                                 pct = int((current / total) * 100)
+                                p_val = min(65, 20 + int(45 * (current / total)))
+                                prog_bar.progress(p_val, text=f"Fase 2/4 · Indexación vectorial ({current}/{total} fragmentos)")
                                 if current < total:
                                     ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial — **Fragmento {current} de {total} ({pct}%)**")
                                 else:
                                     ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial completada ({total} fragmentos)")
                             else:
+                                prog_bar.progress(35, text="Fase 2/4 · Segmentación e indexación vectorial...")
                                 ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial... *({detail or ''})*")
                         elif phase == 3:
+                            prog_bar.progress(75, text="Fase 3/4 · Recuperación contextual y anclaje normativo...")
                             ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                             ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
                             if current == total and total and total > 0:
@@ -922,6 +980,7 @@ with tab_estudio:
                             else:
                                 ph3.markdown(f"**Fase 3/4:** Recuperación contextual y anclaje normativo... *({detail or ''})*")
                         elif phase == 4:
+                            prog_bar.progress(90, text="Fase 4/4 · Síntesis didáctica adaptada al perfil...")
                             ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                             ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
                             ph3.markdown("**Fase 3/4:** Recuperación contextual y anclaje normativo completado")
@@ -940,6 +999,7 @@ with tab_estudio:
                             chunk_offset=st.session_state.get("current_chunk_offset", 0)
                         )
                     duracion_total = (datetime.now() - t_start).total_seconds()
+                    prog_bar.progress(100, text=f"Generación completada con éxito en {duracion_total:.1f}s")
 
                     ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                     ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
