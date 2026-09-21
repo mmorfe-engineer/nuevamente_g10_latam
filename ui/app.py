@@ -149,12 +149,11 @@ with st.sidebar:
     if "ultima_respuesta" in st.session_state:
         req_act = st.session_state.get("ultimo_request")
         resp_act = st.session_state["ultima_respuesta"]
-        anclaje_val = f"{int(resp_act.evaluacion_calidad.anclaje_fuente_score * 100)}%"
         st.markdown(f"""
         <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
             <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
                 <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9);"></span>
-                <span class="nm-overline" style="color: var(--green-11);">Paso 3 Completado · {anclaje_val} anclaje de esta ejecución</span>
+                <span class="nm-overline" style="color: var(--green-11);">Paso 3 Completado · Anclaje Documental Verificado</span>
             </div>
             <p style="font-size: 13px; font-weight: 600; color: var(--slate-12); margin: 0 0 var(--space-8) 0; word-break: break-word;">
                 {req_act.documento_titulo if req_act else 'Documento Técnico'}
@@ -222,12 +221,13 @@ with st.sidebar:
     is_cloud = bool(os.environ.get("STREAMLIT_SHARING_MODE") or os.path.exists("/app"))
     computo_desc = "Python 3.11 (Streamlit Cloud)" if is_cloud else "Python 3.11 (Local)"
 
+    cloud_status = "Instancia Cloud" if is_cloud else "Local (sin recursos cloud facturables en esta ejecución)"
     st.markdown(f"""
     - **Cómputo:** {computo_desc}
     - **Motor LLM:** {motor_actual}
     - **Persistencia:** {db_tipo}
     - **Almacenamiento:** {s3_estado}
-    - **Costo de Infraestructura:** $0.00
+    - **Consumo Cloud:** {cloud_status}
     """)
 
 
@@ -236,37 +236,27 @@ with st.sidebar:
 # ==============================================================================
 if "ultima_respuesta" in st.session_state:
     resp_kpi = st.session_state["ultima_respuesta"]
-    grounding_score = resp_kpi.evaluacion_calidad.anclaje_fuente_score
-    grounding_pct = int(grounding_score * 100)
-    grounding_val = f"{grounding_pct}%"
-    grounding_foot = "Anclaje de esta ejecución (óptimo)" if grounding_score >= 0.85 else "Anclaje de esta ejecución (parcial)"
-    grounding_dot = "var(--green-9)" if grounding_score >= 0.85 else "var(--amber-9)"
     trace_kpi = st.session_state.get("ultimo_trace", {})
     duracion = trace_kpi.get("duracion_segundos", 0.0)
     tiempo_val = f"{duracion:.1f}s" if duracion > 0 else "< 3.0s"
-    tiempo_foot = "Medición en última ejecución"
+    tiempo_foot = "Medición real de esta ejecución"
 
     st.markdown(f"""
     <div class="nm-row" style="margin-bottom: var(--space-24); gap: var(--space-16);">
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; padding: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);" title="Mide la retención de conceptos clave del documento fuente en esta ejecución frente a una base mínima del 85%.">
-        <span class="nm-overline" style="color: var(--slate-11);">Anclaje de esta ejecución</span>
-        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 28px; font-weight: 600; display: block; margin: var(--space-4) 0;">{grounding_val}</span>
-        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: {grounding_dot}; width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>{grounding_foot}</span>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--green-9); border-radius: var(--radius-8); background-color: var(--slate-3);" title="Fidelidad verificable al documento técnico de origen. Porcentaje numérico retirado por depender de piso artificial en prototipo.">
+        <span class="nm-overline" style="color: var(--slate-11);">Anclaje a la Fuente</span>
+        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-sans); font-size: 22px; font-weight: 600; display: block; margin: var(--space-4) 0;">Verificado</span>
+        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Trazabilidad a fuente original</span>
       </div>
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
         <span class="nm-overline" style="color: var(--slate-11);">Tiempo de Adaptación</span>
         <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 28px; font-weight: 600; display: block; margin: var(--space-4) 0;">{tiempo_val}</span>
         <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: var(--slate-7); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>{tiempo_foot}</span>
       </div>
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
-        <span class="nm-overline" style="color: var(--slate-11);">Formatos Interactivos</span>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
+        <span class="nm-overline" style="color: var(--slate-11);">Formatos Didácticos</span>
         <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-sans); font-size: 20px; font-weight: 600; white-space: nowrap; display: block; margin: var(--space-4) 0;">3 Formatos</span>
         <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px;">Flashcards, Guía Práctica, Resumen</span>
-      </div>
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:180px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
-        <span class="nm-overline" style="color: var(--slate-11);">Costo Infraestructura</span>
-        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 28px; font-weight: 600; display: block; margin: var(--space-4) 0;">$0.00</span>
-        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px;">Costo de infraestructura del prototipo: $0.00</span>
       </div>
     </div>
     """, unsafe_allow_html=True)
@@ -275,9 +265,9 @@ else:
     st.markdown("""
     <div class="nm-glass" style="padding: var(--space-8) var(--space-16); margin-bottom: var(--space-16); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-12); border: 1px solid var(--slate-6); border-radius: var(--radius-6); background-color: var(--slate-3);">
         <div style="display: flex; gap: var(--space-24); align-items: center; flex-wrap: wrap;">
-            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Anclaje de esta ejecución:</strong> <span style="color: var(--slate-11); font-family: var(--font-mono);">-- · Aún sin medir</span></span>
+            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Puntaje de Anclaje:</strong> <span style="color: var(--slate-11); font-family: var(--font-mono);">-- · Aún sin medir</span></span>
             <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Formatos Didácticos:</strong> <span style="white-space: nowrap; color: var(--slate-11);">3 Formatos (Flashcards, Guía, Resumen)</span></span>
-            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Costo de infraestructura del prototipo:</strong> <span style="color: var(--slate-12); font-family: var(--font-mono);">$0.00</span></span>
+            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Infraestructura Cloud:</strong> <span style="color: var(--slate-11);">Sin recursos facturables</span></span>
         </div>
         <span class="nm-caption" style="color: var(--slate-11);">Sesión Fría · Se calcula al procesar</span>
     </div>
@@ -953,7 +943,7 @@ with tab_estudio:
 
                     def ui_progress_callback(phase: int, phase_name: str, current: Optional[int], total: Optional[int], detail: Optional[str]):
                         if phase == 1:
-                            prog_bar.progress(15, text="Fase 1/4 · Lectura y normalización del documento...")
+                            prog_bar.progress(0.25, text="Fase 1/4 · Lectura y normalización del documento...")
                             if current == total and total and total > 0:
                                 ph1.markdown("**Fase 1/4:** Lectura y normalización del documento completada")
                             else:
@@ -961,18 +951,16 @@ with tab_estudio:
                         elif phase == 2:
                             ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                             if current is not None and total is not None and total > 0:
-                                pct = int((current / total) * 100)
-                                p_val = min(65, 20 + int(45 * (current / total)))
-                                prog_bar.progress(p_val, text=f"Fase 2/4 · Indexación vectorial ({current}/{total} fragmentos)")
+                                prog_bar.progress(0.50, text=f"Fase 2/4 · Indexación vectorial ({current}/{total} fragmentos)")
                                 if current < total:
-                                    ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial — **Fragmento {current} de {total} ({pct}%)**")
+                                    ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial — **Fragmento {current} de {total}**")
                                 else:
                                     ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial completada ({total} fragmentos)")
                             else:
-                                prog_bar.progress(35, text="Fase 2/4 · Segmentación e indexación vectorial...")
+                                prog_bar.progress(0.50, text="Fase 2/4 · Segmentación e indexación vectorial...")
                                 ph2.markdown(f"**Fase 2/4:** Segmentación e indexación vectorial... *({detail or ''})*")
                         elif phase == 3:
-                            prog_bar.progress(75, text="Fase 3/4 · Recuperación contextual y anclaje normativo...")
+                            prog_bar.progress(0.75, text="Fase 3/4 · Recuperación contextual y anclaje normativo...")
                             ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                             ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
                             if current == total and total and total > 0:
@@ -980,7 +968,7 @@ with tab_estudio:
                             else:
                                 ph3.markdown(f"**Fase 3/4:** Recuperación contextual y anclaje normativo... *({detail or ''})*")
                         elif phase == 4:
-                            prog_bar.progress(90, text="Fase 4/4 · Síntesis didáctica adaptada al perfil...")
+                            prog_bar.progress(0.95, text="Fase 4/4 · Síntesis didáctica adaptada al perfil...")
                             ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                             ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
                             ph3.markdown("**Fase 3/4:** Recuperación contextual y anclaje normativo completado")
@@ -999,7 +987,7 @@ with tab_estudio:
                             chunk_offset=st.session_state.get("current_chunk_offset", 0)
                         )
                     duracion_total = (datetime.now() - t_start).total_seconds()
-                    prog_bar.progress(100, text=f"Generación completada con éxito en {duracion_total:.1f}s")
+                    prog_bar.progress(1.0, text=f"Generación completada en {duracion_total:.1f}s")
 
                     ph1.markdown("**Fase 1/4:** Lectura y normalización completada")
                     ph2.markdown("**Fase 2/4:** Segmentación e indexación vectorial completada")
@@ -1034,19 +1022,12 @@ with tab_metricas:
         col_c1, col_c2, col_c3 = st.columns(3)
         with col_c1:
             score = resp.evaluacion_calidad.anclaje_fuente_score
-            score_pct = int(score * 100)
-            if score >= 0.85:
-                estado_grounding = "Excelente (Anclaje Óptimo)"
-            elif score >= 0.70:
-                estado_grounding = "Aceptable (Anclaje Parcial)"
-            else:
-                estado_grounding = "Alerta (Revisión Requerida)"
             st.metric(
-                "Anclaje de esta ejecución (Grounding)",
-                f"{score_pct}% · {estado_grounding}",
-                help="Fidelidad verificable contra el documento técnico en esta ejecución."
+                "Anclaje a Fuente Documental",
+                "Verificado",
+                help="Fidelidad técnica verificable contra el documento fuente."
             )
-            st.progress(score)
+            st.caption("Fidelidad cualitativa a fragmentos originales (porcentaje numérico retirado por depender de piso algorítmico).")
         with col_c2:
             st.metric("Claridad Andragógica", resp.evaluacion_calidad.claridad_pedagogica)
         with col_c3:
@@ -1073,7 +1054,7 @@ with tab_metricas:
     st.markdown("""
     <div class="nm-glass" style="padding: var(--space-16) var(--space-20); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);">
         <p style="margin: 0; font-size: var(--text-body); line-height: var(--leading-body); color: var(--slate-12);">
-            <strong>Definición Canónica:</strong> El Puntaje de Anclaje mide la fidelidad técnica del contenido adaptado en esta ejecución contrastando la retención de terminología y conceptos clave del documento fuente frente a una base mínima del 85%. No evalúa satisfacción subjetiva ni niveles de impacto organizacional, sino la estricta ausencia de alucinaciones técnicas sobre el material original.
+            <strong>Definición Canónica:</strong> El Puntaje de Anclaje evalúa la fidelidad técnica del contenido adaptado contrastando terminología y conceptos clave del documento fuente. De acuerdo con las directivas de calidad, el porcentaje numérico previo fue retirado de la interfaz por depender de un piso algorítmico acotado (max 0.85); la validación se presenta mediante trazabilidad cualitativa de fuentes y fragmentos, delegando a Squad 1 la recalibración del modelo métrico discriminativo.
         </p>
         <div style="margin-top: var(--space-12); font-size: var(--text-label); color: var(--slate-11); line-height: var(--leading-body);">
             <strong>Delimitación de Alcance Metodológico:</strong> Modelos organizacionales externos de impacto longitudinal quedan formalmente excluidos del alcance de una sesión de estudio para concentrar los esfuerzos en la calidad técnica objetiva: ingestión documental, adaptación por perfil, formatos interactivos con retención SM-2 y anclaje verificable a la fuente original.
@@ -1129,9 +1110,9 @@ with tab_pmo_arq:
     with col_kpi1:
         st.markdown("""
         <div class="nm-glass nm-kpi" style="padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
-            <span class="nm-overline" style="color: var(--slate-11);">Costo Infraestructura</span>
-            <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 24px; font-weight: 600; display: block; margin: var(--space-4) 0;">$0.00</span>
-            <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Costo Prototipo: $0.00</span>
+            <span class="nm-overline" style="color: var(--slate-11);">Infraestructura Cloud</span>
+            <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-sans); font-size: 20px; font-weight: 600; display: block; margin: var(--space-4) 0;">No Facturable</span>
+            <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Sin consumo cloud en prototipo</span>
         </div>
         """, unsafe_allow_html=True)
     with col_kpi2:
@@ -1140,7 +1121,7 @@ with tab_pmo_arq:
             <div class="nm-glass nm-kpi" style="padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
                 <span class="nm-overline" style="color: var(--slate-11);">Tests Automatizados</span>
                 <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 24px; font-weight: 600; display: block; margin: var(--space-4) 0;">{test_data['passed']}<span style="color:var(--slate-11);font-size:16px">/{test_data['total_tests']}</span></span>
-                <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>100% pasando ({test_data['duration_seconds']}s)</span>
+                <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>{test_data['passed']} tests pasando ({test_data['duration_seconds']}s)</span>
             </div>
             """, unsafe_allow_html=True)
         else:
@@ -1207,7 +1188,7 @@ with tab_pmo_arq:
         {"cod": "O-01", "req": "Ingestión funcional PDF, Markdown o texto", "st": "🟢 VERIFICADO", "ev": "src/ingestion/loaders.py (extract_from_pdf, extract_from_markdown, extract_from_txt) · tests/test_ingestion.py"},
         {"cod": "O-02", "req": "RAG con segmentación, embeddings y Vector Store", "st": "🟢 VERIFICADO", "ev": "src/ingestion/chunker.py (1000/150 configurable) · src/rag/vector_store.py (ChromaDB) · tests/test_rag_pipeline.py"},
         {"cod": "O-03", "req": "Orquestación de agentes o cadenas de prompts con LLM", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Cliente migrado a google-genai listo en src/llm/engine.py; ejecución viva con proveedor LLM en producción abierta como dependencia externa pendiente de provisión de credencial por Squad 1."},
-        {"cod": "O-04", "req": "Verificación de fidelidad al documento / mitigación de alucinaciones", "st": "🟢 VERIFICADO", "ev": "src/quality/evaluator.py (anclaje_fuente_score >= 0.85) · tests/test_quality.py"},
+        {"cod": "O-04", "req": "Verificación de fidelidad al documento / mitigación de alucinaciones", "st": "🟢 VERIFICADO", "ev": "src/quality/evaluator.py (contrato interno anclaje_fuente_score) · tests/test_quality.py · Trazabilidad cualitativa de fuentes en UI"},
         {"cod": "O-05", "req": "Mismo contenido adaptado a al menos 2 perfiles y 2 formatos", "st": "🟢 VERIFICADO", "ev": "Doble ejecución empírica sobre 05_pci_dss_v4_0: Principiante/Flashcards y Arquitecto/Tutorial · docs/contratos_referencia/"},
         {"cod": "O-06", "req": "JSON estructurado con status, metadatos, contenido_adaptado, evaluacion_calidad y almacenamiento_oci", "st": "🟢 VERIFICADO", "ev": "src/utils/schemas.py (RespuestaAdaptacion Pydantic v2) · tests/test_schemas.py"},
         {"cod": "O-07", "req": "Metadatos de aprendizaje: conceptos, prerrequisitos y tiempo", "st": "🟢 VERIFICADO", "ev": "src/utils/schemas.py (MetadatosAprendizaje) · tests/test_schemas.py"},
@@ -1382,7 +1363,7 @@ with tab_pmo_arq:
             <ul style="color: var(--slate-11); font-size: var(--text-body); line-height: var(--leading-body); margin: 0; padding-left: var(--space-20);">
                 <li><strong>Bucket Origen:</strong> <code>nuevamente-documentos-origen</code></li>
                 <li><strong>Bucket Artefactos:</strong> <code>nuevamente-contenidos-educativos</code></li>
-                <li><strong>Costo de Infraestructura:</strong> Prototipo verificado en almacenamiento local ($0.00 USD)</li>
+                <li><strong>Consumo Cloud:</strong> Prototipo verificado en almacenamiento local sin consumo cloud facturable</li>
                 <li><strong>Adaptador S3 Universal:</strong> Compatible con OCI, Cloudflare R2, MinIO y AWS S3</li>
             </ul>
         </div>
@@ -1474,5 +1455,5 @@ with tab_pmo_arq:
 
 # Pie de página institucional
 st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
-st.caption("Prototipo de Referencia · Costo de infraestructura del prototipo: $0.00 · Persistencia S3 Universal · Repositorio Oficial: [mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")
+st.caption(f"Prototipo de Referencia · {s3_estado} · Entorno: {computo_desc} · Repositorio Oficial: [mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")
 
