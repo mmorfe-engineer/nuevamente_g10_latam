@@ -153,7 +153,7 @@ with st.sidebar:
         <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-12); border: 1px solid var(--green-7); border-left: 3px solid var(--green-9); border-radius: var(--radius-6); background-color: var(--slate-3);">
             <div style="display: flex; align-items: center; gap: 6px; margin-bottom: var(--space-4);">
                 <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: var(--green-9);"></span>
-                <span class="nm-overline" style="color: var(--green-11);">Paso 3 Completado · Anclaje Documental Verificado</span>
+                <span class="nm-overline" style="color: var(--green-11);">Paso 3 Completado · Material Didáctico Generado</span>
             </div>
             <p style="font-size: 13px; font-weight: 600; color: var(--slate-12); margin: 0 0 var(--space-8) 0; word-break: break-word;">
                 {req_act.documento_titulo if req_act else 'Documento Técnico'}
@@ -219,15 +219,15 @@ with st.sidebar:
     has_remote_storage = bool(settings.STORAGE_ACCESS_KEY_ID or os.environ.get("AWS_ACCESS_KEY_ID"))
     s3_estado = f"S3 Universal ({settings.STORAGE_BUCKET_OUTPUTS})" if has_remote_storage else "Almacenamiento Local (Fallback)"
     is_cloud = bool(os.environ.get("STREAMLIT_SHARING_MODE") or os.path.exists("/app"))
-    computo_desc = "Python 3.11 (Streamlit Cloud)" if is_cloud else "Python 3.11 (Local)"
+    modo_ejec = "Streamlit Cloud" if is_cloud else "Local"
+    cloud_usado = "Sí" if (is_cloud or has_remote_storage or "postgres" in settings.DATABASE_URL.lower()) else "No"
 
-    cloud_status = "Instancia Cloud" if is_cloud else "Local (sin recursos cloud facturables en esta ejecución)"
     st.markdown(f"""
-    - **Cómputo:** {computo_desc}
+    - **Modo de ejecución:** {modo_ejec}
     - **Motor LLM:** {motor_actual}
     - **Persistencia:** {db_tipo}
     - **Almacenamiento:** {s3_estado}
-    - **Consumo Cloud:** {cloud_status}
+    - **Cloud utilizado en esta ejecución:** {cloud_usado}
     """)
 
 
@@ -237,16 +237,20 @@ with st.sidebar:
 if "ultima_respuesta" in st.session_state:
     resp_kpi = st.session_state["ultima_respuesta"]
     trace_kpi = st.session_state.get("ultimo_trace", {})
+    req_kpi = st.session_state.get("ultimo_request")
     duracion = trace_kpi.get("duracion_segundos", 0.0)
     tiempo_val = f"{duracion:.1f}s" if duracion > 0 else "< 3.0s"
     tiempo_foot = "Medición real de esta ejecución"
+    chunks_idx = trace_kpi.get("chunks_indexados", 0)
+    doc_ref_nombre = req_kpi.documento_titulo if req_kpi else "Documento Técnico"
+    doc_ref_corta = (doc_ref_nombre[:32] + "...") if len(doc_ref_nombre) > 35 else doc_ref_nombre
 
     st.markdown(f"""
     <div class="nm-row" style="margin-bottom: var(--space-24); gap: var(--space-16);">
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--green-9); border-radius: var(--radius-8); background-color: var(--slate-3);" title="Fidelidad verificable al documento técnico de origen. Porcentaje numérico retirado por depender de piso artificial en prototipo.">
-        <span class="nm-overline" style="color: var(--slate-11);">Anclaje a la Fuente</span>
-        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-sans); font-size: 22px; font-weight: 600; display: block; margin: var(--space-4) 0;">Verificado</span>
-        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Trazabilidad a fuente original</span>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);" title="Fragmentos del documento técnico procesados en el corpus.">
+        <span class="nm-overline" style="color: var(--slate-11);">Fragmentos del Corpus</span>
+        <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 28px; font-weight: 600; display: block; margin: var(--space-4) 0;">{chunks_idx}</span>
+        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: var(--slate-7); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Fuente: {doc_ref_corta}</span>
       </div>
       <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
         <span class="nm-overline" style="color: var(--slate-11);">Tiempo de Adaptación</span>
@@ -267,7 +271,7 @@ else:
         <div style="display: flex; gap: var(--space-24); align-items: center; flex-wrap: wrap;">
             <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Puntaje de Anclaje:</strong> <span style="color: var(--slate-11); font-family: var(--font-mono);">-- · Aún sin medir</span></span>
             <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Formatos Didácticos:</strong> <span style="white-space: nowrap; color: var(--slate-11);">3 Formatos (Flashcards, Guía, Resumen)</span></span>
-            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Infraestructura Cloud:</strong> <span style="color: var(--slate-11);">Sin recursos facturables</span></span>
+            <span style="font-size: 13px; color: var(--slate-12);"><strong style="color: var(--slate-11);">Cloud utilizado en esta ejecución:</strong> <span style="color: var(--slate-11);">No</span></span>
         </div>
         <span class="nm-caption" style="color: var(--slate-11);">Sesión Fría · Se calcula al procesar</span>
     </div>
@@ -1021,17 +1025,19 @@ with tab_metricas:
 
         col_c1, col_c2, col_c3 = st.columns(3)
         with col_c1:
-            score = resp.evaluacion_calidad.anclaje_fuente_score
+            chunks_idx = trace.get("chunks_indexados", 0)
             st.metric(
-                "Anclaje a Fuente Documental",
-                "Verificado",
-                help="Fidelidad técnica verificable contra el documento fuente."
+                "Fragmentos Indexados",
+                f"{chunks_idx}",
+                help="Cantidad de fragmentos del documento técnico procesados en el corpus."
             )
-            st.caption("Fidelidad cualitativa a fragmentos originales (porcentaje numérico retirado por depender de piso algorítmico).")
+            req_aud = st.session_state.get("ultimo_request")
+            doc_tit = req_aud.documento_titulo if req_aud else "Documento Técnico"
+            st.caption(f"Fuente: {doc_tit[:35]}")
         with col_c2:
             st.metric("Claridad Andragógica", resp.evaluacion_calidad.claridad_pedagogica)
         with col_c3:
-            st.metric("Promesa de Calidad", "Citas Verificables", "Cero Inventiva Normativa")
+            st.metric("Trazabilidad", "Citas al Documento", "Cero inventiva normativa")
 
         st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
         st.markdown(f"""
@@ -1054,7 +1060,7 @@ with tab_metricas:
     st.markdown("""
     <div class="nm-glass" style="padding: var(--space-16) var(--space-20); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);">
         <p style="margin: 0; font-size: var(--text-body); line-height: var(--leading-body); color: var(--slate-12);">
-            <strong>Definición Canónica:</strong> El Puntaje de Anclaje evalúa la fidelidad técnica del contenido adaptado contrastando terminología y conceptos clave del documento fuente. De acuerdo con las directivas de calidad, el porcentaje numérico previo fue retirado de la interfaz por depender de un piso algorítmico acotado (max 0.85); la validación se presenta mediante trazabilidad cualitativa de fuentes y fragmentos, delegando a Squad 1 la recalibración del modelo métrico discriminativo.
+            <strong>Definición Canónica:</strong> El Puntaje de Anclaje evalúa la fidelidad técnica del contenido adaptado contrastando terminología y conceptos clave del documento fuente. De acuerdo con las directivas de calidad, el porcentaje numérico previo fue retirado de la interfaz por depender de un piso algorítmico acotado (max 0.85); la validación se presenta mediante trazabilidad de fragmentos y citas textuales. Queda registrado como conocimiento candidato a transferencia recalibrar el algoritmo para que sea discriminante y pueda reprobar ante desviaciones del corpus, estableciendo valores y umbrales mediante evaluación medida.
         </p>
         <div style="margin-top: var(--space-12); font-size: var(--text-label); color: var(--slate-11); line-height: var(--leading-body);">
             <strong>Delimitación de Alcance Metodológico:</strong> Modelos organizacionales externos de impacto longitudinal quedan formalmente excluidos del alcance de una sesión de estudio para concentrar los esfuerzos en la calidad técnica objetiva: ingestión documental, adaptación por perfil, formatos interactivos con retención SM-2 y anclaje verificable a la fuente original.
@@ -1071,7 +1077,7 @@ with tab_pmo_arq:
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-24); flex-wrap: wrap; gap: var(--space-16);">
         <div>
             <h2 style="margin:0; color: var(--slate-12);">Trazabilidad Técnica y Paquete de Transferencia</h2>
-            <div class="nm-caption" style="color: var(--slate-11); font-size: var(--text-label);">Evidencia Objetiva del Prototipo de Referencia para Squad 1 · <strong>Coordinador General & PM: Martin Morfe</strong></div>
+            <div class="nm-caption" style="color: var(--slate-11); font-size: var(--text-label);">Evidencia Objetiva del Prototipo de Referencia (Conocimiento Candidato a Transferencia) · <strong>Coordinador General & PM: Martin Morfe</strong></div>
         </div>
         <div>
             <a href="https://github.com/mmorfe-engineer/nuevamente_g10_latam" target="_blank" style="text-decoration: none;">
@@ -1108,11 +1114,11 @@ with tab_pmo_arq:
 
     col_kpi1, col_kpi2, col_kpi3, col_kpi4 = st.columns(4)
     with col_kpi1:
-        st.markdown("""
+        st.markdown(f"""
         <div class="nm-glass nm-kpi" style="padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
-            <span class="nm-overline" style="color: var(--slate-11);">Infraestructura Cloud</span>
-            <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-sans); font-size: 20px; font-weight: 600; display: block; margin: var(--space-4) 0;">No Facturable</span>
-            <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--green-9); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Sin consumo cloud en prototipo</span>
+            <span class="nm-overline" style="color: var(--slate-11);">Cloud en esta Ejecución</span>
+            <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-sans); font-size: 24px; font-weight: 600; display: block; margin: var(--space-4) 0;">{cloud_usado}</span>
+            <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background-color: var(--slate-7); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Modo de ejecución: {modo_ejec}</span>
         </div>
         """, unsafe_allow_html=True)
     with col_kpi2:
@@ -1157,20 +1163,22 @@ with tab_pmo_arq:
     st.markdown("### 1. Matriz de Trazabilidad: 14 Obligatorios, 5 Diferenciales, X-01 Interno")
     st.caption("Estructura contractual: 14 requisitos obligatorios del pliego, 5 capacidades diferenciales y validación interna de agnosticismo de dominio (X-01).")
 
-    def _render_criterios_block(criterios_list):
-        for c in criterios_list:
-            if "🟢" in c["st"]:
+    def _render_criterios_block(items_lista):
+        for c in items_lista:
+            status_lower = c["st"].lower()
+            if "verificado" in status_lower:
                 color = "var(--green-11)"
+                bg_c = "var(--green-2)"
                 border_c = "var(--green-7)"
-                bg_c = "var(--slate-2)"
-            elif "🟠" in c["st"]:
+            elif "abierta" in status_lower:
                 color = "var(--amber-11)"
+                bg_c = "var(--amber-2)"
                 border_c = "var(--amber-7)"
-                bg_c = "var(--slate-2)"
             else:
-                color = "var(--amber-11)"
-                border_c = "var(--amber-7)"
+                color = "var(--slate-11)"
                 bg_c = "var(--slate-2)"
+                border_c = "var(--slate-6)"
+
             st.markdown(f"""
             <div class="nm-glass" style="padding: var(--space-12) var(--space-16); margin-bottom: var(--space-8); border: 1px solid var(--slate-6); border-radius: var(--radius-6); background-color: var(--slate-3); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-8);">
                 <div style="flex: 1; min-width: 250px;">
@@ -1187,15 +1195,15 @@ with tab_pmo_arq:
     matriz_obligatorios = [
         {"cod": "O-01", "req": "Ingestión funcional PDF, Markdown o texto", "st": "🟢 VERIFICADO", "ev": "src/ingestion/loaders.py (extract_from_pdf, extract_from_markdown, extract_from_txt) · tests/test_ingestion.py"},
         {"cod": "O-02", "req": "RAG con segmentación, embeddings y Vector Store", "st": "🟢 VERIFICADO", "ev": "src/ingestion/chunker.py (1000/150 configurable) · src/rag/vector_store.py (ChromaDB) · tests/test_rag_pipeline.py"},
-        {"cod": "O-03", "req": "Orquestación de agentes o cadenas de prompts con LLM", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Cliente migrado a google-genai listo en src/llm/engine.py; ejecución viva con proveedor LLM en producción abierta como dependencia externa pendiente de provisión de credencial por Squad 1."},
-        {"cod": "O-04", "req": "Verificación de fidelidad al documento / mitigación de alucinaciones", "st": "🟢 VERIFICADO", "ev": "src/quality/evaluator.py (contrato interno anclaje_fuente_score) · tests/test_quality.py · Trazabilidad cualitativa de fuentes en UI"},
+        {"cod": "O-03", "req": "Orquestación de agentes o cadenas de prompts con LLM", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Orquestación multi-agente implementada en src/agents/multi_agent_graph.py; ejecución viva contra servicio LLM externo en entorno operativo abierta como dependencia técnica de despliegue."},
+        {"cod": "O-04", "req": "Verificación de fidelidad al documento / mitigación de alucinaciones", "st": "🟢 VERIFICADO", "ev": "src/quality/evaluator.py (contrato interno anclaje_fuente_score) · tests/test_quality.py · Trazabilidad de fragmentos y citas en UI"},
         {"cod": "O-05", "req": "Mismo contenido adaptado a al menos 2 perfiles y 2 formatos", "st": "🟢 VERIFICADO", "ev": "Doble ejecución empírica sobre 05_pci_dss_v4_0: Principiante/Flashcards y Arquitecto/Tutorial · docs/contratos_referencia/"},
         {"cod": "O-06", "req": "JSON estructurado con status, metadatos, contenido_adaptado, evaluacion_calidad y almacenamiento_oci", "st": "🟢 VERIFICADO", "ev": "src/utils/schemas.py (RespuestaAdaptacion Pydantic v2) · tests/test_schemas.py"},
         {"cod": "O-07", "req": "Metadatos de aprendizaje: conceptos, prerrequisitos y tiempo", "st": "🟢 VERIFICADO", "ev": "src/utils/schemas.py (MetadatosAprendizaje) · tests/test_schemas.py"},
         {"cod": "O-08", "req": "Perfil, formato, nicho y nivel de detalle", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Selectores de 4 parámetros en Paso 2) · tests/test_ui_smoke.py"},
         {"cod": "O-09", "req": "Interfaz interactiva o API REST operativa", "st": "🟢 VERIFICADO", "ev": "ui/app.py (Interfaz interactiva Streamlit en 3 pasos con Design System Radix Dark y persistencia relacional)"},
         {"cod": "O-10", "req": "Tipado estricto y manejo de excepciones con mensajes amigables", "st": "🟢 VERIFICADO", "ev": "src/llm/engine.py (conmutación defensiva multi-proveedor con fallback sintético local) · Pydantic v2 · tests/test_llm_engine.py"},
-        {"cod": "O-11", "req": "OCI Object Storage activo para originales y JSON", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "docs/EXCEPCION_ALMACENAMIENTO_OCI.md · Adaptador S3 conmutable local verificado; integración activa con OCI Object Storage abierta como dependencia externa."},
+        {"cod": "O-11", "req": "OCI Object Storage activo para originales y JSON", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "Adaptador S3 implementado para desarrollo local (src/storage/s3_storage.py); persistencia activa contra servicio OCI Object Storage abierta como dependencia técnica externa."},
         {"cod": "O-12", "req": "Mínimo 3 ejemplos de ejecución", "st": "🟢 VERIFICADO", "ev": "docs/contratos_referencia/ (5 contratos JSON versionados y autovalidados: VCN Flashcards, VCN Tutorial, IAM Resumen, Manufactura y Gemini)"},
         {"cod": "O-13", "req": "Repositorio Git estructurado con commits claros y colaborativos", "st": "🟢 VERIFICADO", "ev": "GitHub mmorfe-engineer/nuevamente_g10_latam con historial estructurado de ramas y commits colaborativos por componente"},
         {"cod": "O-14", "req": "README con arquitectura, diagrama RAG y guía de instalación", "st": "🟢 VERIFICADO", "ev": "README.md (Diagrama Mermaid C4/RAG, insignias, arquitectura técnica y guía de instalación paso a paso)"},
@@ -1207,8 +1215,8 @@ with tab_pmo_arq:
         {"cod": "D-01", "req": "Quizzes con evaluación y retroalimentación en tiempo real", "st": "🟢 VERIFICADO", "ev": "src/schemas/adaptation.py · ui/app.py (evaluación interactiva de quizzes con justificación y citas al documento fuente)"},
         {"cod": "D-02", "req": "Sistema multi-agente con LangGraph", "st": "🟢 VERIFICADO", "ev": "src/agents/multi_agent_graph.py (Investigador RAG, Redactor Pedagógico, Crítico/Revisor con traza visual) · tests/test_multi_agent_graph.py"},
         {"cod": "D-03", "req": "Exportación Markdown/PDF/CSV compatible con Anki", "st": "🟢 VERIFICADO", "ev": "src/exporters/anki.py (CSV Anki), src/exporters/markdown.py (Guías MD) · tests/test_exporters.py"},
-        {"cod": "D-04", "req": "Despliegue completo sobre OCI Compute Always Free", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "Scripts y procedimiento de despliegue preparados; despliegue activo en OCI Compute pendiente de verificación."},
-        {"cod": "D-05", "req": "Soporte multimodal para diagramas técnicos", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Arquitectura y contratos preparados; interpretación multimodal directa de diagramas técnicos abierta para desarrollo del Squad 1."},
+        {"cod": "D-04", "req": "Despliegue completo sobre OCI Compute Always Free", "st": "🟠 ABIERTA (Dependencia Externa)", "ev": "Procedimientos de despliegue documentados; aprovisionamiento activo en infraestructura OCI Compute abierto como dependencia técnica externa."},
+        {"cod": "D-05", "req": "Soporte multimodal para diagramas técnicos", "st": "🟡 ABIERTA (Dependencia Externa)", "ev": "Contratos de datos preparados; procesamiento multimodal de imágenes abierto como alcance adicional (conocimiento candidato a transferencia)."},
     ]
     _render_criterios_block(matriz_diferenciales)
 
@@ -1363,7 +1371,7 @@ with tab_pmo_arq:
             <ul style="color: var(--slate-11); font-size: var(--text-body); line-height: var(--leading-body); margin: 0; padding-left: var(--space-20);">
                 <li><strong>Bucket Origen:</strong> <code>nuevamente-documentos-origen</code></li>
                 <li><strong>Bucket Artefactos:</strong> <code>nuevamente-contenidos-educativos</code></li>
-                <li><strong>Consumo Cloud:</strong> Prototipo verificado en almacenamiento local sin consumo cloud facturable</li>
+                <li><strong>Cloud utilizado en esta ejecución:</strong> No (almacenamiento local de desarrollo)</li>
                 <li><strong>Adaptador S3 Universal:</strong> Compatible con OCI, Cloudflare R2, MinIO y AWS S3</li>
             </ul>
         </div>
@@ -1455,5 +1463,5 @@ with tab_pmo_arq:
 
 # Pie de página institucional
 st.markdown("<hr style='border:0; border-top: 1px solid var(--slate-6); margin: var(--space-24) 0;'>", unsafe_allow_html=True)
-st.caption(f"Prototipo de Referencia · {s3_estado} · Entorno: {computo_desc} · Repositorio Oficial: [mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")
+st.caption(f"Prototipo de Referencia · {s3_estado} · Modo de ejecución: {modo_ejec} · Repositorio: [mmorfe-engineer/nuevamente_g10_latam](https://github.com/mmorfe-engineer/nuevamente_g10_latam)")
 
