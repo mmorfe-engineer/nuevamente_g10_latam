@@ -87,17 +87,48 @@ def format_canonical_terms(text: str) -> str:
     return re.sub(pattern, r'<span class="nm-term">\1<span class="nm-term__en">\2</span></span>', text)
 
 
+def reset_adaptation_session(clear_document: bool = False, state=None) -> None:
+    """Invalida de forma determinista el estado de la adaptación previa.
+    
+    Elimina la respuesta previa, rastros, offsets y claves transitorias
+    de flashcards (volteo y calificaciones SM-2) para aislar cada corrida.
+    """
+    target = state if state is not None else st.session_state
+    target.pop("ultima_respuesta", None)
+    target.pop("ultimo_request", None)
+    target.pop("ultimo_trace", None)
+    target["current_chunk_offset"] = 0
+
+    # Limpiar todas las claves dinámicas de interacción con flashcards
+    keys_to_delete = [
+        k for k in list(target.keys())
+        if k.startswith("card_flipped_") or k.startswith("card_graded_")
+    ]
+    for k in keys_to_delete:
+        target.pop(k, None)
+
+    if clear_document:
+        target.pop("doc_titulo", None)
+        target.pop("doc_contenido", None)
+        target.pop("ultimo_archivo_cargado", None)
+        target.pop("uploader_input_file", None)
+        target.pop("input_doc_titulo", None)
+        target.pop("input_doc_contenido", None)
+
+
 # Sincronización anticipada de entrada documental (garantiza coherencia entre sidebar y cuerpo principal)
 if "uploader_input_file" in st.session_state and st.session_state["uploader_input_file"] is not None:
     up_file = st.session_state["uploader_input_file"]
     if st.session_state.get("ultimo_archivo_cargado") != up_file.name:
+        reset_adaptation_session(clear_document=False)
         tmp_dir = BASE_DIR / "data" / "uploads"
         tmp_dir.mkdir(parents=True, exist_ok=True)
         tmp_file_path = tmp_dir / up_file.name
         with open(tmp_file_path, "wb") as f:
             f.write(up_file.getbuffer())
         try:
-            raw_extracted = doc_loader.extract_from_file(tmp_file_path)
+            with st.spinner("Leyendo y preparando documento técnico..."):
+                raw_extracted = doc_loader.extract_from_file(tmp_file_path)
             if raw_extracted and raw_extracted.strip():
                 st.session_state["doc_titulo"] = up_file.name
                 st.session_state["doc_contenido"] = raw_extracted
@@ -167,8 +198,7 @@ with st.sidebar:
         """, unsafe_allow_html=True)
 
         if st.button("Adaptar Nuevo Documento", type="primary", use_container_width=True, key="btn_sidebar_reset"):
-            del st.session_state["ultima_respuesta"]
-            st.session_state["current_chunk_offset"] = 0
+            reset_adaptation_session(clear_document=False)
             st.rerun()
 
     else:
@@ -247,10 +277,10 @@ if "ultima_respuesta" in st.session_state:
 
     st.markdown(f"""
     <div class="nm-row" style="margin-bottom: var(--space-24); gap: var(--space-16);">
-      <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);" title="Fragmentos del documento técnico procesados en el corpus.">
-        <span class="nm-overline" style="color: var(--slate-11);">Fragmentos del Corpus</span>
+      <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-left: 3px solid var(--slate-7); border-radius: var(--radius-8); background-color: var(--slate-3);" title="Fragmentos procesados en esta ejecución según límite de latencia y costos ADR-012 (máx. 80 chunks).">
+        <span class="nm-overline" style="color: var(--slate-11);">Fragmentos del Lote Activo (ADR-012)</span>
         <span class="nm-kpi__val" style="color: var(--slate-12); font-family: var(--font-mono); font-size: 28px; font-weight: 600; display: block; margin: var(--space-4) 0;">{chunks_idx}</span>
-        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: var(--slate-7); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Fuente: {doc_ref_corta}</span>
+        <span class="nm-kpi__foot" style="color: var(--slate-11); font-size: 12px; display: flex; align-items: center; gap: 6px;"><span class="nm-dot" style="background: var(--slate-7); width: 6px; height: 6px; border-radius: 50%; display: inline-block;"></span>Fuente: {doc_ref_corta} (lote acotado)</span>
       </div>
       <div class="nm-glass nm-kpi" style="flex:1; min-width:200px; padding: var(--space-16); border: 1px solid var(--slate-6); border-radius: var(--radius-8); background-color: var(--slate-3);">
         <span class="nm-overline" style="color: var(--slate-11);">Tiempo de Adaptación</span>
@@ -315,8 +345,7 @@ with tab_estudio:
             st.markdown(f"## {resp.contenido_adaptado.titulo}")
         with col_hdr2:
             if st.button("Adaptar Nuevo Documento", key="btn_tab1_reset", use_container_width=True):
-                del st.session_state["ultima_respuesta"]
-                st.session_state["current_chunk_offset"] = 0
+                reset_adaptation_session(clear_document=False)
                 st.rerun()
         
         # Apertura didáctica con estilo glass
@@ -676,8 +705,7 @@ with tab_estudio:
         col_bot1, col_bot2, col_bot3 = st.columns([1, 2, 1])
         with col_bot2:
             if st.button("Adaptar Nuevo Documento", key="btn_tab1_reset_bottom", type="secondary", use_container_width=True):
-                del st.session_state["ultima_respuesta"]
-                st.session_state["current_chunk_offset"] = 0
+                reset_adaptation_session(clear_document=False)
                 st.rerun()
     else:
         # ======================================================================
@@ -774,13 +802,15 @@ with tab_estudio:
                 st.session_state["doc_titulo"] = doc_titulo
                 st.session_state["current_chunk_offset"] = 0
                 if st.session_state.get("ultimo_archivo_cargado") != uploaded_file.name or not doc_contenido:
+                    reset_adaptation_session(clear_document=False)
                     tmp_dir = BASE_DIR / "data" / "uploads"
                     tmp_dir.mkdir(parents=True, exist_ok=True)
                     tmp_file_path = tmp_dir / uploaded_file.name
                     with open(tmp_file_path, "wb") as f:
                         f.write(uploaded_file.getbuffer())
                     try:
-                        raw_extracted = doc_loader.extract_from_file(tmp_file_path)
+                        with st.spinner("Leyendo y preparando documento técnico..."):
+                            raw_extracted = doc_loader.extract_from_file(tmp_file_path)
                         if not raw_extracted or not raw_extracted.strip():
                             st.warning(f"⚠️ El archivo '{uploaded_file.name}' fue cargado pero no contiene texto legible (archivo vacío o escaneado sin capa OCR). Ingrese texto manualmente o use una muestra oficial.")
                             doc_contenido = ""
