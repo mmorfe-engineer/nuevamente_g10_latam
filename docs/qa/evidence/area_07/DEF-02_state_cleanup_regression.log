@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.15, pytest-9.1.1, pluggy-1.6.0
+rootdir: /home/bitcoinpapa/projects/nuevamente
+plugins: anyio-4.15.1, langsmith-0.12.4, asyncio-1.4.0
+collected 3 items
+
+tests/test_session_lifecycle_regression.py::test_session_state_reset_function_logic PASSED [ 33%]
+tests/test_session_lifecycle_regression.py::test_ui_e2e_document_reset_cleans_flashcard_state PASSED [ 66%]
+tests/test_session_lifecycle_regression.py::test_ui_kpi_banner_labels_active_batch_adr012 PASSED [100%]
+
+============================== 3 passed in 4.25s ===============================
+RESULT: PASS (All session state keys purged deterministically on reset)
