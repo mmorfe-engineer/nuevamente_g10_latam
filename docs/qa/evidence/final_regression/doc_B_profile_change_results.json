@@ -1,0 +1,13 @@
+{
+  "doc_B_perfil_1": {
+    "perfil": "Principiante sin experiencia previa en Cloud",
+    "titulo": "Gobernanza y Seguridad en la Nube: Claves para L\u00edderes No T\u00e9cnicos",
+    "introduccion": "En entornos Cloud empresariales, la gesti\u00f3n de identidades y accesos (IAM) act\u00faa como el 'portero digital' que protege los recursos cr\u00edticos de la org..."
+  },
+  "doc_B_perfil_2": {
+    "perfil": "Desarrollador Junior / Semi Senior",
+    "titulo": "Gobernanza y Seguridad en la Nube: IAM para Desarrolladores Junior/Semi-Senior",
+    "introduccion": "En entornos Cloud empresariales, la Gesti\u00f3n de Identidad y Acceso (IAM) [Identity and Access Management (IAM)] act\u00faa como el 'portero digital' que reg..."
+  },
+  "profile_adaptation_distinct": true
+}

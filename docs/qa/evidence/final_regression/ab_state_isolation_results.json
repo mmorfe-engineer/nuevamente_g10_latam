@@ -1,0 +1,14 @@
+{
+  "doc_A": {
+    "title": "Fundamentos de Redes VCN en OCI para Principiantes",
+    "first_card_front": "",
+    "graded": true
+  },
+  "doc_B": {
+    "title": "Gobernanza y Seguridad en la Nube: Identidad y Acceso (IAM) para Principiantes",
+    "first_card_front": "",
+    "inherited_flip": false,
+    "inherited_grade": false,
+    "isolation_verified": true
+  }
+}

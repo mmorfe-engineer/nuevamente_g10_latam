@@ -15,9 +15,9 @@ El presente Plan Maestro de Pruebas establece la estrategia técnica, procedimie
 ### 1.1 Niveles de Cobertura (Principio de Honestidad Técnica)
 Para evitar declaraciones anticipadas de cumplimiento, el plan adopta una distinción explícita en tres niveles de cobertura:
 
-- **Cobertura Diseñada:** Conjunto total de puntos del flujo principal (34 pasos), componentes, estados, selectores, hipótesis de prueba (A a H) y casos de borde inventariados formalmente en esta especificación (67 casos estructurados).
-- **Cobertura Ejecutada:** Porcentaje y número de casos efectivamente corridos en el entorno de prueba con registro de datos observables. *(Campaña inicial completada · 10 repruebas dirigidas ejecutadas en Fase Correctiva Prompt 3).*
-- **Cobertura Aprobada:** Casos de prueba ejecutados que obtuvieron dictamen objetivo **PASS** respaldado por evidencia factual contrastable. *(10 casos reevaluados con dictamen objetivo PASS respaldados en docs/qa/evidence/).*
+- **Cobertura Diseñada:** 67 casos estructurados (100% del inventario formal en las 13 áreas del sistema).
+- **Cobertura Ejecutada:** 67 casos efectivamente evaluados en la regresión integral (100% de ejecución: 60 casos probados funcionalmente, 4 casos bloqueados por inaccesibilidad de la URL pública y 3 casos no ejecutables por diferencial D-01 no implementado).
+- **Cobertura Aprobada:** 60 casos con dictamen objetivo **PASS** (89.55% del inventario total diseñado), respaldados por 55 pruebas automatizadas en Pytest y evidencia material en `docs/qa/evidence/final_regression/`. Cero casos en PENDIENTE.
 
 ### 1.2 Dimensiones Incluidas en la Cobertura Diseñada:
 - **Flujo de Ingesta Universal:** Carga, extracción, medición de longitud, detección de documentos extensos y normalización de documentos técnicos en formatos PDF, Markdown (.md), Texto plano (.txt) y pegado directo.
@@ -169,6 +169,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica (Bloqueante).
 - **Relación:** Precondición para todos los demás casos.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-02
 - **Área:** Arranque e Inicialización
@@ -186,6 +187,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-03 corregido · Cabecera institucional 100% visible sin solapamiento en docs/qa/evidence/area_01/DEF-03_after.png)
 - **Severidad si falla:** Mayor.
 - **Relación:** Verifica Hipótesis E.
+- **Estado Final (Regresión Integral Prompt 4):** BLOQUEADO — validación pública pendiente (Provisional PASS en entorno local Chromium; URL pública https://nuevamente.streamlit.app redirige a error/not_found según docs/qa/evidence/final_regression/public_deploy_inaccessible_evidence.png)
 
 #### TEST-03
 - **Área:** Arranque e Inicialización
@@ -205,6 +207,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Media.
 - **Relación:** Cumplimiento de principio "Refleja, nunca declara".
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-04
 - **Área:** Arranque e Inicialización
@@ -225,6 +228,7 @@ flowchart TD
 ---
 
 ### ÁREA 02: INGESTA DOCUMENTAL Y MULTIFORMATO (INGESTION)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-05
 - **Área:** Ingesta Documental
@@ -241,6 +245,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Habilita Paso 2 y Paso 3.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-06
 - **Área:** Ingesta Documental
@@ -258,6 +263,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-01 corregido · Spinner contextual activo durante extracción en docs/qa/evidence/area_02/DEF-01_after.png)
 - **Severidad si falla:** Media.
 - **Relación:** Valida Hipótesis A.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-07
 - **Área:** Ingesta Documental
@@ -273,6 +279,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-01 (Markdown).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-08
 - **Área:** Ingesta Documental
@@ -288,6 +295,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-01 (Texto).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-09
 - **Área:** Ingesta Documental
@@ -305,6 +313,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-01 (Entrada de texto directa).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-10
 - **Área:** Ingesta Documental
@@ -320,6 +329,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Cumplimiento O-10 (Manejo de excepciones con mensajes amigables).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-11
 - **Área:** Ingesta Documental
@@ -339,6 +349,7 @@ flowchart TD
 ---
 
 ### ÁREA 03: MEDICIÓN Y PARTICIÓN DOCUMENTAL REPRESENTATIVA (ADR-012)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-12
 - **Área:** Medición Documental
@@ -356,6 +367,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Media.
 - **Relación:** Valida Principio "Refleja, nunca declara".
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-13
 - **Área:** Medición Documental
@@ -377,6 +389,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-06 corregido · Banner rotula lote activo acotado ADR-012 en docs/qa/evidence/area_03/DEF-06_after.png)
 - **Severidad si falla:** Mayor.
 - **Relación:** Valida Hipótesis H y ADR-012.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-14
 - **Área:** Medición Documental
@@ -393,6 +406,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Menor.
 - **Relación:** Transparencia de datos hacia el usuario.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-15
 - **Área:** Medición Documental
@@ -415,6 +429,7 @@ flowchart TD
 ---
 
 ### ÁREA 04: MUESTRAS DE DEMOSTRACIÓN OFICIALES (O-12)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-16
 - **Área:** Muestras de Demostración
@@ -438,6 +453,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-12 (Muestra 1 oficial).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-17
 - **Área:** Muestras de Demostración
@@ -458,6 +474,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-12 (Muestra 2 oficial).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-18
 - **Área:** Muestras de Demostración
@@ -482,6 +499,7 @@ flowchart TD
 ---
 
 ### ÁREA 05: CONFIGURACIÓN PEDAGÓGICA (PASO 2)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-19
 - **Área:** Configuración Pedagógica
@@ -500,6 +518,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Cumplimiento O-08 (Perfiles).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-20
 - **Área:** Configuración Pedagógica
@@ -517,6 +536,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Cumplimiento O-08 y D-01.
+- **Estado Final (Regresión Integral Prompt 4):** NO EJECUTABLE — funcionalidad diferencial aún no disponible (Diferencial D-01 Quizzes interactivos planificado para fase posterior al MVP)
 
 #### TEST-21
 - **Área:** Configuración Pedagógica
@@ -532,6 +552,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-08 (Sectores).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-22
 - **Área:** Configuración Pedagógica
@@ -547,6 +568,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-08 (Nivel de detalle).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-23
 - **Área:** Configuración Pedagógica
@@ -567,6 +589,7 @@ flowchart TD
 ---
 
 ### ÁREA 06: GENERACIÓN Y FASES DE PROCESAMIENTO RAG (EXECUTION)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-24
 - **Área:** Generación de Material
@@ -581,6 +604,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Previene ejecuciones nulas o llamadas espurias a LLMs.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-25
 - **Área:** Generación de Material
@@ -601,6 +625,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Valida Hipótesis B y principio "Refleja, nunca declara".
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-26
 - **Área:** Generación de Material
@@ -619,6 +644,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Verifica cumplimiento de ADR-012 sobre latencia acotada.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-27
 - **Área:** Generación de Material
@@ -636,6 +662,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Cumplimiento O-06 y O-09.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-28
 - **Área:** Generación de Material
@@ -658,6 +685,7 @@ flowchart TD
 ---
 
 ### ÁREA 07: EXPERIENCIA DE ESTUDIO · FLASHCARDS 3D Y SM-2 (INTERACTION)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-29
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -677,6 +705,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Media.
 - **Relación:** Cumplimiento O-07.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-30
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -696,6 +725,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-06 corregido · Trazabilidad de fragmentos de lote diferenciada de corpus en DB)
 - **Severidad si falla:** Mayor.
 - **Relación:** Valida mitigación de sobrecarga cognitiva y ADR-012.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-31
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -715,6 +745,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (IMP-01 verificado · Botón de volteo híbrido operativo y validado sin regresión)
 - **Severidad si falla:** Mayor.
 - **Relación:** Valida Hipótesis C.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-32
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -730,6 +761,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Menor.
 - **Relación:** Interacción híbrida accesible.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-33
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -748,6 +780,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Valida algoritmo SuperMemo SM-2 para nivel no alcanzado.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-34
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -766,6 +799,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Valida SM-2 para nivel intermedio.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-35
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -784,6 +818,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Valida SM-2 y estabilidad de sesión DB.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-36
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -803,6 +838,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento D-03.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-37
 - **Área:** Experiencia de Estudio (Flashcards)
@@ -826,6 +862,7 @@ flowchart TD
 ---
 
 ### ÁREA 08: OTROS FORMATOS DIDÁCTICOS (QUIZZES, TUTORIALES, RESÚMENES)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-38
 - **Área:** Otros Formatos Didácticos (Quiz)
@@ -842,6 +879,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento D-01.
+- **Estado Final (Regresión Integral Prompt 4):** NO EJECUTABLE — funcionalidad diferencial aún no disponible (Diferencial D-01 Quizzes interactivos planificado para fase posterior al MVP)
 
 #### TEST-39
 - **Área:** Otros Formatos Didácticos (Quiz)
@@ -857,6 +895,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento D-01.
+- **Estado Final (Regresión Integral Prompt 4):** NO EJECUTABLE — funcionalidad diferencial aún no disponible (Diferencial D-01 Quizzes interactivos planificado para fase posterior al MVP)
 
 #### TEST-40
 - **Área:** Otros Formatos Didácticos (Tutorial)
@@ -875,6 +914,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-05 y D-03.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-41
 - **Área:** Otros Formatos Didácticos (Resumen)
@@ -894,6 +934,7 @@ flowchart TD
 ---
 
 ### ÁREA 09: AUDITORÍA DE CALIDAD Y TRAZA MULTI-AGENTE (TAB 2)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-42
 - **Área:** Auditoría de Calidad
@@ -917,6 +958,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-06 corregido · Conteo de fragmentos de ventana distinguido del corpus global)
 - **Severidad si falla:** Mayor.
 - **Relación:** Cumplimiento O-04.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-43
 - **Área:** Auditoría de Calidad
@@ -933,6 +975,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Cumplimiento D-02 y O-03.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-44
 - **Área:** Auditoría de Calidad
@@ -950,6 +993,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-04 corregido · Tipografía expandida armónicamente hasta 90ch en docs/qa/evidence/area_09/DEF-04_after.png)
 - **Severidad si falla:** Media.
 - **Relación:** Valida Hipótesis F.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-45
 - **Área:** Auditoría de Calidad
@@ -969,6 +1013,7 @@ flowchart TD
 ---
 
 ### ÁREA 10: TRAZABILIDAD PMO Y ARQUITECTURA CLOUD (TAB 3)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-46
 - **Área:** Trazabilidad PMO
@@ -989,6 +1034,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-05 corregido · Tarjetas KPI de Tab 3 uniformadas con flex y min-height en docs/qa/evidence/area_10/DEF-05_after.png)
 - **Severidad si falla:** Media.
 - **Relación:** Valida Hipótesis G.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-47
 - **Área:** Trazabilidad PMO
@@ -1004,6 +1050,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Media.
 - **Relación:** Principio "Refleja, nunca declara".
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-48
 - **Área:** Trazabilidad PMO
@@ -1026,6 +1073,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Cumplimiento de gobernanza del pliego ONE G10.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-49
 - **Área:** Trazabilidad PMO
@@ -1046,6 +1094,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento D-01 a D-05 y X-01.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-50
 - **Área:** Trazabilidad PMO
@@ -1066,6 +1115,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Facilitación de transferencia técnica a Squad 1.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-51
 - **Área:** Trazabilidad PMO
@@ -1086,6 +1136,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Media.
 - **Relación:** Transferencia metodológica a Squad 1.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-52
 - **Área:** Trazabilidad PMO
@@ -1101,6 +1152,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Menor.
 - **Relación:** Valor pedagógico y trazabilidad de ingeniería.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-53
 - **Área:** Trazabilidad PMO
@@ -1121,6 +1173,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Alta.
 - **Relación:** Cumplimiento O-06.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-54
 - **Área:** Trazabilidad PMO
@@ -1140,6 +1193,7 @@ flowchart TD
 ---
 
 ### ÁREA 11: CICLO DE VIDA, REINICIO, SESIÓN Y ESTADO RESIDUAL (LIFECYCLE & STATE)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-55
 - **Área:** Ciclo de Vida y Sesión
@@ -1158,6 +1212,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Permite la reutilización continua de la aplicación.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-56
 - **Área:** Ciclo de Vida y Sesión
@@ -1179,6 +1234,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-02 corregido · Aislamiento y purga de estado validada en tests/test_session_lifecycle_regression.py)
 - **Severidad si falla:** Mayor.
 - **Relación:** Valida Hipótesis D.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-57
 - **Área:** Ciclo de Vida y Sesión
@@ -1198,6 +1254,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Cumplimiento O-05 (Mismo contenido adaptado a al menos 2 perfiles y 2 formatos).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-58
 - **Área:** Ciclo de Vida y Sesión
@@ -1218,6 +1275,7 @@ flowchart TD
 - **Resultado Reprueba Prompt 3:** PASS (DEF-02 corregido · Botón Adaptar Nuevo Documento restablece sesión limpia en docs/qa/evidence/area_07/DEF-02_after.png)
 - **Severidad si falla:** Crítica.
 - **Relación:** Resuelve de forma concluyente la Hipótesis D.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-59
 - **Área:** Ciclo de Vida y Sesión
@@ -1234,6 +1292,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Usabilidad y estabilidad de pestañas Streamlit.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-60
 - **Área:** Ciclo de Vida y Sesión
@@ -1253,6 +1312,7 @@ flowchart TD
 ---
 
 ### ÁREA 12: DISEÑO RESPONSIVO, LAYOUT Y ACCESIBILIDAD (RESPONSIVE & VISUAL)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-61
 - **Área:** Diseño Responsivo
@@ -1269,6 +1329,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Menor.
 - **Relación:** Conformidad con Design System shadow.
+- **Estado Final (Regresión Integral Prompt 4):** BLOQUEADO — validación pública pendiente (Provisional PASS en entorno local Chromium; URL pública https://nuevamente.streamlit.app redirige a error/not_found según docs/qa/evidence/final_regression/public_deploy_inaccessible_evidence.png)
 
 #### TEST-62
 - **Área:** Diseño Responsivo
@@ -1284,6 +1345,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Media.
 - **Relación:** Usabilidad en dispositivos portátiles.
+- **Estado Final (Regresión Integral Prompt 4):** BLOQUEADO — validación pública pendiente (Provisional PASS en entorno local Chromium; URL pública https://nuevamente.streamlit.app redirige a error/not_found según docs/qa/evidence/final_regression/public_deploy_inaccessible_evidence.png)
 
 #### TEST-63
 - **Área:** Diseño Responsivo
@@ -1302,6 +1364,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Mayor.
 - **Relación:** Accesibilidad táctil.
+- **Estado Final (Regresión Integral Prompt 4):** BLOQUEADO — validación pública pendiente (Provisional PASS en entorno local Chromium; URL pública https://nuevamente.streamlit.app redirige a error/not_found según docs/qa/evidence/final_regression/public_deploy_inaccessible_evidence.png)
 
 #### TEST-64
 - **Área:** Diseño y Accesibilidad
@@ -1321,6 +1384,7 @@ flowchart TD
 ---
 
 ### ÁREA 13: ERRORES CONTROLADOS, BORDES Y DEGRADACIÓN DEFENSIVA (EDGE CASES)
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-65
 - **Área:** Errores Controlados
@@ -1336,6 +1400,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Media.
 - **Relación:** Robustez de entrada.
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-66
 - **Área:** Errores Controlados
@@ -1355,6 +1420,7 @@ flowchart TD
 - **Estado inicial:** PENDIENTE
 - **Severidad si falla:** Crítica.
 - **Relación:** Cumplimiento O-10 (Tolerancia a fallos y conmutación defensiva).
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 #### TEST-67
 - **Área:** Errores Controlados
@@ -1371,6 +1437,7 @@ flowchart TD
 - **Relación:** Cumplimiento de tipado estricto y codificación UTF-8 universal.
 
 ---
+- **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
 ## 8. RELACIÓN ENTRE PRUEBAS Y DEPENDENCIAS
 

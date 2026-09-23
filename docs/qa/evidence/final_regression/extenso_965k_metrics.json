@@ -1,0 +1,28 @@
+{
+  "caracteres_medidos": 965086,
+  "fragmentos_estimados": 1207,
+  "fragmentos_lote_activo_adr012": 80,
+  "tiempo_observado_segundos": 15.15,
+  "configuracion_utilizada": {
+    "perfil": "L\u00edder T\u00e9cnico / Arquitecto",
+    "formato": "Flashcards",
+    "sector": "Cloud e infraestructura",
+    "nivel_detalle": "Didactico",
+    "max_chunks_adr012": 80,
+    "chunk_offset": 0
+  },
+  "fases_detectadas": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "total_eventos_fases": 13,
+  "distincion_semantica_garantizada": {
+    "estimado_igual_medido": false,
+    "lote_activo_igual_corpus_total": false,
+    "lote_activo": 80,
+    "corpus_total_db": 3020,
+    "documento_estimado": 1207
+  }
+}

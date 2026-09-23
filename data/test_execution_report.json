@@ -1,9 +1,9 @@
 {
-  "timestamp": "2026-09-19 02:01:00 UTC",
-  "total_tests": 52,
-  "passed": 52,
+  "timestamp": "2026-09-22 20:30:00 UTC",
+  "total_tests": 55,
+  "passed": 55,
   "failed": 0,
-  "duration_seconds": 18.43,
+  "duration_seconds": 21.02,
   "exit_code": 0,
   "details": [
     {
@@ -176,6 +176,18 @@
     },
     {
       "name": "tests/test_schemas.py::test_diez_sectores_canonicos_y_reexportacion",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_session_lifecycle_regression.py::test_session_state_reset_function_logic",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_session_lifecycle_regression.py::test_ui_e2e_document_reset_cleans_flashcard_state",
+      "status": "PASSED"
+    },
+    {
+      "name": "tests/test_session_lifecycle_regression.py::test_ui_kpi_banner_labels_active_batch_adr012",
       "status": "PASSED"
     },
     {
