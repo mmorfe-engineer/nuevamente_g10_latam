@@ -176,9 +176,17 @@ div[data-testid="stMainBlockContainer"],
   max-width: 1200px !important;
   padding-left: var(--space-24) !important;
   padding-right: var(--space-24) !important;
-  padding-top: clamp(3rem, 5vh, 4.5rem) !important;
+  padding-top: clamp(4rem, 6vh, 5.5rem) !important;
   padding-bottom: var(--space-48) !important;
   margin: 0 auto !important;
+}
+
+header[data-testid="stHeader"] {
+  background-color: transparent !important;
+  pointer-events: none !important;
+}
+header[data-testid="stHeader"] * {
+  pointer-events: auto !important;
 }
 
 /* Colapso de contenedores invisibles, de estilo o vacíos para eliminar hueco superior */
@@ -270,16 +278,26 @@ code, pre, .nm-mono, .nm-term__en, [data-testid="stMetricValue"], .nm-kpi__val {
 }
 
 .nm-kpi {
-  height: 100% !important;
-  min-height: 124px !important;
+  height: 136px !important;
+  min-height: 136px !important;
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
   box-sizing: border-box !important;
 }
 
-[data-testid="column"] > div:has(.nm-kpi) {
+[data-testid="column"] {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+[data-testid="column"] > div:has(.nm-kpi),
+[data-testid="column"] [data-testid="stElementContainer"]:has(.nm-kpi),
+[data-testid="column"] [data-testid="stMarkdownContainer"]:has(.nm-kpi) {
   height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
 }
 
 .nm-row {
