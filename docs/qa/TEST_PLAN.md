@@ -15,9 +15,9 @@ El presente Plan Maestro de Pruebas establece la estrategia técnica, procedimie
 ### 1.1 Niveles de Cobertura (Principio de Honestidad Técnica)
 Para evitar declaraciones anticipadas de cumplimiento, el plan adopta una distinción explícita en tres niveles de cobertura:
 
-- **Cobertura Diseñada:** 67 casos estructurados (100% del inventario formal en las 13 áreas del sistema).
-- **Cobertura Ejecutada:** 67 casos efectivamente evaluados en la regresión integral (100% de ejecución: 60 casos probados funcionalmente, 4 casos bloqueados por inaccesibilidad de la URL pública y 3 casos no ejecutables por diferencial D-01 no implementado).
-- **Cobertura Aprobada:** 60 casos con dictamen objetivo **PASS** (89.55% del inventario total diseñado), respaldados por 55 pruebas automatizadas en Pytest y evidencia material en `docs/qa/evidence/final_regression/`. Cero casos en PENDIENTE.
+- **Cobertura Diseñada:** 68 casos estructurados (100% del inventario formal en las 13 áreas del sistema y la capa de validación de entorno).
+- **Cobertura Ejecutada:** 68 casos efectivamente evaluados (100% de ejecución: 60 casos probados funcionalmente en PASS definitivo, 5 casos en PROVISIONAL PASS pendientes de confirmación visual en URL pública autenticada por DEF-03, DEF-05 y DEF-07, y 3 casos no ejecutables por diferencial D-01 no implementado).
+- **Cobertura Aprobada:** 60 casos con dictamen objetivo **PASS definitivo** (88.24% del inventario total diseñado) + 5 casos con **PROVISIONAL PASS** (7.35% en verificación pública tras despliegue del commit `41bce04`), respaldados por 55 pruebas automatizadas en Pytest y evidencia material en `docs/qa/evidence/final_regression/`. Cero casos en PENDIENTE.
 
 ### 1.2 Dimensiones Incluidas en la Cobertura Diseñada:
 - **Flujo de Ingesta Universal:** Carga, extracción, medición de longitud, detección de documentos extensos y normalización de documentos técnicos en formatos PDF, Markdown (.md), Texto plano (.txt) y pegado directo.
@@ -188,6 +188,7 @@ flowchart TD
 - **Severidad si falla:** Mayor.
 - **Relación:** Verifica Hipótesis E.
 - **Estado Final (Regresión Integral Prompt 4):** BLOQUEADO — validación pública pendiente (Provisional PASS en entorno local Chromium; URL pública https://nuevamente.streamlit.app redirige a error/not_found según docs/qa/evidence/final_regression/public_deploy_inaccessible_evidence.png)
+- **Estado Adenda de Validación Pública:** PROVISIONAL PASS (Reabierto por DEF-03 tras hallazgo de Coordinación sobre deployment b61fcd3; corregido en ui/assets/styles.css con clamp(4rem, 6vh, 5.5rem), verificado en local con CDP h1_top=245.8px [docs/qa/evidence/final_regression/header_after_clearance_fix.png], desplegado en commit 41bce04 a origin/main; pendiente de confirmación visual por Coordinación en la URL pública autenticada).
 
 #### TEST-03
 - **Área:** Arranque e Inicialización
@@ -1035,6 +1036,7 @@ flowchart TD
 - **Severidad si falla:** Media.
 - **Relación:** Valida Hipótesis G.
 - **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
+- **Estado Adenda de Validación Pública:** PROVISIONAL PASS (Reabierto por DEF-05 tras hallazgo de Coordinación en deployment b61fcd3; corregido en ui/assets/styles.css con height/min-height de 136px estricto y flex stretch, verificado localmente con CDP donde las 4 tarjetas miden exactamente 136.00px en top: 499px [docs/qa/evidence/final_regression/tab3_kpis_uniform_height_verified.png], desplegado en commit 41bce04 a origin/main; pendiente de confirmación visual por Coordinación en la URL pública autenticada).
 
 #### TEST-47
 - **Área:** Trazabilidad PMO
@@ -1330,6 +1332,7 @@ flowchart TD
 - **Severidad si falla:** Menor.
 - **Relación:** Conformidad con Design System shadow.
 - **Estado Final (Regresión Integral Prompt 4):** BLOQUEADO — validación pública pendiente (Provisional PASS en entorno local Chromium; URL pública https://nuevamente.streamlit.app redirige a error/not_found según docs/qa/evidence/final_regression/public_deploy_inaccessible_evidence.png)
+- **Estado Adenda de Validación Pública:** PROVISIONAL PASS (Verificado localmente mediante emulación CDP en Desktop 1920x1080; padding-top corregido y márgenes simétricos; desplegado en commit 41bce04 a origin/main; pendiente de confirmación visual por Coordinación en la URL pública autenticada).
 
 #### TEST-62
 - **Área:** Diseño Responsivo
@@ -1346,6 +1349,7 @@ flowchart TD
 - **Severidad si falla:** Media.
 - **Relación:** Usabilidad en dispositivos portátiles.
 - **Estado Final (Regresión Integral Prompt 4):** BLOQUEADO — validación pública pendiente (Provisional PASS en entorno local Chromium; URL pública https://nuevamente.streamlit.app redirige a error/not_found según docs/qa/evidence/final_regression/public_deploy_inaccessible_evidence.png)
+- **Estado Adenda de Validación Pública:** PROVISIONAL PASS (Verificado localmente mediante emulación CDP en Tablet 768px [docs/qa/evidence/final_regression/header_tablet_768px.png y tab3_kpis_tablet_768px.png]; desplegado en commit 41bce04 a origin/main; pendiente de confirmación visual por Coordinación en la URL pública autenticada).
 
 #### TEST-63
 - **Área:** Diseño Responsivo
@@ -1365,6 +1369,7 @@ flowchart TD
 - **Severidad si falla:** Mayor.
 - **Relación:** Accesibilidad táctil.
 - **Estado Final (Regresión Integral Prompt 4):** BLOQUEADO — validación pública pendiente (Provisional PASS en entorno local Chromium; URL pública https://nuevamente.streamlit.app redirige a error/not_found según docs/qa/evidence/final_regression/public_deploy_inaccessible_evidence.png)
+- **Estado Adenda de Validación Pública:** PROVISIONAL PASS (Verificado localmente mediante emulación CDP en Mobile 375px [docs/qa/evidence/final_regression/header_mobile_375px.png y tab3_kpis_mobile_375px.png]; desplegado en commit 41bce04 a origin/main; pendiente de confirmación visual por Coordinación en la URL pública autenticada).
 
 #### TEST-64
 - **Área:** Diseño y Accesibilidad
@@ -1439,6 +1444,26 @@ flowchart TD
 ---
 - **Estado Final (Regresión Integral Prompt 4):** PASS (Verificado y respaldado por evidencia en tests/ y docs/qa/evidence/final_regression/)
 
+#### TEST-68
+- **Área:** Trazabilidad PMO y Gobernanza de Entornos
+- **Tipo:** Trazabilidad / Sincronización de Deployment
+- **Clasificación:** SOPORTE / UX / ARQUITECTURA
+- **Fuente del Criterio:** AUDITORÍA DE COORDINACIÓN EN INSTANCIA PÚBLICA (HALLAZGO 3) / DEF-07
+- **Precondición:** Pestaña Tab 3 ("Trazabilidad PMO y Arquitectura") activa. Archivo `data/test_execution_report.json` presente en el host con el resultado de la suite automatizada más reciente.
+- **Pasos:**
+  1. Navegar a Tab 3: "Trazabilidad PMO y Arquitectura".
+  2. Inspeccionar la tarjeta KPI "Tests Automatizados".
+  3. Comparar el valor renderizado en la interfaz (número de tests pasando y tiempo medido) contra el contenido del archivo `data/test_execution_report.json`.
+  4. Verificar que no existan valores hardcodeados obsoletos (como el histórico 52/52 en 18.43s) y que la tarjeta refleje fielmente la suite actual (55/55 en 21.02s / 18.94s).
+- **Resultado esperado:** La interfaz refleja de forma reactiva, dinámica y exacta el contenido de `data/test_execution_report.json`, mostrando `55/55` y `55 tests pasando (~21s)` con indicador verde.
+- **Evidencia requerida:** Contenido de `data/test_execution_report.json` y captura de pantalla de la tarjeta KPI en Tab 3 (`docs/qa/evidence/final_regression/tab3_kpis_cards_centered.png`).
+- **Estado inicial:** PENDIENTE
+- **Severidad si falla:** Media.
+- **Relación:** Vinculado con DEF-07 y TEST-47.
+- **Estado Final (Adenda de Validación Pública):** PROVISIONAL PASS (Verificado localmente mediante CDP headless en `docs/qa/evidence/final_regression/tab3_kpis_cards_centered.png`; reporte de 55 pruebas sincronizado en commit `41bce04` a `origin/main`; pendiente de confirmación visual por Coordinación en la URL pública autenticada).
+
+---
+
 ## 8. RELACIÓN ENTRE PRUEBAS Y DEPENDENCIAS
 
 ```mermaid
@@ -1457,6 +1482,7 @@ graph LR
     T25 --> T38[TEST-38..41: Quizzes, Guías, Resúmenes]
     T25 --> T42[TEST-42..45: Tab 2 Auditoría]
     T25 --> T46[TEST-46..54: Tab 3 Trazabilidad]
+    T46 --> T68[TEST-68: Sincronización Tests UI/Reporte]
     T29 --> T55[TEST-55..60: Reinicio y Ciclo de Vida]
     T55 --> T58[TEST-58: Prueba Cruzada de Documentos]
     T01 --> T61[TEST-61..64: Responsive y Layout]
@@ -1469,11 +1495,11 @@ graph LR
 
 Antes de autorizar cualquier fusión de ramas o despliegue a producción, es mandatorio ejecutar la suite automatizada de regresión en el entorno shadow:
 
-1. **Suite Pytest Local (52 tests):**
+1. **Suite Pytest Local (55 tests):**
    ```bash
    venv/bin/pytest tests/ -v
    ```
-   - Criterio estricto: **52 passed, 0 failed, 0 errors**.
+   - Criterio estricto: **55 passed, 0 failed, 0 errors**.
 2. **Pruebas de Humo UI (`tests/test_ui_smoke.py`):**
    - Validación de arranque limpio.
    - Presencia de 4 parámetros en estación central.
@@ -1490,7 +1516,7 @@ Antes de autorizar cualquier fusión de ramas o despliegue a producción, es man
 
 La campaña de pruebas se declarará **OFICIALMENTE CERRADA** cuando se cumplan la totalidad de las siguientes condiciones objetivas:
 
-1. **Totalidad de Cobertura Diseñada Ejecutada:** La totalidad de los 67 casos de prueba especificados en la Cobertura Diseñada han sido ejecutados y cuentan con registro de evidencia factual (logs, capturas o salidas de comando).
+1. **Totalidad de Cobertura Diseñada Ejecutada:** La totalidad de los 68 casos de prueba especificados en la Cobertura Diseñada (TEST-01 a TEST-68) han sido ejecutados y cuentan con registro de evidencia factual (logs, capturas o salidas de comando).
 2. **Cero defectos Críticos (Bloqueantes) abiertos en alcance obligatorio:** Ningún caso obligatorio clasificado con severidad Crítica permanece en estado FAIL.
 3. **Cero defectos Mayores sin plan de mitigación aprobado:** Todos los casos obligatorios de severidad Mayor están en PASS o cuentan con solución de ingeniería validada por el PM.
 4. **Tratamiento Formal de Requisitos Diferenciales:** Los casos clasificados como diferenciales (D-01 a D-05) cuentan con dictamen de prueba (PASS, FAIL, `NO EJECUTABLE — funcionalidad diferencial aún no disponible`, o `NO APLICA EN ESTA ITERACIÓN` con justificación formal).

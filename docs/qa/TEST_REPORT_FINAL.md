@@ -390,3 +390,45 @@ En cumplimiento estricto del principio de veracidad técnica y transparencia met
 ### 5. Riesgos que permanecen:
 - Desconexión del deployment público respecto al repositorio Shadow.
 - Requerimiento de re-autenticación o vinculación en Streamlit Community Cloud para habilitar la visualización por parte de evaluadores externos.
+
+---
+
+## 22. ADENDA DE VALIDACIÓN PÚBLICA Y CORRECCIÓN DE AUDITORÍA (REAPERTURA POST-CIERRE)
+
+### 22.1 Contexto de Reapertura y Corrección de Entorno
+Con posterioridad a la emisión del cierre formal en el Prompt 4, la Coordinación General demostró mediante capturas y registros de acceso que la aplicación se encontraba efectivamente operativa en Streamlit Community Cloud bajo un subdominio generado automáticamente por la infraestructura de la plataforma, y no bajo el alias corto `https://nuevamente.streamlit.app` auditado inicialmente.
+
+En apego a las normas de gobernanza PRINCE2 y honestidad técnica, se reabrió formalmente la capa de validación pública para auditar la instancia real y ajustar los estados técnicos en función de la evidencia empírica.
+
+### 22.2 Identificación Factual de la Instancia de Producción
+- **URL Canónica Verificada:** `https://nuevamenteg10latam-jnpaufeq4dzeyg6qw4spds.streamlit.app/`
+- **Estado HTTP:** `HTTP/2 303 See Other` hacia `https://share.streamlit.io/-/auth/app` (Control de acceso por repositorio privado en GitHub).
+- **Título en Sesión de Usuario:** `NuevaMente — Normativa Densa, Mente Nueva · Streamlit`.
+- **Commit Desplegado en Host Público (Al Momento de Inspección):** `b61fcd3` (Rama `main` en GitHub desactualizada por commits locales pendientes de publicación).
+
+### 22.3 Evaluación de Hallazgos y Defectos en el Deployment Público
+1. **Hallazgo 1 · Header Recortado (`TEST-02`):**
+   - **Resultado:** `FAIL` en la instancia pública previa.
+   - **Defecto:** `DEF-03` $\rightarrow$ **REABIERTO**.
+   - **Causa Raíz:** Causa A (deployment anclado en `b61fcd3` con `padding-top: 16px`) y Causa D (superposición de la barra fija `header[data-testid="stHeader"]` de 46px).
+   - **Corrección:** Se reforzó `padding-top: clamp(4rem, 6vh, 5.5rem) !important` y cabecera transparente en `ui/assets/styles.css` (Commit `41bce04`).
+2. **Hallazgo 2 · Asimetría Geométrica en Tarjetas KPI (`TEST-46`):**
+   - **Resultado:** `FAIL` en la instancia pública previa.
+   - **Defecto:** `DEF-05` $\rightarrow$ **REABIERTO**.
+   - **Causa Raíz:** Causa A (deployment en `b61fcd3` sin dimensiones mínimas obligatorias para `.nm-kpi`, variando su altura ante diferencias en el número de líneas del texto inferior).
+   - **Corrección:** Se estableció `height: 136px !important; min-height: 136px !important;` estricto en `.nm-kpi` y flex stretch en wrappers intermedios de Streamlit (Commit `41bce04`). Medición instrumental confirmó `136.00px` uniforme en las 4 tarjetas.
+3. **Hallazgo 3 · Indicador de Suite Automatizada (`52/52` vs `55/55`):**
+   - **Diagnóstico:** El componente en `ui/app.py` no posee valores estáticos en el código fuente; consume dinámicamente `data/test_execution_report.json`. En `b61fcd3`, este archivo reflejaba la suite histórica de 52 pruebas (18.43s). Al no haberse publicado los commits locales, Streamlit Cloud no disponía del reporte de 55 pruebas (21.02s).
+   - **Acción:** Se abre formalmente **`DEF-07`** (*"Indicador de suite automatizada desincronizado en host público"*) y se crea el caso **`TEST-68`** para auditar la correspondencia entre los artefactos de prueba en disco y los KPIs de la interfaz.
+
+### 22.4 Despliegue de Correcciones y Estado de Sincronización
+Durante esta reapertura se ejecutó la publicación autorizada mediante `git push origin main` (`b61fcd3..41bce04`), transmitiendo al repositorio remoto de GitHub las correcciones visuales (`DEF-03`, `DEF-05`), el aislamiento de estado (`DEF-01`, `DEF-02`, `DEF-06`), el reporte de 55 pruebas (`DEF-07`) y la suite completa de evidencias.
+
+### 22.5 Dictamen Definitivo de Gobernanza Actualizado
+
+Conforme al Principio de Cierre Visual (*"CORREGIDO EN CÓDIGO → REPRUEBA LOCAL → DESPLEGADO → VERIFICADO EN URL PÚBLICA → CERRADO"*), dado que la aplicación pública requiere autenticación de Coordinación en Streamlit Cloud para la inspección visual final:
+
+# CAMPAÑA CERRADA CON DEFECTOS ABIERTOS EN FASE DE VERIFICACIÓN PÚBLICA
+
+- **TEST-02, TEST-46, TEST-61, TEST-62, TEST-63, TEST-68:** Corregidos en código, verificados instrumentalmente en local (`height: 136px` uniforme, header despejado a `+245px`, 55/55 pasando) y desplegados en commit `41bce04`. Estado formal: **PROVISIONAL PASS (PENDIENTE CONFIRMACIÓN PÚBLICA)**.
+- **DEF-03, DEF-05, DEF-07:** Formalmente catalogados como **ABIERTOS (EN VERIFICACIÓN PÚBLICA)** hasta la inspección visual final por parte de Coordinación en la instancia pública autenticada.

@@ -1,7 +1,7 @@
 # REGISTRO MAESTRO DE DEFECTOS Y MEJORAS · NUEVAMENTE
 **Campaña de Verificación QA · Repositorio Shadow (`mmorfe-engineer/nuevamente_g10_latam`)**  
 **Fecha de Apertura:** 22 de Septiembre de 2026  
-**Última Actualización:** 22 de Septiembre de 2026 (Cierre de Fase Correctiva Prompt 3)  
+**Última Actualización:** 22 de Septiembre de 2026 · 21:30 UTC-4 (Adenda de Validación Pública)  
 **Responsable:** Lead QA Architect & PM  
 
 ---
@@ -12,15 +12,16 @@
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 | **DEF-01** | `TEST-06` | Ingesta Documental | **P1 · ALTO** | HIP-A | Extracción síncrona en script header sin spinner contextual | `TEST-06` (PASS) | **CERRADO** |
 | **DEF-02** | `TEST-56`, `TEST-58` | Ciclo de Vida / Sesión | **P0 · CRÍTICO** | HIP-D | Limpieza incompleta de `st.session_state` y bleeding de tarjetas/inputs | `TEST-56`, `TEST-58`, Regresión Pytest (PASS) | **CERRADO** |
-| **DEF-03** | `TEST-02` | Arranque / Cabecera | **P2 · MEDIO** | HIP-E | Padding-top insuficiente (`16px`) en `.block-container` vs fixed header | `TEST-02` (PASS) | **CERRADO** |
+| **DEF-03** | `TEST-02` | Arranque / Cabecera | **P2 · MEDIO** | HIP-E | Deployment en `b61fcd3` con padding 16px; recorte bajo fixed header | `TEST-02` (PASS Local / Desplegado en `41bce04`) | **REABIERTO (EN VERIFICACIÓN PÚBLICA)** |
 | **DEF-04** | `TEST-44` | Auditoría de Calidad | **P2 · MEDIO** | HIP-F | Regla CSS global `max-width: 70ch` asimétrica en tarjetas `.nm-glass` | `TEST-44` (PASS) | **CERRADO** |
-| **DEF-05** | `TEST-46` | Trazabilidad PMO | **P2 · MEDIO** | HIP-G | Disparidad de altura en `st.columns(4)` por falta de flex/min-height | `TEST-46` (PASS) | **CERRADO** |
+| **DEF-05** | `TEST-46` | Trazabilidad PMO | **P2 · MEDIO** | HIP-G | Deployment en `b61fcd3` sin height uniforme; asimetría por variación de texto | `TEST-46` (PASS Local / Desplegado en `41bce04`) | **REABIERTO (EN VERIFICACIÓN PÚBLICA)** |
 | **DEF-06** | `TEST-13`, `TEST-30`, `TEST-42` | Medición / Trazabilidad | **P1 · ALTO** | HIP-H | Rotulado confuso: fragmentos de lote acotado llamados "del Corpus" | `TEST-13`, `TEST-30`, `TEST-42` (PASS) | **CERRADO** |
+| **DEF-07** | `TEST-68` | Trazabilidad PMO | **P2 · MEDIO** | HIP-I | Indicador de tests en UI (52/52 vs 55/55) desincronizado por falta de push | `TEST-68` (PASS Local / Desplegado en `41bce04`) | **ABIERTO (EN VERIFICACIÓN PÚBLICA)** |
 | **IMP-01** | `TEST-31` | Experiencia de Estudio | **P3 · FORMA** | HIP-C | Incorporación de botón explícito de volteo híbrido en Flashcards | `TEST-31` (PASS) | **ACEPTADO COMO MEJORA** |
 
 ---
 
-## 2. FICHAS TÉCNICAS DE DEFECTOS CORREGIDOS
+## 2. FICHAS TÉCNICAS DE DEFECTOS
 
 ### DEF-01
 - **TEST-ID Origen:** `TEST-06`
@@ -69,16 +70,19 @@
 - **Área:** Arranque e Inicialización
 - **Tipo:** Visual / UX
 - **Clasificación:** SOPORTE / UX / ARQUITECTURA
-- **Fuente del Criterio:** HIPÓTESIS DE QA (HIP-E) / DISEÑO SHADOW
+- **Fuente del Criterio:** HIPÓTESIS DE QA (HIP-E) / AUDITORÍA DE COORDINACIÓN EN INSTANCIA PÚBLICA
 - **Severidad:** **P2 · MEDIO**
-- **Descripción:** En la vista pública de Streamlit, la barra de herramientas del host (`[data-testid="stHeader"]`) tiene una altura de ~56px. Con el padding superior de `.block-container` en `16px`, el marco superior `.nm-glass` quedaba solapado parcialmente o recortado.
-- **Causa Raíz:** Regla CSS en `ui/assets/styles.css` línea 179: `padding-top: var(--space-16) !important;` insuficiente para compensar la barra fija de Streamlit Cloud.
-- **Estado de Causa Raíz:** **CONFIRMADA**
-- **Corrección Implementada:** Se ajustó en `ui/assets/styles.css` la regla de `.block-container` a `padding-top: clamp(3rem, 5vh, 4.5rem) !important;`.
-- **Reprueba Ejecutada:** `TEST-02` reejecutada en resoluciones desktop y móvil; el título "NuevaMente" y el subtítulo son 100% visibles y libres de solapamiento.
-- **Evidencia:** `docs/qa/evidence/area_01/DEF-03_before.png` y `docs/qa/evidence/area_01/DEF-03_after.png`.
-- **Criterio de Cierre Cumplido:** Wordmark institucional completamente visible con respiración superior sin solapamiento bajo el header.
-- **Estado:** **CERRADO**
+- **Descripción:** En la vista pública desplegada en Streamlit Community Cloud, el título "NuevaMente" continuaba apareciendo recortado verticalmente en su borde superior bajo la barra de navegación del host.
+- **Causa Raíz:** La aplicación pública ejecutaba el commit `b61fcd3` (padding 16px). Adicionalmente, la barra `header[data-testid="stHeader"]` (46px) interactuaba con el contenedor sin margen suficiente.
+- **Estado de Causa Raíz:** **CONFIRMADA Y AISLADA (Causa A + D)**
+- **Corrección Implementada:**
+  1. En `ui/assets/styles.css` se amplió la regla `.block-container` a `padding-top: clamp(4rem, 6vh, 5.5rem) !important;`.
+  2. Se fijó `header[data-testid="stHeader"] { background-color: transparent !important; pointer-events: none !important; }` para asegurar paso de luz y cero oclusión visual.
+  3. Se publicó el commit `41bce04` a `origin/main` en GitHub.
+- **Reprueba Instrumental:** En Chromium CDP, la posición del encabezado se estabilizó en `+245.8px` en reposo, garantizando despeje completo.
+- **Evidencia:** `docs/qa/evidence/area_01/DEF-03_before.png`, `docs/qa/evidence/final_regression/header_after_clearance_fix.png`.
+- **Criterio de Cierre Formal:** Wordmark institucional visible en su totalidad en la URL pública autenticada.
+- **Estado:** **REABIERTO (CORREGIDO EN CÓDIGO `41bce04` / DESPLEGADO / EN VERIFICACIÓN PÚBLICA)**
 
 ---
 
@@ -103,50 +107,68 @@
 ### DEF-05
 - **TEST-ID Origen:** `TEST-46`
 - **Área:** Trazabilidad PMO
-- **Tipo:** Visual / Consistencia
+- **Tipo:** Visual / Consistencia Geométrica
 - **Clasificación:** SOPORTE / UX / ARQUITECTURA
-- **Fuente del Criterio:** HIPÓTESIS DE QA (HIP-G) / DISEÑO SHADOW
+- **Fuente del Criterio:** HIPÓTESIS DE QA (HIP-G) / AUDITORÍA DE COORDINACIÓN EN INSTANCIA PÚBLICA
 - **Severidad:** **P2 · MEDIO**
-- **Descripción:** En Tab 3, las 4 tarjetas KPI ("Cloud en esta Ejecución", "Tests Automatizados", "Almacenamiento", "Corpus en Base de Datos") presentaban alturas verticales diferentes debido a que las descripciones secundarias tenían distinto número de líneas.
-- **Causa Raíz:** Falta de flex layout vertical uniforme (`height: 100%; min-height: 124px; display: flex; flex-direction: column; justify-content: space-between;`) en la clase `.nm-kpi`.
-- **Estado de Causa Raíz:** **CONFIRMADA**
-- **Corrección Implementada:** Se definió formalmente `.nm-kpi` con flex vertical, `min-height: 124px !important` y `justify-content: space-between !important`, extendiendo `height: 100%` a las columnas que alojan `.nm-kpi`.
-- **Reprueba Ejecutada:** `TEST-46` reejecutada; las 4 tarjetas KPI superiores en Tab 3 lucen rigurosamente con idéntica altura visual y sus pies alineados.
-- **Evidencia:** `docs/qa/evidence/area_10/DEF-05_before.png` y `docs/qa/evidence/area_10/DEF-05_after.png`.
-- **Criterio de Cierre Cumplido:** Altura idéntica y alineación de línea de base entre las 4 tarjetas de gobernanza.
-- **Estado:** **CERRADO**
+- **Descripción:** En la instancia pública, las 4 tarjetas KPI de Tab 3 no presentaban la misma altura visual. La segunda tarjeta ("Tests Automatizados") crecía más que las adyacentes por tener 2 líneas de descripción inferior.
+- **Causa Raíz:** La aplicación pública ejecutaba el commit `b61fcd3` donde `.nm-kpi` no tenía altura mínima fija ni control de contenedor flex sobre los contenedores intermedios de Streamlit.
+- **Estado de Causa Raíz:** **CONFIRMADA Y AISLADA (Causa A + G)**
+- **Corrección Implementada:**
+  1. Se forzó `.nm-kpi { height: 136px !important; min-height: 136px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; box-sizing: border-box !important; }`.
+  2. Se configuró flex stretch sobre los wrappers intermedios `[data-testid="column"] > div:has(.nm-kpi)`, `stElementContainer` y `stMarkdownContainer`.
+  3. Se publicó el commit `41bce04` a `origin/main` en GitHub.
+- **Reprueba Instrumental:** Medición con Chromium CDP en Tab 3 confirmó que las 4 tarjetas miden exactamente `136.00px` (`top: 499px`), con bordes superior e inferior alineados en un único plano continuo.
+- **Evidencia:** `docs/qa/evidence/area_10/DEF-05_before.png`, `docs/qa/evidence/final_regression/tab3_kpis_uniform_height_verified.png`, `docs/qa/evidence/final_regression/tab3_kpis_cards_centered.png`.
+- **Criterio de Cierre Formal:** Altura idéntica comprobada en pantalla en la URL pública autenticada.
+- **Estado:** **REABIERTO (CORREGIDO EN CÓDIGO `41bce04` / DESPLEGADO / EN VERIFICACIÓN PÚBLICA)**
 
 ---
 
 ### DEF-06
 - **TEST-ID Origen:** `TEST-13`, `TEST-30`, `TEST-42`
-- **Área:** Medición y Partición Documental / Trazabilidad
-- **Tipo:** Trazabilidad / Integración
+- **Área:** Medición y Trazabilidad Semántica
+- **Tipo:** Trazabilidad / Honestidad Métrica
 - **Clasificación:** SOPORTE / UX / ARQUITECTURA
-- **Fuente del Criterio:** ADR (ADR-012) / HIPÓTESIS DE QA (HIP-H)
+- **Fuente del Criterio:** HIPÓTESIS DE QA (HIP-H) / PRINCIPIOS DE GOBERNANZA
 - **Severidad:** **P1 · ALTO**
-- **Descripción:** En el banner de KPIs superior, el número de fragmentos indexados del lote (ej. 80) se rotulaba como "Fragmentos del Corpus", generando ambigüedad con los 3.020 fragmentos del corpus en base de datos y los 1.205 fragmentos totales de un documento extenso.
-- **Causa Raíz:** Inconsistencia semántica en los rótulos HTML de `ui/app.py` donde se utilizó la etiqueta "Fragmentos del Corpus" en lugar de "Fragmentos del Lote Activo (ADR-012)".
+- **Descripción:** En la cabecera y en los KPIs, la métrica de fragmentos procesados se titulaba "Fragmentos Indexados del Corpus", dando a entender que los fragmentos del lote acotado por ADR-012 correspondían a la totalidad de la base de datos documental.
+- **Causa Raíz:** Rótulo ambiguo en `ui/app.py` que no diferenciaba el lote acotado en memoria activa del corpus acumulado en SQLite.
 - **Estado de Causa Raíz:** **CONFIRMADA**
-- **Corrección Implementada:** Se modificó el título del KPI a `"Fragmentos del Lote Activo (ADR-012)"`, se añadió tooltip explicativo de ventana deslizante según límites de latencia/costos, y se aclaró en el pie `Fuente: {doc_ref_corta} (lote acotado)`.
-- **Reprueba Ejecutada:**
-  - `TEST-13`, `TEST-30` y `TEST-42` reejecutadas (PASS).
-  - Regresión automatizada: `tests/test_session_lifecycle_regression.py::test_ui_kpi_banner_labels_active_batch_adr012` (PASS).
+- **Corrección Implementada:** Se renombró la tarjeta y el metadato formal a `Fragmentos del Lote Activo (ADR-012)`, y se documentó explícitamente en el pie que representa la ventana técnica procesada.
+- **Reprueba Ejecutada:** `TEST-13`, `TEST-30`, `TEST-42` reejecutadas (PASS). Se constató la diferenciación nítida entre lote activo (80), tamaño estimado del documento (1207) y corpus global (3020).
 - **Evidencia:** `docs/qa/evidence/area_03/DEF-06_before.png` y `docs/qa/evidence/area_03/DEF-06_after.png`.
-- **Criterio de Cierre Cumplido:** Distinción semántica total entre fragmentos del lote procesado (ADR-012) y el corpus global de la base de datos (3.020).
+- **Criterio de Cierre Cumplido:** Distinción inequívoca entre métricas de lote y métricas de corpus; cero rotulación confusa o inflada.
 - **Estado:** **CERRADO**
 
 ---
 
-## 3. REGISTRO DE MEJORAS DE UX ACEPTADAS
-
-### IMP-01 (antigua HIP-C)
-- **TEST-ID Origen:** `TEST-31`
-- **Área:** Experiencia de Estudio (Flashcards)
-- **Tipo:** UX / Accesibilidad
+### DEF-07
+- **TEST-ID Origen:** `TEST-68`
+- **Área:** Trazabilidad PMO y Gobernanza
+- **Tipo:** Trazabilidad / Sincronización de Deployment
 - **Clasificación:** SOPORTE / UX / ARQUITECTURA
-- **Fuente del Criterio:** HIPÓTESIS DE QA (HIP-C) / CONTROL DE CAMBIOS
+- **Fuente del Criterio:** AUDITORÍA DE COORDINACIÓN EN INSTANCIA PÚBLICA (HALLAZGO 3)
+- **Severidad:** **P2 · MEDIO**
+- **Descripción:** La instancia pública desplegada mostraba `52/52, 52 tests pasando (18.43s)`, mientras la regresión formal del repositorio Shadow había elevado la suite automatizada a 55 pruebas pasando en 21.02s.
+- **Causa Raíz:** Desincronización de deployment (Opción A). El componente de interfaz en `ui/app.py` lee dinámicamente el archivo `data/test_execution_report.json`. En el commit desplegado (`b61fcd3`), dicho archivo reflejaba la suite histórica de 52 pruebas del 19 de septiembre. Al no haberse publicado los commits locales a `origin/main`, el host no disponía del reporte de 55 pruebas.
+- **Estado de Causa Raíz:** **CONFIRMADA (Causa A: Deployment ejecutando commit anterior)**
+- **Corrección Implementada:**
+  1. Se verificó que `ui/app.py` mantiene enlace dinámico hacia `data/test_execution_report.json` sin valores hardcodeados.
+  2. Se incorporó `TEST-68` al plan de pruebas para auditar la correspondencia entre la suite en disco y el renderizado en interfaz.
+  3. Se sincronizó el repositorio remoto de producción mediante `git push origin main` con el commit `41bce04` conteniendo el reporte de 55 pruebas.
+- **Reprueba Instrumental:** Verificación local demostró que la tarjeta renderiza de forma reactiva `55/55` y `55 tests pasando (21.02s)`.
+- **Evidencia:** `data/test_execution_report.json`, `docs/qa/evidence/final_regression/tab3_kpis_cards_centered.png`.
+- **Criterio de Cierre Formal:** Renderizado de la medición reactiva actualizada a 55/55 visible en la instancia pública autenticada.
+- **Estado:** **ABIERTO (CORREGIDO EN CÓDIGO `41bce04` / DESPLEGADO / EN VERIFICACIÓN PÚBLICA)**
+
+---
+
+### IMP-01 (Propuesta de Mejora Integrada)
+- **TEST-ID Origen:** `TEST-31`
+- **Área:** Experiencia de Estudio
+- **Tipo:** Accesibilidad / Ergonomía
 - **Severidad:** **P3 · FORMA**
+- **Descripción:** La animación de flip 3D en flashcards requería clic directamente sobre el marco de la tarjeta, lo que en dispositivos móviles o con lectores de pantalla reducía la accesibilidad.
+- **Mejora Implementada:** Se incorporó un botón alternativo accesible `Voltear Tarjeta` ubicado inmediatamente debajo de cada flashcard, permitiendo activar la rotación mediante teclado o interfaz táctil sin interferir con la tarjeta principal.
 - **Estado:** **ACEPTADO COMO MEJORA**
-- **Dictamen:** La incorporación del botón explícito "Voltear Tarjeta" / "Ver Frente" (`btn_flip_{i}`) como control accesible complementario al hover/checkbox CSS nativo mejora la descubribilidad en dispositivos móviles y touch, no rompe la accesibilidad por teclado y no introduce regresión alguna. Se conserva e incorpora formalmente a la especificación y catálogo de interacción.
-- **Reprueba:** `TEST-31` (PASS).
